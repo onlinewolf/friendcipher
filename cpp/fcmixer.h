@@ -9,23 +9,25 @@ namespace friendcrypt{
  * Mixer for FriendCrypt.
  */
 class MixerWithKeccak{
-    const int kSaltLen_;
+    const int kSaltLen;
+    const int kDigestLen;
     int tempSaltLen_;
     uint8_t *salt_;
     uint8_t *tempSalt_;
+    uint8_t *digest_;
     void listMix(uint8_t* data, long start, long len, uint8_t key);
     void listReverseMix(uint8_t* data, long start, long len, uint8_t key);
 public:
-    static const int kDigestLen = 64;
 
     /**
      * @brief MixerWithKeccak
      * Constructor
      * @param salt for keccak
-     * @param len salt length (min kDigestLen)
+     * @param len salt length (min digestLen)
+     * @param digestLen for keccak (32 or 64)
      * @throw invalidArgsException if args are incorrect
      */
-    MixerWithKeccak(const uint8_t* const salt, long len);
+    MixerWithKeccak(const uint8_t* const salt, long len, long digestLen);
 
     /**
      * @brief mix
