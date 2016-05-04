@@ -23,7 +23,7 @@ URL: https://github.com/onlinewolf/friendcrypt
 namespace friendcrypt{
 
 FriendCryptException defaultException;
-FriendCryptException invalidArgsExc(1);
+FriendCryptException invalidArgsException(1);
 
 FriendCryptException::FriendCryptException(){
     what_ = 0;

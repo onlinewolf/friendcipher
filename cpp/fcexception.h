@@ -25,7 +25,7 @@ public:
 };
 
 extern FriendCryptException defaultException;
-extern FriendCryptException invalidArgsExc;
+extern FriendCryptException invalidArgsException;
 
 }
 #endif // FRIENDCRYPTEXCEPTION_H

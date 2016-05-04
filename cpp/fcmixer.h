@@ -23,10 +23,10 @@ public:
      * Constructor
      * @param salt for keccak
      * @param len salt length (min kDigestLen)
-     * @throw invalidArgsExc if args are incorrect
+     * @throw invalidArgsException if args are incorrect
      */
-
     MixerWithKeccak(const uint8_t* const salt, long len);
+
     /**
      * @brief mix
      * Fisher–Yates shuffle for FriendCrypt

@@ -28,7 +28,7 @@ namespace friendcrypt{
 //class
 MixerWithKeccak::MixerWithKeccak(const uint8_t* const salt, long len): kSaltLen_(len){
     if(!salt || len <= 0 || len < kDigestLen)
-        throw invalidArgsExc;
+        throw invalidArgsException;
     salt_ = new uint8_t[len];
     tempSaltLen_ = len+1;
     tempSalt_ = new uint8_t[tempSaltLen_];
