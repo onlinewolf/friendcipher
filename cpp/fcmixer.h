@@ -8,12 +8,12 @@ namespace friendcrypt{
  * @brief The MixerWithKeccak class
  * Mixer for FriendCrypt.
  */
-class MixerWithKeccak{
+class MixWithKeccak{
     const int kSaltLen;
     const int kDigestLen;
-    int tempSaltLen_;
+    int tempSHKLen_;
     uint8_t *salt_;
-    uint8_t *tempSalt_;
+    uint8_t *tempSHK_;//salt and hash and key
     uint8_t *digest_;
     void listMix(uint8_t* data, long start, long len, uint8_t key);
     void listReverseMix(uint8_t* data, long start, long len, uint8_t key);
@@ -23,11 +23,11 @@ public:
      * @brief MixerWithKeccak
      * Constructor
      * @param salt for keccak
-     * @param len salt length (min digestLen)
+     * @param len salt length
      * @param digestLen for keccak (32 or 64)
      * @throw invalidArgsException if args are incorrect
      */
-    MixerWithKeccak(const uint8_t* const salt, long len, long digestLen);
+    MixWithKeccak(uint8_t* salt, long len, long digestLen);
 
     /**
      * @brief mix
@@ -51,12 +51,12 @@ public:
      */
     void reverseMix(uint8_t* data, long len, uint8_t* key, long klen, long bmax);
 
-    virtual ~MixerWithKeccak();
+    virtual ~MixWithKeccak();
 
-    MixerWithKeccak(const MixerWithKeccak& other)=delete;
-    MixerWithKeccak(MixerWithKeccak&& other)=delete;
-    MixerWithKeccak& operator=(const MixerWithKeccak& other)=delete;
-    MixerWithKeccak& operator=(MixerWithKeccak&& other)=delete;
+    MixWithKeccak(const MixWithKeccak& other)=delete;
+    MixWithKeccak(MixWithKeccak&& other)=delete;
+    MixWithKeccak& operator=(const MixWithKeccak& other)=delete;
+    MixWithKeccak& operator=(MixWithKeccak&& other)=delete;
 };
 
 /**

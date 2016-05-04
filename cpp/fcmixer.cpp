@@ -26,17 +26,18 @@ URL: https://github.com/onlinewolf/friendcrypt
 namespace friendcrypt{
 
 //class
-MixerWithKeccak::MixerWithKeccak(const uint8_t* const salt, long len, long digestLen): kSaltLen(len), kDigestLen(digestLen){
-    if(!salt || len <= 0 || len < digestLen || digestLen > 64 || (digestLen % 32) != 0)
+MixWithKeccak::MixWithKeccak(uint8_t* salt, long len, long digestLen): kSaltLen(len), kDigestLen(digestLen){
+    if(!salt || len <= 0 || digestLen > 64 || (digestLen % 32) != 0)
         throw invalidArgsException;
+
     salt_ = new uint8_t[len];
-    tempSaltLen_ = len+1;
-    tempSalt_ = new uint8_t[tempSaltLen_];
+    tempSHKLen_ = len+kDigestLen+1;
+    tempSHK_ = new uint8_t[tempSHKLen_];
     digest_ = new uint8_t[kDigestLen];
-    memcpy(salt_, salt, len);
+    std::memcpy(salt_, salt, len);
 }
 
-void MixerWithKeccak::listMix(uint8_t* data, long start, long len, uint8_t key){
+void MixWithKeccak::listMix(uint8_t* data, long start, long len, uint8_t key){
     if(!data || len<=0 || start < 0)
         return;
 
@@ -44,10 +45,10 @@ void MixerWithKeccak::listMix(uint8_t* data, long start, long len, uint8_t key){
     uint8_t *noMix = new uint8_t[len];//copy data for mix
     std::memcpy(noMix, &data[start], len);
 
-    std::memcpy(tempSalt_, salt_, kSaltLen);//copy full salt
+    std::memcpy(tempSHK_, salt_, kSaltLen);//copy full salt
 
-    tempSalt_[tempSaltLen_-1] = key;//copy the key to end
-    keccak(tempSalt_, tempSaltLen_, digest_, kDigestLen);//create hash for random numbers
+    tempSHK_[kSaltLen] = key;//copy the key to relative end
+    keccak(tempSHK_, kSaltLen+1, digest_, kDigestLen);//create hash for random numbers
 
     long randNumber;
     long mixLen = len;
@@ -69,15 +70,15 @@ void MixerWithKeccak::listMix(uint8_t* data, long start, long len, uint8_t key){
         if(mixLen == 0)//no more item
             break;
         //get new "random" numbers
-        std::memcpy(tempSalt_, digest_, kDigestLen);//copy last hash
-        tempSalt_[tempSaltLen_-1] = key;//copy the key to end
-        keccak(tempSalt_, tempSaltLen_, digest_, kDigestLen);//create new hash with last hash
+        std::memcpy(&tempSHK_[kSaltLen], digest_, kDigestLen);//copy last hash
+        tempSHK_[tempSHKLen_-1] = key;//copy the key to end
+        keccak(tempSHK_, tempSHKLen_, digest_, kDigestLen);//create new hash with last hash
     }
     //correct end
     delete[] noMix;
 }
 
-void MixerWithKeccak::listReverseMix(uint8_t* data, long start, long len, uint8_t key){
+void MixWithKeccak::listReverseMix(uint8_t* data, long start, long len, uint8_t key){
     if(!data || len<=0 || start < 0)
         return;
 
@@ -88,10 +89,10 @@ void MixerWithKeccak::listReverseMix(uint8_t* data, long start, long len, uint8_
     uint8_t *copyedData = new uint8_t[len];//copy data for mix
     std::memcpy(copyedData, &data[start], len);
 
-    std::memcpy(tempSalt_, salt_, kSaltLen);//copy full salt
+    std::memcpy(tempSHK_, salt_, kSaltLen);//copy full salt
 
-    tempSalt_[tempSaltLen_-1] = key;//copy the key to end
-    keccak(tempSalt_, tempSaltLen_, digest_, kDigestLen);//create hash for random numbers
+    tempSHK_[kSaltLen] = key;//copy the key to relative end
+    keccak(tempSHK_, kSaltLen+1, digest_, kDigestLen);//create hash for random numbers
 
     long randNumber;
     long mixLen = len;
@@ -113,16 +114,16 @@ void MixerWithKeccak::listReverseMix(uint8_t* data, long start, long len, uint8_
         if(mixLen == 0)//no more item
             break;
         //get new "random" numbers
-        std::memcpy(tempSalt_, digest_, kDigestLen);//copy last hash
-        tempSalt_[tempSaltLen_-1] = key;//copy the key to end
-        keccak(tempSalt_, tempSaltLen_, digest_, kDigestLen);//create new hash with last hash
+        std::memcpy(&tempSHK_[kSaltLen], digest_, kDigestLen);//copy last hash
+        tempSHK_[tempSHKLen_-1] = key;//copy the key to end
+        keccak(tempSHK_, tempSHKLen_, digest_, kDigestLen);//create new hash with last hash
     }
     //correct end
     delete[] nomix;
     delete[] copyedData;
 }
 
-void MixerWithKeccak::mix(uint8_t* data, long len, uint8_t* key, long klen, long bmax){
+void MixWithKeccak::mix(uint8_t* data, long len, uint8_t* key, long klen, long bmax){
     if(!data || !key || len<=0 || klen <= 0 || bmax <= 0)
         return;
 
@@ -148,7 +149,7 @@ void MixerWithKeccak::mix(uint8_t* data, long len, uint8_t* key, long klen, long
     }
 }
 
-void MixerWithKeccak::reverseMix(uint8_t* data, long len, uint8_t* key, long klen, long bmax){
+void MixWithKeccak::reverseMix(uint8_t* data, long len, uint8_t* key, long klen, long bmax){
     if(!data || !key || len<=0 || klen <= 0 || bmax <= 0)
         return;
 
@@ -174,9 +175,9 @@ void MixerWithKeccak::reverseMix(uint8_t* data, long len, uint8_t* key, long kle
     }
 }
 
-MixerWithKeccak::~MixerWithKeccak(){
+MixWithKeccak::~MixWithKeccak(){
     delete[] salt_;
-    delete[] tempSalt_;
+    delete[] tempSHK_;
     delete[] digest_;
 }
 
@@ -187,7 +188,7 @@ long calcBlockSize(uint8_t key, long bmax){
         return 0;
 
     long bmin = bmax/2;
-    return lround((key/255.0 * (bmin-1)) + bmin);
+    return std::lround((key/255.0 * (bmin-1)) + bmin);
 }
 
 long calcConvert(long x, double xmax, long min, long max){
@@ -203,7 +204,7 @@ long calcConvert(long x, double xmax, long min, long max){
         max = temp;
     }
 
-    return lround((x/xmax * (max-min-1)) + min);
+    return std::lround((x/xmax * (max-min-1)) + min);
 }
 
 }
