@@ -1,2 +1,2 @@
-# friendcrypt
-Public and new cryptography
+# FriendCrypt
+Public and new cryptography for C++ and Java
