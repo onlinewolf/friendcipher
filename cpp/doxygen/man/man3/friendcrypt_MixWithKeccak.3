@@ -1,0 +1,108 @@
+.TH "friendcrypt::MixWithKeccak" 3 "Thu May 5 2016" "Version 0.5.2" "FriendCrypt" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+friendcrypt::MixWithKeccak \- The MixerWithKeccak class Mixer for FriendCrypt\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <fcmixer\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBMixWithKeccak\fP (uint8_t *salt, long len, long digestLen)"
+.br
+.RI "\fIMixerWithKeccak Constructor\&. \fP"
+.ti -1c
+.RI "void \fBmix\fP (uint8_t *data, long len, uint8_t *key, long klen, long bmax)"
+.br
+.RI "\fImix Fisher–Yates shuffle for FriendCrypt \fP"
+.ti -1c
+.RI "void \fBreverseMix\fP (uint8_t *data, long len, uint8_t *key, long klen, long bmax)"
+.br
+.RI "\fIreverseMix Fisher–Yates reverse shuffle for FriendCrypt \fP"
+.ti -1c
+.RI "\fBMixWithKeccak\fP (const \fBMixWithKeccak\fP &other)=delete"
+.br
+.ti -1c
+.RI "\fBMixWithKeccak\fP (\fBMixWithKeccak\fP &&other)=delete"
+.br
+.ti -1c
+.RI "\fBMixWithKeccak\fP & \fBoperator=\fP (const \fBMixWithKeccak\fP &other)=delete"
+.br
+.ti -1c
+.RI "\fBMixWithKeccak\fP & \fBoperator=\fP (\fBMixWithKeccak\fP &&other)=delete"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+The MixerWithKeccak class Mixer for FriendCrypt\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "friendcrypt::MixWithKeccak::MixWithKeccak (uint8_t * salt, long len, long digestLen)\fC [explicit]\fP"
+
+.PP
+MixerWithKeccak Constructor\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIsalt\fP for keccak 
+.br
+\fIlen\fP salt length 
+.br
+\fIdigestLen\fP for keccak (32 or 64) 
+.RE
+.PP
+\fBExceptions:\fP
+.RS 4
+\fIinvalidArgsException\fP if args are incorrect 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void friendcrypt::MixWithKeccak::mix (uint8_t * data, long len, uint8_t * key, long klen, long bmax)"
+
+.PP
+mix Fisher–Yates shuffle for FriendCrypt 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIdata\fP crypted data 
+.br
+\fIlen\fP data length 
+.br
+\fIkey\fP keys 
+.br
+\fIklen\fP size (for array of keys) 
+.br
+\fIbmax\fP maximum block size 
+.RE
+.PP
+
+.SS "void friendcrypt::MixWithKeccak::reverseMix (uint8_t * data, long len, uint8_t * key, long klen, long bmax)"
+
+.PP
+reverseMix Fisher–Yates reverse shuffle for FriendCrypt 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIdata\fP crypted data 
+.br
+\fIlen\fP data length 
+.br
+\fIkey\fP keys 
+.br
+\fIklen\fP size (for array of keys) 
+.br
+\fIbmax\fP maximum block size 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for FriendCrypt from the source code\&.

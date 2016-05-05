@@ -1,0 +1,147 @@
+.TH "friendcrypt::CryptWithKeccak" 3 "Thu May 5 2016" "Version 0.5.2" "FriendCrypt" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+friendcrypt::CryptWithKeccak \- 
+.SH SYNOPSIS
+.br
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCryptWithKeccak\fP ()"
+.br
+.RI "\fI\fBCryptWithKeccak\fP Create new object with kMaxHashBlockSize\&. \fP"
+.ti -1c
+.RI "\fBCryptWithKeccak\fP (long blockSize)"
+.br
+.RI "\fI\fBCryptWithKeccak\fP\&. \fP"
+.ti -1c
+.RI "void \fBcreateIV\fP ()"
+.br
+.RI "\fIcreateIV Generate random IV with rand() (this class use std::srand() in constructors) \fP"
+.ti -1c
+.RI "bool \fBsetIV\fP (uint8_t *iv)"
+.br
+.RI "\fIsetIV Set (copy) IV for crypt \fP"
+.ti -1c
+.RI "bool \fBgetIV\fP (uint8_t *iv)"
+.br
+.RI "\fIgetIV Get copy of IV \fP"
+.ti -1c
+.RI "\fBCWKData\fP * \fBcreateCWKData\fP ()"
+.br
+.RI "\fIcreateCWKData If you want delete this object use: \fBdeleteCWKData()\fP or delete \fP"
+.ti -1c
+.RI "void \fBdeleteCWKData\fP (\fBCWKData\fP *data)"
+.br
+.RI "\fIdeleteCWKData Delete \fBCWKData\fP object \fP"
+.ti -1c
+.RI "bool \fBenCrypt\fP (\fBCWKData\fP *data)"
+.br
+.ti -1c
+.RI "bool \fBdeCrypt\fP (\fBCWKData\fP *data)"
+.br
+.ti -1c
+.RI "\fBCryptWithKeccak\fP (const \fBCryptWithKeccak\fP &other)=delete"
+.br
+.ti -1c
+.RI "\fBCryptWithKeccak\fP (\fBCryptWithKeccak\fP &&other)=delete"
+.br
+.ti -1c
+.RI "\fBCryptWithKeccak\fP & \fBoperator=\fP (const \fBCryptWithKeccak\fP &other)=delete"
+.br
+.ti -1c
+.RI "\fBCryptWithKeccak\fP & \fBoperator=\fP (\fBCryptWithKeccak\fP &&other)=delete"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "const int \fBkBlockSize\fP"
+.br
+.RI "\fIkBlockSize Actual block size \fP"
+.ti -1c
+.RI "const int \fBkMaxHashBlockSize\fP = 64"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "friendcrypt::CryptWithKeccak::CryptWithKeccak (long blockSize)\fC [explicit]\fP"
+
+.PP
+\fBCryptWithKeccak\fP\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIblockSize\fP 32 or 64 byte 
+.RE
+.PP
+\fBExceptions:\fP
+.RS 4
+\fIinvalidArgsException\fP if blockSize is incorrect 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBCWKData\fP * friendcrypt::CryptWithKeccak::createCWKData ()"
+
+.PP
+createCWKData If you want delete this object use: \fBdeleteCWKData()\fP or delete 
+.PP
+\fBReturns:\fP
+.RS 4
+\fBCWKData\fP object 
+.RE
+.PP
+
+.SS "void friendcrypt::CryptWithKeccak::deleteCWKData (\fBCWKData\fP * data)"
+
+.PP
+deleteCWKData Delete \fBCWKData\fP object 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIdata\fP \fBCWKData\fP object 
+.RE
+.PP
+
+.SS "bool friendcrypt::CryptWithKeccak::getIV (uint8_t * iv)"
+
+.PP
+getIV Get copy of IV 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIiv\fP (blockSize len) 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+true if success, false if fail 
+.RE
+.PP
+
+.SS "bool friendcrypt::CryptWithKeccak::setIV (uint8_t * iv)"
+
+.PP
+setIV Set (copy) IV for crypt 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIiv\fP (blockSize len) 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+true if success, false if iv is NULL or nullptr 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for FriendCrypt from the source code\&.
