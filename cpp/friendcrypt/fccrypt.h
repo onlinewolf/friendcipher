@@ -78,7 +78,8 @@ public:
      * @return data length
      */
     long getDataLen();
-    virtual ~CWKData();
+
+    ~CWKData();
 };
 
 class CryptWithKeccak{
@@ -95,6 +96,10 @@ public:
      */
     const int kBlockSize;
 
+    /**
+     * @brief kMaxHashBlockSize
+     * Max hash block size
+     */
     const int kMaxHashBlockSize = 64;
 
     /**
@@ -146,8 +151,20 @@ public:
      */
     void deleteCWKData(CWKData *data);
 
+    /**
+     * @brief enCrypt
+     * Encrypt
+     * @param data CWKData pointer
+     * @return true if success
+     */
     bool enCrypt(CWKData* data);
 
+    /**
+     * @brief deCrypt
+     * Decrypt
+     * @param data CWKData pointer
+     * @return true if success
+     */
     bool deCrypt(CWKData* data);
 
     virtual ~CryptWithKeccak();
