@@ -1,6 +1,6 @@
 #include <iostream>
 #include <iomanip>
-#include <fcmixer.h>
+#include "fcmixer.h"
 #include "fcexception.h"
 #include "fccrypt.h"
 #include "fckeccak.h"
@@ -85,12 +85,12 @@ int main(int argc, char *argv[]){
 
     const int kDigestLen = 64;
     uint8_t mDigest[kDigestLen];
-    //saját
+    //fc
     friendcrypt::Keccak hash(kDigestLen);
     hash.update(data1, 20);
     hash.update(data2, 20);
     hash.finish(mDigest);
-    //kijelzés
+    //show
     for (long i=0; i<kDigestLen; i++) {
         std::cout << std::hex << std::setw(2) << std::uppercase << static_cast<int>(mDigest[i]);
     }
@@ -98,7 +98,7 @@ int main(int argc, char *argv[]){
 
     //original
     keccak(data3, 40, mDigest, kDigestLen);
-    //kijelzés
+    //show
     for (long i=0; i<kDigestLen; i++) {
         std::cout << std::hex << std::setw(2) << std::uppercase << static_cast<int>(mDigest[i]);
     }

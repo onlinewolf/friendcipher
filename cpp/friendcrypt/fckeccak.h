@@ -4,7 +4,10 @@
 
 namespace friendcrypt{
 
-
+/**
+ * @brief The Keccak class
+ * 3rd Keccak C++ implementation
+ */
 class Keccak{
     const int kKeccakRounds = 24;
     uint64_t forDigest_[25];
@@ -23,7 +26,7 @@ public:
     explicit Keccak(int mdLen);
     /**
      * @brief update
-     * Ad new data
+     * Add new data
      * @param data
      * @param len length
      */
