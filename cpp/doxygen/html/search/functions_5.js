@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['reversemix',['reverseMix',['../classfriendcrypt_1_1_mix_with_keccak.html#a5400fa4bcfb99bae786b30da3a4ab222',1,'friendcrypt::MixWithKeccak']]]
+  ['keccak',['Keccak',['../classfriendcrypt_1_1_keccak.html#ab42630e4e009d8a05e8c10a84bcace9b',1,'friendcrypt::Keccak']]]
 ];
