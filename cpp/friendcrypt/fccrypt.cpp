@@ -1,5 +1,5 @@
 /*
-FriendCrypt
+friendcrypt::CryptWithKeccak
 Copyright (C) 2016 OnlineWolf
 
 This program is free software: you can redistribute it and/or modify
@@ -28,77 +28,6 @@ URL: https://github.com/onlinewolf/friendcrypt
 #include "3rd/keccak.h"
 
 namespace friendcrypt{
-//class for help
-CWKData::CWKData(long blockLen):kBlockSize(blockLen){
-    data_ = nullptr;
-    dataLen_ = 0;
-    pass_ = new uint8_t[kBlockSize];
-    passLen_ = 0;
-    salt_ = new uint8_t[kBlockSize];
-    saltLen_ = 0;
-}
-
-bool CWKData::setData(uint8_t *data, long len){
-    if(!data || len<=0)
-        return false;
-
-    if(!data_){
-        data_ = new uint8_t[len];
-        dataMaxLen_ = len;
-    }else if(dataMaxLen_ < len){
-        delete[] data_;
-        data_ = new uint8_t[len];
-        dataMaxLen_ = len;
-    }
-
-    std::memcpy(data_, data, len);
-    dataLen_ = len;
-    return true;
-}
-
-bool CWKData::setPass(uint8_t *pass, long len){
-    if(!pass || len<kMinLen)
-        return false;
-
-    if(len>kBlockSize)
-        return false;
-
-    std::memcpy(pass_, pass, len);
-    passLen_ = len;
-    return true;
-}
-
-bool CWKData::setSalt(uint8_t *salt, long len){
-    if(!salt || len<kMinLen)
-        return false;
-
-    if(len>kBlockSize)
-        return false;
-
-    std::memcpy(salt_, salt, len);
-    saltLen_ = len;
-    return true;
-}
-
-bool CWKData::getData(uint8_t *data){
-    if(!data)
-        return false;
-
-    std::memcpy(data, data_, dataLen_);
-    return true;
-}
-
-long CWKData::getDataLen(){
-    return dataLen_;
-}
-
-CWKData::~CWKData(){
-    if(data_)
-        delete data_;
-    delete pass_;
-    delete salt_;
-}
-
 
 //class
 void CryptWithKeccak::creator(){
@@ -265,4 +194,77 @@ CryptWithKeccak::~CryptWithKeccak(){
 }
 
 //"static" method
+
+//class for help
+CWKData::CWKData(long blockLen):kBlockSize(blockLen){
+    data_ = nullptr;
+    dataLen_ = 0;
+    pass_ = new uint8_t[kBlockSize];
+    passLen_ = 0;
+    salt_ = new uint8_t[kBlockSize];
+    saltLen_ = 0;
 }
+
+bool CWKData::setData(uint8_t *data, long len){
+    if(!data || len<=0)
+        return false;
+
+    if(!data_){
+        data_ = new uint8_t[len];
+        dataMaxLen_ = len;
+    }else if(dataMaxLen_ < len){
+        delete[] data_;
+        data_ = new uint8_t[len];
+        dataMaxLen_ = len;
+    }
+
+    std::memcpy(data_, data, len);
+    dataLen_ = len;
+    return true;
+}
+
+bool CWKData::setPass(uint8_t *pass, long len){
+    if(!pass || len<kMinLen)
+        return false;
+
+    if(len>kBlockSize)
+        return false;
+
+    std::memcpy(pass_, pass, len);
+    passLen_ = len;
+    return true;
+}
+
+bool CWKData::setSalt(uint8_t *salt, long len){
+    if(!salt || len<kMinLen)
+        return false;
+
+    if(len>kBlockSize)
+        return false;
+
+    std::memcpy(salt_, salt, len);
+    saltLen_ = len;
+    return true;
+}
+
+bool CWKData::getData(uint8_t *data){
+    if(!data)
+        return false;
+
+    std::memcpy(data, data_, dataLen_);
+    return true;
+}
+
+long CWKData::getDataLen(){
+    return dataLen_;
+}
+
+CWKData::~CWKData(){
+    if(data_)
+        delete data_;
+    delete pass_;
+    delete salt_;
+}
+
+
+}//namespace

@@ -175,5 +175,5 @@ public:
     CryptWithKeccak& operator=(CryptWithKeccak&& other)=delete;
 };
 
-}
+}//namespace
 #endif // CRYPT_H

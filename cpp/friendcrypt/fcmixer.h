@@ -77,5 +77,6 @@ long calcBlockSize(uint8_t key, long bmax);
  * @return y number
  */
 long calcConvert(long x, double xmax, long min, long max);
-}
+
+}//namespace
 #endif // FRIENDCRYPTMIXER_H

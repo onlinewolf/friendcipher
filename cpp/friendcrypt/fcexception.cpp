@@ -1,5 +1,5 @@
 /*
-FriendCryptException
+friendcrypt::FriendCryptException
 Copyright (C) 2016 OnlineWolf
 
 This program is free software: you can redistribute it and/or modify
