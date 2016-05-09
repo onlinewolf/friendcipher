@@ -7,6 +7,81 @@ namespace friendcrypt{
 //(The createIV() use rand().)
 #define DISABLE_SRAND false
 
+
+/**
+ * @brief The CWKData class
+ * Object creator: CryptWithKeccak
+ */
+class CWKData{
+    friend class CryptWithKeccak;
+private:
+    explicit CWKData(long blockLen);
+    uint8_t *data_;
+    long dataLen_;
+    long dataMaxLen_;
+    uint8_t *pass_;
+    long passLen_;
+    uint8_t *salt_;
+    long saltLen_;
+public:
+    /**
+     * @brief kBlockSize
+     * Actual block size
+     */
+    const long kBlockSize;
+
+    /**
+     * @brief kMinLen
+     * Minimum reguest length
+     */
+    const int kMinLen = 16;
+
+    /**
+     * @brief setData
+     * Set crypted data or plaintext (copy)
+     * (This will rewrite in inside buffer if you use encode/decode)
+     * @param data crypted data or plaintext
+     * @param len length
+     * @return true if data is copied
+     */
+    bool setData(uint8_t *data, long len);
+
+    /**
+     * @brief setPass
+     * (copy)
+     * @param pass password
+     * @param len length (no more than Block Size, min: kMinLen)
+     * @return true if pass is copied
+     */
+    bool setPass(uint8_t *pass, long len);
+
+    /**
+     * @brief setSalt
+     * (copy)
+     * @param salt
+     * @param len length (no more than Block Size, min: kMinLen)
+     * @return true if salt is copied
+     */
+    bool setSalt(uint8_t *salt, long len);
+
+    /**
+     * @brief getData
+     * (copy, crypted data length and plaintext length is equals)
+     * @param data
+     * @return true if data is copied
+     */
+    bool getData(uint8_t* data);
+
+    /**
+     * @brief getDataLen
+     * @return data length
+     */
+    long getDataLen();
+
+    ~CWKData();
+};
+
+
 /**
  * @brief The CryptWithKeccak class
  * Encrypt and decrypt
@@ -104,78 +179,6 @@ public:
     CryptWithKeccak& operator=(CryptWithKeccak&& other)=delete;
 };
 
-/**
- * @brief The CWKData class
- * Object creator: CryptWithKeccak
- */
-class CWKData{
-    friend class CryptWithKeccak;
-private:
-    explicit CWKData(long blockLen);
-    uint8_t *data_;
-    long dataLen_;
-    long dataMaxLen_;
-    uint8_t *pass_;
-    long passLen_;
-    uint8_t *salt_;
-    long saltLen_;
-public:
-    /**
-     * @brief kBlockSize
-     * Actual block size
-     */
-    const long kBlockSize;
-
-    /**
-     * @brief kMinLen
-     * Minimum reguest length
-     */
-    const int kMinLen = 16;
-
-    /**
-     * @brief setData
-     * Set crypted data or plaintext (copy)
-     * (This will rewrite in inside buffer if you use encode/decode)
-     * @param data crypted data or plaintext
-     * @param len length
-     * @return true if data is copied
-     */
-    bool setData(uint8_t *data, long len);
-
-    /**
-     * @brief setPass
-     * (copy)
-     * @param pass password
-     * @param len length (no more than Block Size, min: kMinLen)
-     * @return true if pass is copied
-     */
-    bool setPass(uint8_t *pass, long len);
-
-    /**
-     * @brief setSalt
-     * (copy)
-     * @param salt
-     * @param len length (no more than Block Size, min: kMinLen)
-     * @return true if salt is copied
-     */
-    bool setSalt(uint8_t *salt, long len);
-
-    /**
-     * @brief getData
-     * (copy, crypted data length and plaintext length is equals)
-     * @param data
-     * @return true if data is copied
-     */
-    bool getData(uint8_t* data);
-
-    /**
-     * @brief getDataLen
-     * @return data length
-     */
-    long getDataLen();
-
-    ~CWKData();
-};
 
 }//namespace
 #endif // CRYPT_H

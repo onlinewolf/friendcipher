@@ -1,2 +1,6 @@
 *.pro
 *.user
+html/
+Release/
+Debug/
+Doxyfile
