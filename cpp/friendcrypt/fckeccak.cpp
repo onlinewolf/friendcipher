@@ -25,6 +25,7 @@ namespace friendcrypt{
 
 extern "C"{
 //original: https://github.com/gvanas/KeccakCodePackage/blob/master/Standalone/CompactFIPS202/Keccak-readable-and-compact.c
+//licence: http://creativecommons.org/publicdomain/zero/1.0/
 #include "string.h"
 
 #ifndef LITTLE_ENDIAN

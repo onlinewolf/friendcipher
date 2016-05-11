@@ -9,7 +9,7 @@ namespace friendcrypt{
 
 /**
  * @brief The Keccak class
- * 3rd Keccak C++ implementation
+ * Keccak C++ implementation with update()
  */
 class Keccak{
     uint8_t state_[200];
@@ -47,6 +47,7 @@ public:
      */
     virtual ~Keccak();
 
+    //disabled
     Keccak(const Keccak& other)=delete;
     Keccak(Keccak&& other)=delete;
     Keccak& operator=(const Keccak& other)=delete;
