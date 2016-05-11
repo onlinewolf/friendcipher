@@ -94,19 +94,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>The <a class="el" href="classfriendcrypt_1_1_keccak.html" title="The Keccak class 3rd Keccak C++ implementation. ">Keccak</a> class 3rd <a class="el" href="classfriendcrypt_1_1_keccak.html" title="The Keccak class 3rd Keccak C++ implementation. ">Keccak</a> C++ implementation.  
+<p>The <a class="el" href="classfriendcrypt_1_1_keccak.html" title="The Keccak class Keccak C++ implementation with update() ">Keccak</a> class <a class="el" href="classfriendcrypt_1_1_keccak.html" title="The Keccak class Keccak C++ implementation with update() ">Keccak</a> C++ implementation with <a class="el" href="classfriendcrypt_1_1_keccak.html#a737fac0a20baa1954128f5d1869a5ed6" title="update Add new data ">update()</a>  
  <a href="classfriendcrypt_1_1_keccak.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="fckeccak_8h_source.html">fckeccak.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab42630e4e009d8a05e8c10a84bcace9b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfriendcrypt_1_1_keccak.html#ab42630e4e009d8a05e8c10a84bcace9b">Keccak</a> (int mdLen)</td></tr>
-<tr class="memdesc:ab42630e4e009d8a05e8c10a84bcace9b"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classfriendcrypt_1_1_keccak.html" title="The Keccak class 3rd Keccak C++ implementation. ">Keccak</a> Message digest len (byte)  <a href="#ab42630e4e009d8a05e8c10a84bcace9b">More...</a><br /></td></tr>
-<tr class="separator:ab42630e4e009d8a05e8c10a84bcace9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5614af4efe71ef76840414ae52e93503"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfriendcrypt_1_1_keccak.html#a5614af4efe71ef76840414ae52e93503">update</a> (const uint8_t *data, int len)</td></tr>
-<tr class="memdesc:a5614af4efe71ef76840414ae52e93503"><td class="mdescLeft">&#160;</td><td class="mdescRight">update Add new data  <a href="#a5614af4efe71ef76840414ae52e93503">More...</a><br /></td></tr>
-<tr class="separator:a5614af4efe71ef76840414ae52e93503"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6972a67d26a00b85b578f976566905d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfriendcrypt_1_1_keccak.html#ae6972a67d26a00b85b578f976566905d">Keccak</a> (long mdBitLen)</td></tr>
+<tr class="memdesc:ae6972a67d26a00b85b578f976566905d"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classfriendcrypt_1_1_keccak.html" title="The Keccak class Keccak C++ implementation with update() ">Keccak</a> Message digest bit length: 224, 256, 384, 512.  <a href="#ae6972a67d26a00b85b578f976566905d">More...</a><br /></td></tr>
+<tr class="separator:ae6972a67d26a00b85b578f976566905d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a737fac0a20baa1954128f5d1869a5ed6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfriendcrypt_1_1_keccak.html#a737fac0a20baa1954128f5d1869a5ed6">update</a> (const uint8_t *data, long len)</td></tr>
+<tr class="memdesc:a737fac0a20baa1954128f5d1869a5ed6"><td class="mdescLeft">&#160;</td><td class="mdescRight">update Add new data  <a href="#a737fac0a20baa1954128f5d1869a5ed6">More...</a><br /></td></tr>
+<tr class="separator:a737fac0a20baa1954128f5d1869a5ed6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a867d2e9ff65481bd1487a758b8f4af04"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfriendcrypt_1_1_keccak.html#a867d2e9ff65481bd1487a758b8f4af04">finish</a> (uint8_t *out)</td></tr>
 <tr class="memdesc:a867d2e9ff65481bd1487a758b8f4af04"><td class="mdescLeft">&#160;</td><td class="mdescRight">finish Finish and reset  <a href="#a867d2e9ff65481bd1487a758b8f4af04">More...</a><br /></td></tr>
 <tr class="separator:a867d2e9ff65481bd1487a758b8f4af04"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -128,9 +128,9 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <tr class="separator:a07f1fbeeed087245b807b910c49a9b21"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The <a class="el" href="classfriendcrypt_1_1_keccak.html" title="The Keccak class 3rd Keccak C++ implementation. ">Keccak</a> class 3rd <a class="el" href="classfriendcrypt_1_1_keccak.html" title="The Keccak class 3rd Keccak C++ implementation. ">Keccak</a> C++ implementation. </p>
+<div class="textblock"><p>The <a class="el" href="classfriendcrypt_1_1_keccak.html" title="The Keccak class Keccak C++ implementation with update() ">Keccak</a> class <a class="el" href="classfriendcrypt_1_1_keccak.html" title="The Keccak class Keccak C++ implementation with update() ">Keccak</a> C++ implementation with <a class="el" href="classfriendcrypt_1_1_keccak.html#a737fac0a20baa1954128f5d1869a5ed6" title="update Add new data ">update()</a> </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="ab42630e4e009d8a05e8c10a84bcace9b"></a>
+<a class="anchor" id="ae6972a67d26a00b85b578f976566905d"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -140,8 +140,8 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
         <tr>
           <td class="memname">friendcrypt::Keccak::Keccak </td>
           <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>mdLen</em></td><td>)</td>
+          <td class="paramtype">long&#160;</td>
+          <td class="paramname"><em>mdBitLen</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -152,10 +152,16 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="classfriendcrypt_1_1_keccak.html" title="The Keccak class 3rd Keccak C++ implementation. ">Keccak</a> Message digest len (byte) </p>
+<p><a class="el" href="classfriendcrypt_1_1_keccak.html" title="The Keccak class Keccak C++ implementation with update() ">Keccak</a> Message digest bit length: 224, 256, 384, 512. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">mdLen</td><td></td></tr>
+    <tr><td class="paramname">mdBitLen</td><td>Message digest bit length </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">invalidArgsException</td><td>if mdBitLen is incorrect </td></tr>
   </table>
   </dd>
 </dl>
@@ -180,14 +186,14 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <p>finish Finish and reset </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">out</td><td>output array (length of array is mdLen) </td></tr>
+    <tr><td class="paramname">out</td><td>Output array (length of array is mdLen) </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a class="anchor" id="a5614af4efe71ef76840414ae52e93503"></a>
+<a class="anchor" id="a737fac0a20baa1954128f5d1869a5ed6"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -200,7 +206,7 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
+          <td class="paramtype">long&#160;</td>
           <td class="paramname"><em>len</em>&#160;</td>
         </tr>
         <tr>
@@ -214,8 +220,8 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <p>update Add new data </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">data</td><td></td></tr>
-    <tr><td class="paramname">len</td><td>length </td></tr>
+    <tr><td class="paramname">data</td><td>Data </td></tr>
+    <tr><td class="paramname">len</td><td>Length </td></tr>
   </table>
   </dd>
 </dl>

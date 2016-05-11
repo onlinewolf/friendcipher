@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['decrypt',['deCrypt',['../classfriendcrypt_1_1_crypt_with_keccak.html#a99def276507eb7fd812ba0f29cd048d2',1,'friendcrypt::CryptWithKeccak']]],
-  ['deletecwkdata',['deleteCWKData',['../classfriendcrypt_1_1_crypt_with_keccak.html#a11569f48b85c0bc4ba316e156d70c184',1,'friendcrypt::CryptWithKeccak']]]
+  ['decrypt',['decrypt',['../classfriendcrypt_1_1_crypt_with_keccak.html#afe569a869fb41e611b7140562ec8f346',1,'friendcrypt::CryptWithKeccak']]],
+  ['decryptcrazy',['decryptCrazy',['../classfriendcrypt_1_1_crypt_with_keccak.html#ad0fdecfea129ee2eabf25cefabf0c7db',1,'friendcrypt::CryptWithKeccak']]]
 ];

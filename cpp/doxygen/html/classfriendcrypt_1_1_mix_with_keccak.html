@@ -94,22 +94,28 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>The MixerWithKeccak class Mixer for FriendCrypt.  
+<p>The MixerWithKeccak class Fisher–Yates shuffle for FriendCrypt.  
  <a href="classfriendcrypt_1_1_mix_with_keccak.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="fcmixer_8h_source.html">fcmixer.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a94b1275449e8ed47da23e70169309ba1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfriendcrypt_1_1_mix_with_keccak.html#a94b1275449e8ed47da23e70169309ba1">MixWithKeccak</a> (uint8_t *salt, long len, long digestLen)</td></tr>
-<tr class="memdesc:a94b1275449e8ed47da23e70169309ba1"><td class="mdescLeft">&#160;</td><td class="mdescRight">MixerWithKeccak Constructor.  <a href="#a94b1275449e8ed47da23e70169309ba1">More...</a><br /></td></tr>
-<tr class="separator:a94b1275449e8ed47da23e70169309ba1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a87883d519c1978b63a4a50ed35d24615"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfriendcrypt_1_1_mix_with_keccak.html#a87883d519c1978b63a4a50ed35d24615">mix</a> (uint8_t *data, long len, uint8_t *key, long klen, long bmax)</td></tr>
-<tr class="memdesc:a87883d519c1978b63a4a50ed35d24615"><td class="mdescLeft">&#160;</td><td class="mdescRight">mix Fisher–Yates shuffle for FriendCrypt  <a href="#a87883d519c1978b63a4a50ed35d24615">More...</a><br /></td></tr>
-<tr class="separator:a87883d519c1978b63a4a50ed35d24615"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5400fa4bcfb99bae786b30da3a4ab222"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfriendcrypt_1_1_mix_with_keccak.html#a5400fa4bcfb99bae786b30da3a4ab222">reverseMix</a> (uint8_t *data, long len, uint8_t *key, long klen, long bmax)</td></tr>
-<tr class="memdesc:a5400fa4bcfb99bae786b30da3a4ab222"><td class="mdescLeft">&#160;</td><td class="mdescRight">reverseMix Fisher–Yates reverse shuffle for FriendCrypt  <a href="#a5400fa4bcfb99bae786b30da3a4ab222">More...</a><br /></td></tr>
-<tr class="separator:a5400fa4bcfb99bae786b30da3a4ab222"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0bfbda65a0ed9c88b000c933405d7acb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfriendcrypt_1_1_mix_with_keccak.html#a0bfbda65a0ed9c88b000c933405d7acb">MixWithKeccak</a> (const uint8_t *key, long keyLen, const uint8_t *iv, long ivLen, const uint8_t *salt, long saltLen)</td></tr>
+<tr class="memdesc:a0bfbda65a0ed9c88b000c933405d7acb"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classfriendcrypt_1_1_mix_with_keccak.html" title="The MixerWithKeccak class Fisher–Yates shuffle for FriendCrypt. ">MixWithKeccak</a> Initialization.  <a href="#a0bfbda65a0ed9c88b000c933405d7acb">More...</a><br /></td></tr>
+<tr class="separator:a0bfbda65a0ed9c88b000c933405d7acb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a603a965e047c305075a70bb2fba1c02f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfriendcrypt_1_1_mix_with_keccak.html#a603a965e047c305075a70bb2fba1c02f">mix</a> (const uint8_t *dataIn, uint8_t *dataOut, long len, uint32_t counter)</td></tr>
+<tr class="memdesc:a603a965e047c305075a70bb2fba1c02f"><td class="mdescLeft">&#160;</td><td class="mdescRight">mix Fisher–Yates shuffle for FriendCrypt  <a href="#a603a965e047c305075a70bb2fba1c02f">More...</a><br /></td></tr>
+<tr class="separator:a603a965e047c305075a70bb2fba1c02f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace6beca2aee7a059c415308eff8deb48"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfriendcrypt_1_1_mix_with_keccak.html#ace6beca2aee7a059c415308eff8deb48">reverseMix</a> (const uint8_t *dataIn, uint8_t *dataOut, long len, uint32_t counter)</td></tr>
+<tr class="memdesc:ace6beca2aee7a059c415308eff8deb48"><td class="mdescLeft">&#160;</td><td class="mdescRight">reverseMix Fisher–Yates reverse shuffle for FriendCrypt  <a href="#ace6beca2aee7a059c415308eff8deb48">More...</a><br /></td></tr>
+<tr class="separator:ace6beca2aee7a059c415308eff8deb48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abac3f60972e1bf91ceeae6d263699e08"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfriendcrypt_1_1_mix_with_keccak.html#abac3f60972e1bf91ceeae6d263699e08">crazyMix</a> (const uint8_t *dataIn, uint8_t *dataOut, long len)</td></tr>
+<tr class="memdesc:abac3f60972e1bf91ceeae6d263699e08"><td class="mdescLeft">&#160;</td><td class="mdescRight">crazyMix This method use <a class="el" href="classfriendcrypt_1_1_mix_with_keccak.html#a603a965e047c305075a70bb2fba1c02f" title="mix Fisher–Yates shuffle for FriendCrypt ">mix()</a> with random times  <a href="#abac3f60972e1bf91ceeae6d263699e08">More...</a><br /></td></tr>
+<tr class="separator:abac3f60972e1bf91ceeae6d263699e08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a080897e95baf000b10765be82bcf697a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfriendcrypt_1_1_mix_with_keccak.html#a080897e95baf000b10765be82bcf697a">reverseCrazyMix</a> (const uint8_t *dataIn, uint8_t *dataOut, long len)</td></tr>
+<tr class="memdesc:a080897e95baf000b10765be82bcf697a"><td class="mdescLeft">&#160;</td><td class="mdescRight">crazyMix This method use <a class="el" href="classfriendcrypt_1_1_mix_with_keccak.html#ace6beca2aee7a059c415308eff8deb48" title="reverseMix Fisher–Yates reverse shuffle for FriendCrypt ">reverseMix()</a> with random times  <a href="#a080897e95baf000b10765be82bcf697a">More...</a><br /></td></tr>
+<tr class="separator:a080897e95baf000b10765be82bcf697a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac1fb6b9f3ffd68c5675288716c8af9b5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac1fb6b9f3ffd68c5675288716c8af9b5"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>MixWithKeccak</b> (const <a class="el" href="classfriendcrypt_1_1_mix_with_keccak.html">MixWithKeccak</a> &amp;other)=delete</td></tr>
 <tr class="separator:ac1fb6b9f3ffd68c5675288716c8af9b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -124,9 +130,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a7b49e3b0bbf9436a1cfb59d3308ef69b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The MixerWithKeccak class Mixer for FriendCrypt. </p>
+<div class="textblock"><p>The MixerWithKeccak class Fisher–Yates shuffle for FriendCrypt. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a94b1275449e8ed47da23e70169309ba1"></a>
+<a class="anchor" id="a0bfbda65a0ed9c88b000c933405d7acb"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -136,20 +142,38 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">friendcrypt::MixWithKeccak::MixWithKeccak </td>
           <td>(</td>
-          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramtype">const uint8_t *&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long&#160;</td>
+          <td class="paramname"><em>keyLen</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint8_t *&#160;</td>
+          <td class="paramname"><em>iv</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long&#160;</td>
+          <td class="paramname"><em>ivLen</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint8_t *&#160;</td>
           <td class="paramname"><em>salt</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">long&#160;</td>
-          <td class="paramname"><em>len</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">long&#160;</td>
-          <td class="paramname"><em>digestLen</em>&#160;</td>
+          <td class="paramname"><em>saltLen</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -164,12 +188,15 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>MixerWithKeccak Constructor. </p>
+<p><a class="el" href="classfriendcrypt_1_1_mix_with_keccak.html" title="The MixerWithKeccak class Fisher–Yates shuffle for FriendCrypt. ">MixWithKeccak</a> Initialization. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">salt</td><td>for keccak </td></tr>
-    <tr><td class="paramname">len</td><td>salt length </td></tr>
-    <tr><td class="paramname">digestLen</td><td>for keccak (32 or 64) </td></tr>
+    <tr><td class="paramname">key</td><td>Key (address will be copied) </td></tr>
+    <tr><td class="paramname">keyLen</td><td>Key length (&gt;0) </td></tr>
+    <tr><td class="paramname">iv</td><td>Initialization Vector (address will be copied) </td></tr>
+    <tr><td class="paramname">ivLen</td><td>Initialization Vector length (&gt;0) </td></tr>
+    <tr><td class="paramname">salt</td><td>Salt (address will be copied) </td></tr>
+    <tr><td class="paramname">saltLen</td><td>Salt length (&gt;0) </td></tr>
   </table>
   </dd>
 </dl>
@@ -183,15 +210,64 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a87883d519c1978b63a4a50ed35d24615"></a>
+<a class="anchor" id="abac3f60972e1bf91ceeae6d263699e08"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void friendcrypt::MixWithKeccak::mix </td>
+          <td class="memname">bool friendcrypt::MixWithKeccak::crazyMix </td>
           <td>(</td>
+          <td class="paramtype">const uint8_t *&#160;</td>
+          <td class="paramname"><em>dataIn</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">uint8_t *&#160;</td>
-          <td class="paramname"><em>data</em>, </td>
+          <td class="paramname"><em>dataOut</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long&#160;</td>
+          <td class="paramname"><em>len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>crazyMix This method use <a class="el" href="classfriendcrypt_1_1_mix_with_keccak.html#a603a965e047c305075a70bb2fba1c02f" title="mix Fisher–Yates shuffle for FriendCrypt ">mix()</a> with random times </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dataIn</td><td>Input data (will be changed) </td></tr>
+    <tr><td class="paramname">dataOut</td><td>Output data </td></tr>
+    <tr><td class="paramname">len</td><td>Data length </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if success </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a603a965e047c305075a70bb2fba1c02f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool friendcrypt::MixWithKeccak::mix </td>
+          <td>(</td>
+          <td class="paramtype">const uint8_t *&#160;</td>
+          <td class="paramname"><em>dataIn</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>dataOut</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -202,20 +278,8 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint8_t *&#160;</td>
-          <td class="paramname"><em>key</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">long&#160;</td>
-          <td class="paramname"><em>klen</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">long&#160;</td>
-          <td class="paramname"><em>bmax</em>&#160;</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>counter</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -228,26 +292,75 @@ Public Member Functions</h2></td></tr>
 <p>mix Fisher–Yates shuffle for FriendCrypt </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">data</td><td>crypted data </td></tr>
-    <tr><td class="paramname">len</td><td>data length </td></tr>
-    <tr><td class="paramname">key</td><td>keys </td></tr>
-    <tr><td class="paramname">klen</td><td>size (for array of keys) </td></tr>
-    <tr><td class="paramname">bmax</td><td>maximum block size </td></tr>
+    <tr><td class="paramname">dataIn</td><td>Input data </td></tr>
+    <tr><td class="paramname">dataOut</td><td>Output data </td></tr>
+    <tr><td class="paramname">len</td><td>Data length </td></tr>
+    <tr><td class="paramname">counter</td><td>Counter for CrazyMix (use: 0) </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>true if success </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a5400fa4bcfb99bae786b30da3a4ab222"></a>
+<a class="anchor" id="a080897e95baf000b10765be82bcf697a"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void friendcrypt::MixWithKeccak::reverseMix </td>
+          <td class="memname">bool friendcrypt::MixWithKeccak::reverseCrazyMix </td>
           <td>(</td>
+          <td class="paramtype">const uint8_t *&#160;</td>
+          <td class="paramname"><em>dataIn</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">uint8_t *&#160;</td>
-          <td class="paramname"><em>data</em>, </td>
+          <td class="paramname"><em>dataOut</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long&#160;</td>
+          <td class="paramname"><em>len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>crazyMix This method use <a class="el" href="classfriendcrypt_1_1_mix_with_keccak.html#ace6beca2aee7a059c415308eff8deb48" title="reverseMix Fisher–Yates reverse shuffle for FriendCrypt ">reverseMix()</a> with random times </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dataIn</td><td>Input data (will be changed) </td></tr>
+    <tr><td class="paramname">dataOut</td><td>Output data </td></tr>
+    <tr><td class="paramname">len</td><td>Data length </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if success </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ace6beca2aee7a059c415308eff8deb48"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool friendcrypt::MixWithKeccak::reverseMix </td>
+          <td>(</td>
+          <td class="paramtype">const uint8_t *&#160;</td>
+          <td class="paramname"><em>dataIn</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>dataOut</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -258,20 +371,8 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint8_t *&#160;</td>
-          <td class="paramname"><em>key</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">long&#160;</td>
-          <td class="paramname"><em>klen</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">long&#160;</td>
-          <td class="paramname"><em>bmax</em>&#160;</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>counter</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -284,14 +385,14 @@ Public Member Functions</h2></td></tr>
 <p>reverseMix Fisher–Yates reverse shuffle for FriendCrypt </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">data</td><td>crypted data </td></tr>
-    <tr><td class="paramname">len</td><td>data length </td></tr>
-    <tr><td class="paramname">key</td><td>keys </td></tr>
-    <tr><td class="paramname">klen</td><td>size (for array of keys) </td></tr>
-    <tr><td class="paramname">bmax</td><td>maximum block size </td></tr>
+    <tr><td class="paramname">dataIn</td><td>Input data </td></tr>
+    <tr><td class="paramname">dataOut</td><td>Output data </td></tr>
+    <tr><td class="paramname">len</td><td>Data length </td></tr>
+    <tr><td class="paramname">counter</td><td>Counter for CrazyMix (use: 0) </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>true if success </dd></dl>
 
 </div>
 </div>
