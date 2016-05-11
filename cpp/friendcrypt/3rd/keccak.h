@@ -1,3 +1,4 @@
+//will be deleted
 #ifndef KECCAK_H
 #define KECCAK_H
 #ifdef __cplusplus

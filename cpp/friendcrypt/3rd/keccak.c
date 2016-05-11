@@ -1,3 +1,4 @@
+//will be deleted
 // keccak.c
 // 19-Nov-11  Markku-Juhani O. Saarinen <mjos@iki.fi>
 // A baseline Keccak (3rd round) implementation.

@@ -4,26 +4,29 @@
 
 namespace friendcrypt{
 
+//Intel x86, x86-64
+#define LITTLE_ENDIAN
+
 /**
  * @brief The Keccak class
  * 3rd Keccak C++ implementation
  */
 class Keccak{
-    const int kKeccakRounds = 24;
-    uint64_t forDigest_[25];
+    uint8_t state_[200];
+    uint32_t rateInBytes_;
+    const uint8_t kDelimitedSuffix_ = 0x06;
     uint8_t* forUpdate_;
-    int updatePos_;
-    int rsiz_;
-    int rsizw_;
-    int mdLen_;
+    uint32_t updatePos_;
+    uint32_t mdLen_;
     void reset();
 public:
     /**
      * @brief Keccak
-     * Message digest len (byte)
-     * @param mdLen
+     * Message digest bit length: 224, 256, 384, 512
+     * @param mdBitLen bit length
+     * @throw invalidArgsException if mdBitLen is incorrect
      */
-    explicit Keccak(int mdLen);
+    explicit Keccak(int mdBitLen);
     /**
      * @brief update
      * Add new data
