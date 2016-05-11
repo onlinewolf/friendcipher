@@ -13,31 +13,31 @@ namespace friendcrypt{
  */
 class Keccak{
     uint8_t state_[200];
-    uint32_t rateInBytes_;
-    const uint8_t kDelimitedSuffix_ = 0x06;
+    long rateInBytes_;
+    static const uint8_t kDelimitedSuffix_ = 0x06;
     uint8_t* forUpdate_;
-    uint32_t updatePos_;
-    uint32_t mdLen_;
+    long updatePos_;
+    long mdLen_;
     void reset();
 public:
     /**
      * @brief Keccak
      * Message digest bit length: 224, 256, 384, 512
-     * @param mdBitLen bit length
+     * @param mdBitLen Message digest bit length
      * @throw invalidArgsException if mdBitLen is incorrect
      */
-    explicit Keccak(int mdBitLen);
+    explicit Keccak(long mdBitLen);
     /**
      * @brief update
      * Add new data
-     * @param data
-     * @param len length
+     * @param data Data
+     * @param len Length
      */
-    void update(const uint8_t *data, int len);
+    void update(const uint8_t *data, long len);
     /**
      * @brief finish
      * Finish and reset
-     * @param out output array (length of array is mdLen)
+     * @param out Output array (length of array is mdLen)
      */
     void finish(uint8_t *out);
 

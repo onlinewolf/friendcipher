@@ -17,16 +17,16 @@ public:
     /**
      * @brief operator ==
      * You can verify two exception with if
-     * @param lhs left
-     * @param rhs right
+     * @param lhs Left
+     * @param rhs Right
      * @return true if equal
      */
     friend bool operator==(const FriendCryptException& lhs, const FriendCryptException& rhs);
     /**
      * @brief operator !=
      * You can verify two exception with if
-     * @param lhs left
-     * @param rhs right
+     * @param lhs Left
+     * @param rhs Right
      * @return false if equal
      */
     friend bool operator!=(const FriendCryptException& lhs, const FriendCryptException& rhs);
@@ -45,5 +45,5 @@ extern FriendCryptException defaultException;
  */
 extern FriendCryptException invalidArgsException;
 
-}
+}//namespace
 #endif // FRIENDCRYPTEXCEPTION_H
