@@ -134,7 +134,7 @@ void KeccakF1600_StatePermute(void *state){
 }//extern C
 
 
-Keccak::Keccak(int mdBitLen){
+Keccak::Keccak(long mdBitLen){
     switch (mdBitLen) {
         case 224:
             rateInBytes_ = 144;
@@ -166,7 +166,7 @@ void Keccak::reset(){
     memset(state_, 0, sizeof(state_));
 }
 
-void Keccak::update(const uint8_t *data, int len){
+void Keccak::update(const uint8_t *data, long len){
     if(!data || len <= 0)
         return;
 

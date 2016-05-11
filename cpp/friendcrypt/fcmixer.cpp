@@ -19,180 +19,185 @@ URL: https://github.com/onlinewolf/friendcrypt
 */
 #include <cmath>
 #include <cstring>
-#include <3rd/keccak.h>
 #include "fcmixer.h"
 #include "fcexception.h"
 
 namespace friendcrypt{
 
 //class
-MixWithKeccak::MixWithKeccak(uint8_t* salt, long len, long digestLen): kSaltLen(len), kDigestLen(digestLen){
-    if(!salt || len <= 0 || digestLen > 64 || (digestLen % 32) != 0)
+MixWithKeccak::MixWithKeccak(const uint8_t *key, long keyLen, const uint8_t *iv, long ivLen, const uint8_t* salt, long saltLen):
+            hash_(kDigestBitLen), key_(key), iv_(iv), salt_(salt){
+    if(!key || keyLen <= 0 || !iv || ivLen <= 0 || !salt || saltLen <= 0)
         throw invalidArgsException;
 
-    salt_ = new uint8_t[len];
-    tempSHKLen_ = len+kDigestLen+1;
-    tempSHK_ = new uint8_t[tempSHKLen_];
-    digest_ = new uint8_t[kDigestLen];
-    std::memcpy(salt_, salt, len);
+    keyLen_ = keyLen;
+    ivLen_ = ivLen;
+    saltLen_ = saltLen;
 }
 
-void MixWithKeccak::listMix(uint8_t* data, long start, long len, uint8_t key){
-    if(!data || len<=0 || start < 0)
+void MixWithKeccak::listMix(uint8_t* tempIn, uint8_t* dataOut, long len, Rng &rng){
+    if(!tempIn || !dataOut || len<=0)
         return;
 
-
-    uint8_t *noMix = new uint8_t[len];//copy data for mix
-    std::memcpy(noMix, &data[start], len);
-
-    std::memcpy(tempSHK_, salt_, kSaltLen);//copy full salt
-
-    tempSHK_[kSaltLen] = key;//copy the key to relative end
-    keccak(tempSHK_, kSaltLen+1, digest_, kDigestLen);//create hash for random numbers
-
-    long randNumber;
-    long mixLen = len;
-    long d=start;
-    while(true){
-        for(long i=0; i<kDigestLen; i++){
-            randNumber = calcConvert(digest_[i], 255.0, 0, mixLen);//get a "random number" for list
-
-            data[d] = noMix[randNumber];
-            d++;
-
-            noMix[randNumber] = noMix[mixLen-1];
-
-            mixLen--;//lower list
-            if(mixLen == 0)//no more item
-                break;
-        }
-
-        if(mixLen == 0)//no more item
-            break;
-        //get new "random" numbers
-        std::memcpy(&tempSHK_[kSaltLen], digest_, kDigestLen);//copy last hash
-        tempSHK_[tempSHKLen_-1] = key;//copy the key to end
-        keccak(tempSHK_, tempSHKLen_, digest_, kDigestLen);//create new hash with last hash
-    }
-    //correct end
-    delete[] noMix;
-}
-
-void MixWithKeccak::listReverseMix(uint8_t* data, long start, long len, uint8_t key){
-    if(!data || len<=0 || start < 0)
-        return;
-
-    long *nomix = new long[len];//list for reverse
-    for(long i=0; i<len; i++)
-        nomix[i] = i;
-
-    uint8_t *copyedData = new uint8_t[len];//copy data for mix
-    std::memcpy(copyedData, &data[start], len);
-
-    std::memcpy(tempSHK_, salt_, kSaltLen);//copy full salt
-
-    tempSHK_[kSaltLen] = key;//copy the key to relative end
-    keccak(tempSHK_, kSaltLen+1, digest_, kDigestLen);//create hash for random numbers
-
-    long randNumber;
-    long mixLen = len;
-    long d=start;
-    while(true){
-        for(long i=0; i<kDigestLen; i++){
-            randNumber = calcConvert(digest_[i], 255.0, 0, mixLen);//get a "random number" for list
-
-            data[nomix[randNumber]+start] = copyedData[d-start];
-            d++;
-
-            nomix[randNumber] = nomix[mixLen-1];
-
-            mixLen--;//lower list
-            if(mixLen == 0)//no more item
-                break;
-        }
-
-        if(mixLen == 0)//no more item
-            break;
-        //get new "random" numbers
-        std::memcpy(&tempSHK_[kSaltLen], digest_, kDigestLen);//copy last hash
-        tempSHK_[tempSHKLen_-1] = key;//copy the key to end
-        keccak(tempSHK_, tempSHKLen_, digest_, kDigestLen);//create new hash with last hash
-    }
-    //correct end
-    delete[] nomix;
-    delete[] copyedData;
-}
-
-void MixWithKeccak::mix(uint8_t* data, long len, uint8_t* key, long klen, long bmax){
-    if(!data || !key || len<=0 || klen <= 0 || bmax <= 0)
-        return;
-
-    if(klen==1){
-        listMix(data, 0, len, key[0]);
-    }else{
-        long bs;
-        long sum = 0;
-        for(long i=0; i<klen; i++){
-            bs = calcBlockSize(key[i], bmax);//calc block size
-
-            if((i+1) == klen)//last block
-                bs = len - sum;
-
-            if(((sum+bs)<=len)){//only correct len
-                listMix(data, sum, bs, key[i]);
-                sum += bs;//next block
-            }
-
-            if((i+1) == klen)//mix all
-                listMix(data, 0, len, key[i]);
-        }
+    long random;
+    for(long i=0, mlen=len; i<len; i++, mlen--){
+        random = rng.random32bit() % mlen;
+        dataOut[i] = tempIn[random];
+        tempIn[random] = tempIn[mlen-1];
     }
 }
 
-void MixWithKeccak::reverseMix(uint8_t* data, long len, uint8_t* key, long klen, long bmax){
-    if(!data || !key || len<=0 || klen <= 0 || bmax <= 0)
+void MixWithKeccak::listReverseMix(uint8_t* tempIn, uint8_t* dataOut, long len, Rng &rng){
+    if(!tempIn || !dataOut || len<=0)
         return;
 
-    if(klen==1){
-        listReverseMix(data, 0, len, key[0]);
-    }else{
-        long bs;
-        long sum = 0;
-        for(long i=0; i<klen; i++){
-            bs = calcBlockSize(key[i], bmax);//calc block size
+    for(long i=0; i<kDigestLen; i++)
+        listTemp_[i] = i;
 
-            if(i == 0)//reverse mix all
-                listReverseMix(data, 0, len, key[klen-1]);
+    long random;
+    for(long i=0, mlen=len; i<len; i++, mlen--){
+        random = rng.random32bit() % mlen;
+        dataOut[listTemp_[random]] = tempIn[i];
+        listTemp_[random] = listTemp_[mlen-1];
+    }
+}
 
-            if((i+1) == klen)//last block
-                bs = len - sum;
+bool MixWithKeccak::mix(const uint8_t* dataIn, uint8_t *dataOut, long len, uint32_t counter){
+    if(!dataIn || !dataOut || len <= 0)
+        return false;
 
-            if((sum+bs)<=len){//only correct len
-                listReverseMix(data, sum, bs, key[i]);
-                sum += bs;//next block
+    Rng rng(key_, keyLen_, salt_, saltLen_);
+    hash_.update(iv_, ivLen_);
+    hash_.update(salt_, saltLen_);
+    if(counter != 0)
+        hash_.update((uint8_t *)&counter, 4);
+    hash_.finish(temp_);
+    rng.reSeed(temp_, kDigestLen);
+
+    long blockLen = calcBlockSize(rng.random32bit(), kDigestLen);
+    long neg = 0;
+    for(long i=0; i<len; i++){
+        temp_[neg] = dataIn[i];
+        neg++;
+        if(neg > blockLen){
+            listMix(temp_, &dataOut[i-blockLen], neg, rng);
+            neg = 0;
+            if(i!=(len-1)){
+                blockLen = calcBlockSize(rng.random32bit(), kDigestLen);
             }
         }
     }
+
+    if(neg!=0){
+        listMix(temp_, &dataOut[len-neg], neg, rng);
+    }
+
+    return true;
+}
+
+bool MixWithKeccak::reverseMix(const uint8_t* dataIn, uint8_t *dataOut, long len, uint32_t counter){
+    if(!dataIn || !dataOut || len <= 0)
+        return false;
+
+    Rng rng(key_, keyLen_, salt_, saltLen_);
+    hash_.update(iv_, ivLen_);
+    hash_.update(salt_, saltLen_);
+    if(counter != 0)
+        hash_.update((uint8_t *)&counter, 4);
+    hash_.finish(temp_);
+    rng.reSeed(temp_, kDigestLen);
+
+    long blockLen = calcBlockSize(rng.random32bit(), kDigestLen);
+    long neg = 0;
+    for(long i=0; i<len; i++){
+        temp_[neg] = dataIn[i];
+        neg++;
+        if(neg > blockLen){
+            listReverseMix(temp_, &dataOut[i-blockLen], neg, rng);
+            neg = 0;
+            if(i!=(len-1)){
+                blockLen = calcBlockSize(rng.random32bit(), kDigestLen);
+            }
+        }
+    }
+
+    if(neg!=0){
+        listReverseMix(temp_, &dataOut[len-neg], neg, rng);
+    }
+
+    return true;
+}
+
+bool MixWithKeccak::crazyMix(const uint8_t *dataIn, uint8_t *dataOut, long len){
+    if(!dataIn || !dataOut || len <= 0)
+        return false;
+
+
+    Rng rng(key_, keyLen_, salt_, saltLen_);
+    hash_.update(iv_, ivLen_);
+    hash_.update(salt_, saltLen_);
+    hash_.finish(temp_);
+    rng.reSeed(temp_, kDigestLen);
+
+    const uint8_t *temp = dataIn;
+    int crazyNumber = calcCrazy(rng.random32bit(), kMinCrazy, kMaxCrazy);
+
+    if(crazyNumber % 2 != 1)
+        crazyNumber++;
+
+    for(int i=0; i<crazyNumber; i++){
+        if(!mix(temp, dataOut, len, i))
+            return false;
+        if(i == 0){
+            temp = dataOut;
+        }
+    }
+    return true;
+}
+
+bool MixWithKeccak::reverseCrazyMix(const uint8_t *dataIn, uint8_t *dataOut, long len){
+    if(!dataIn || !dataOut || len <= 0)
+        return false;
+
+    Rng rng(key_, keyLen_, salt_, saltLen_);
+    hash_.update(iv_, ivLen_);
+    hash_.update(salt_, saltLen_);
+    hash_.finish(temp_);
+    rng.reSeed(temp_, kDigestLen);
+
+    const uint8_t *temp = dataIn;
+    int crazyNumber = calcCrazy(rng.random32bit(), kMinCrazy, kMaxCrazy);
+
+    if(crazyNumber % 2 != 1)
+        crazyNumber++;
+
+    for(int i=crazyNumber-1; i>=0; i--){
+        if(!reverseMix(temp, dataOut, len, i))
+            return false;
+        if(i == crazyNumber-1){
+            temp = dataOut;
+        }
+    }
+    return true;
 }
 
 MixWithKeccak::~MixWithKeccak(){
-    delete[] salt_;
-    delete[] tempSHK_;
-    delete[] digest_;
+    //
 }
 
 
 //"static" functions
-long calcBlockSize(uint8_t key, long bmax){
-    if(bmax<=0)
+long calcBlockSize(uint32_t x, long bmax){
+    if(bmax<=1)
         return 0;
 
     long bmin = bmax/2;
-    return std::lround((key/255.0 * (bmin-1)) + bmin);
+    x = x % bmin;
+    return x + bmin;
 }
 
 long calcConvert(long x, double xmax, long min, long max){
-    if(x<0 || xmax<=0 || min<0 || max<=0)
+    if(x<0 || xmax<=0 || min<0 || max<=1)
         return 0;
 
     if(x>xmax)
@@ -205,6 +210,24 @@ long calcConvert(long x, double xmax, long min, long max){
     }
 
     return std::lround((x/xmax * (max-min-1)) + min);
+}
+
+
+long calcCrazy(uint32_t x, uint8_t min, uint8_t max){
+    if(max <= 1)
+        return 1;
+
+    if(min == 0)
+        min = 1;
+
+    if(min>max){
+        uint8_t temp = min;
+        min = max;
+        max = temp;
+    }
+
+    x = x % (max - min);
+    return x + min;
 }
 
 }

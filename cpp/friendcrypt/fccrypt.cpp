@@ -20,250 +20,256 @@ URL: https://github.com/onlinewolf/friendcrypt
 #include <string>
 #include <cstdlib>
 #include <cstdio>
-#include <ctime>
 #include <cmath>
+#include <ctime>
 #include "fccrypt.h"
 #include "fcexception.h"
 #include "fcmixer.h"
-#include "3rd/keccak.h"
+#include "fckeccak.h"
 
 namespace friendcrypt{
 
 //class
-void CryptWithKeccak::creator(){
-    if(!DISABLE_SRAND)
-        std::srand(std::time(0));
-
-    iv_ = new uint8_t[kBlockSize];
-    passAndSaltAndIv_ = new uint8_t[kFullSize];
-    hash_ = new uint8_t[kBlockSize];
-}
-
-CryptWithKeccak::CryptWithKeccak(): kBlockSize(kMaxHashBlockSize), kFullSize(kMaxHashBlockSize*3), ivCreated_(false){
-    creator();
-}
-
-CryptWithKeccak::CryptWithKeccak(long blockSize): kBlockSize(blockSize), kFullSize(blockSize*3), ivCreated_(false){
-    if(blockSize <= 0 || blockSize > kMaxHashBlockSize || (blockSize % 32) != 0)
+CryptWithKeccak::CryptWithKeccak(long blockBitSize): helper_(blockBitSize/8){
+    if(blockBitSize != 224 && blockBitSize != 256 && blockBitSize != 384 && blockBitSize != 512)
         throw invalidArgsException;
-    creator();
+
+    iv_ = nullptr;
+    uint32_t temp = static_cast<uint32_t>(time(NULL));
+    rng_ = new Rng((uint8_t*)&temp, 4, nullptr, 0);
 }
 
-void CryptWithKeccak::createIV(){
-    for(long i=0; i<kBlockSize; i++){
-        iv_[i] = std::rand() % 256;
+void CryptWithKeccak::ivCheck(long len){
+    if(len <= 0)
+        return;
+
+    if(!iv_){
+        iv_ = new uint8_t[len];
+        ivMaxLen_ = len;
+    }else if(ivMaxLen_ < len){
+        delete[] iv_;
+        iv_ = new uint8_t[len];
+        ivMaxLen_ = len;
     }
-    ivCreated_ = true;
 }
 
-bool CryptWithKeccak::setIV(uint8_t *iv){
-    if(!iv)
+bool CryptWithKeccak::createIV(const uint8_t *salt, long len){
+    if(!salt || len <= 0)
         return false;
 
-    std::memcpy(iv_, iv, kBlockSize);
-    ivCreated_ = true;
+    ivCheck(helper_.kBlockSize);
+    ivLen_ = helper_.kBlockSize;
+
+    rng_->reSeed(salt, len);
+
+    for(long i=0; i<helper_.kBlockSize; i++)
+        iv_[i] = rng_->random8bit();
+
+    return true;
+}
+
+long CryptWithKeccak::getIVLen(){
+    if(!iv_)
+        return 0;
+
+    return ivLen_;
+}
+
+bool CryptWithKeccak::setIV(const uint8_t *iv, long len){
+    if(!iv || len < helper_.kMinLen)
+        return false;
+
+    ivCheck(len);
+    ivLen_ = len;
+
+    std::memcpy(iv_, iv, len);
     return true;
 }
 
 bool CryptWithKeccak::getIV(uint8_t *iv){
-    if(!iv || !ivCreated_)
+    if(!iv)
         return false;
 
-    std::memcpy(iv, iv_, kBlockSize);
+    std::memcpy(iv, iv_, ivLen_);
     return true;
 }
 
-CWKData *CryptWithKeccak::createCWKData(){
-    return new CWKData(kBlockSize);
+bool CryptWithKeccak::setKey(const uint8_t *key, long len){
+    return helper_.setKey(key, len);
 }
 
-void CryptWithKeccak::deleteCWKData(CWKData *data){
-    if(data)
-        delete data;
+bool CryptWithKeccak::setSalt(const uint8_t *salt, long len){
+    return helper_.setSalt(salt, len);
 }
 
-bool CryptWithKeccak::enCrypt(CWKData* data){
-    if(!data || !data->data_ || !data->pass_ || !data->salt_ || data->kBlockSize != kBlockSize || !ivCreated_)
+
+bool CryptWithKeccak::encode(const uint8_t *dataIn, uint8_t *dataOut, long len){
+    if(!dataIn || !dataOut || len <= 0)
         return false;
 
-    if(data->dataLen_ <= 0 || data->passLen_ <= 0 || data->saltLen_ <= 0)
+    if(!iv_ || !helper_.key_ || !helper_.salt_)
         return false;
-
-    std::memcpy(passAndSaltAndIv_, data->pass_, data->passLen_);
-    std::memcpy(&passAndSaltAndIv_[data->passLen_], data->salt_, data->saltLen_);
-    long passAndSaltLen = data->passLen_ + data->saltLen_;
-    std::memcpy(&passAndSaltAndIv_[passAndSaltLen], iv_, kBlockSize);
-    long psiLen = passAndSaltLen + kBlockSize;//real length
-
-    keccak(passAndSaltAndIv_, psiLen, hash_, kBlockSize);//create hash
-
-    long blockLen = calcBlockSize(hash_[kBlockSize-1], kBlockSize);//first block length
-    //keys for mix
-    uint8_t *keys = new uint8_t[std::lround(std::ceil((data->dataLen_*1.0) / ((kBlockSize/2)-1.0)))];
-    long keyLen = 0;//will be real number of keys
-
-    //encrypt
-    for(long i=0; i<data->dataLen_; keyLen++){
-        if(i != 0){//no first, create new hash
-            std::memcpy(&passAndSaltAndIv_[passAndSaltLen], hash_, kBlockSize);//pass + salt + last hash
-            keccak(passAndSaltAndIv_, psiLen, hash_, kBlockSize);//create hash
-            blockLen = calcBlockSize(hash_[kBlockSize-1], kBlockSize);//create next block length
-        }
-        keys[keyLen] = hash_[kBlockSize-1];//put key
-
-        for(long k=0; k<blockLen && i<data->dataLen_; k++, i++){
-            data->data_[i] ^= hash_[k];//xor for encrypt
-        }
-    }
 
     try{
-        MixWithKeccak mixer(data->salt_, data->saltLen_, kBlockSize);
-        mixer.mix(data->data_, data->dataLen_, keys, keyLen, kBlockSize);
+        Rng rng(helper_.key_, helper_.keyLen_, helper_.salt_, helper_.saltLen_);
+        rng.reSeed(iv_, ivLen_);
+        for(long i=0; i<len; i++)
+            dataOut[i] = dataIn[i] ^ rng.random8bit();
     }catch(FriendCryptException &e){
-        delete[] keys;
         return false;
     }
 
-    delete[] keys;
     return true;
 }
 
-bool CryptWithKeccak::deCrypt(CWKData* data){
-    if(!data || !data->data_ || !data->pass_ || !data->salt_ || data->kBlockSize != kBlockSize || !ivCreated_)
+bool CryptWithKeccak::decode(const uint8_t *dataIn, uint8_t *dataOut, long len){
+    return encode(dataIn, dataOut, len);
+}
+
+
+bool CryptWithKeccak::encrypt(const uint8_t *dataIn, uint8_t *dataOut, long len){
+    if(!dataIn || !dataOut || len <= 0)
         return false;
 
-    if(data->dataLen_ <= 0 || data->passLen_ <= 0 || data->saltLen_ <= 0)
+    if(!iv_ || !helper_.key_ || !helper_.salt_)
         return false;
 
-    std::memcpy(passAndSaltAndIv_, data->pass_, data->passLen_);
-    std::memcpy(&passAndSaltAndIv_[data->passLen_], data->salt_, data->saltLen_);
-    long passAndSaltLen = data->passLen_ + data->saltLen_;
-    std::memcpy(&passAndSaltAndIv_[passAndSaltLen], iv_, kBlockSize);
-    long psiLen = passAndSaltLen + kBlockSize;//real length
+    if(!encode(dataIn, dataOut, len))
+        return false;
 
-    keccak(passAndSaltAndIv_, psiLen, hash_, kBlockSize);//create hash
-
-    long blockLen = calcBlockSize(hash_[kBlockSize-1], kBlockSize);//first block length
-    //keys for mix
-    uint8_t *keys = new uint8_t[std::lround(std::ceil((data->dataLen_*1.0) / ((kBlockSize/2)-1.0)))];
-    long keyLen = 0;//will be real number of keys
-
-    //create keys
-    for(long i=0; i<data->dataLen_; keyLen++){
-        if(i != 0){//no first, create new hash
-            std::memcpy(&passAndSaltAndIv_[passAndSaltLen], hash_, kBlockSize);//pass + salt + last hash
-            keccak(passAndSaltAndIv_, psiLen, hash_, kBlockSize);//create hash
-            blockLen = calcBlockSize(hash_[kBlockSize-1], kBlockSize);//create next block length
-        }
-        keys[keyLen] = hash_[kBlockSize-1];//put key
-        i+=blockLen;
-    }
     try{
-        MixWithKeccak mixer(data->salt_, data->saltLen_, kBlockSize);
-        mixer.reverseMix(data->data_, data->dataLen_, keys, keyLen, kBlockSize);
+        MixWithKeccak mixer(helper_.key_, helper_.keyLen_, iv_, ivLen_, helper_.salt_, helper_.saltLen_);
+        if(!mixer.mix(dataOut, dataOut, len, 0))
+            return false;
     }catch(FriendCryptException &e){
-        delete[] keys;
         return false;
     }
 
-    //decrypt
-    std::memcpy(&passAndSaltAndIv_[passAndSaltLen], iv_, kBlockSize);
-    keccak(passAndSaltAndIv_, psiLen, hash_, kBlockSize);//create hash
-    blockLen = calcBlockSize(hash_[kBlockSize-1], kBlockSize);//first block length
-    for(long i=0; i<data->dataLen_;){
-        if(i != 0){//no first, create new hash
-            std::memcpy(&passAndSaltAndIv_[passAndSaltLen], hash_, kBlockSize);//pass + salt + last hash
-            keccak(passAndSaltAndIv_, psiLen, hash_, kBlockSize);//create hash
-            blockLen = calcBlockSize(hash_[kBlockSize-1], kBlockSize);//create next block length
-        }
+    return true;
+}
 
-        for(long k=0; k<blockLen && i<data->dataLen_; k++, i++){
-            data->data_[i] ^= hash_[k];//xor for decrypt
-        }
+
+bool CryptWithKeccak::decrypt(const uint8_t *dataIn, uint8_t *dataOut, long len){
+    if(!dataIn || !dataOut || len <= 0)
+        return false;
+
+    if(!iv_ || !helper_.key_ || !helper_.salt_)
+        return false;
+
+    try{
+        MixWithKeccak mixer(helper_.key_, helper_.keyLen_, iv_, ivLen_, helper_.salt_, helper_.saltLen_);
+        if(!mixer.reverseMix(dataIn, dataOut, len, 0))
+            return false;
+    }catch(FriendCryptException &e){
+        return false;
     }
 
-    delete[] keys;
+    if(!decode(dataOut, dataOut, len))
+        return false;
+
+    return true;
+}
+
+
+bool CryptWithKeccak::encryptCrazy(const uint8_t *dataIn, uint8_t *dataOut, long len){
+    if(!dataIn || !dataOut || len <= 0)
+        return false;
+
+    if(!iv_ || !helper_.key_ || !helper_.salt_)
+        return false;
+
+    if(!encode(dataIn, dataOut, len))
+        return false;
+
+    try{
+        MixWithKeccak mixer(helper_.key_, helper_.keyLen_, iv_, ivLen_, helper_.salt_, helper_.saltLen_);
+        if(!mixer.crazyMix(dataOut, dataOut, len))
+            return false;
+    }catch(FriendCryptException &e){
+        return false;
+    }
+
+
+    return true;
+}
+
+bool CryptWithKeccak::decryptCrazy(const uint8_t *dataIn, uint8_t *dataOut, long len){
+    if(!dataIn || !dataOut || len <= 0)
+        return false;
+
+    if(!iv_ || !helper_.key_ || !helper_.salt_)
+        return false;
+
+    try{
+        MixWithKeccak mixer(helper_.key_, helper_.keyLen_, iv_, ivLen_, helper_.salt_, helper_.saltLen_);
+        if(!mixer.reverseCrazyMix(dataIn, dataOut, len))
+            return false;
+    }catch(FriendCryptException &e){
+        return false;
+    }
+
+    if(!decode(dataOut, dataOut, len))
+        return false;
+
     return true;
 }
 
 
 CryptWithKeccak::~CryptWithKeccak(){
-    delete[] iv_;
-    delete[] passAndSaltAndIv_;
-    delete[] hash_;
+    if(iv_)
+        delete[] iv_;
+    delete rng_;
 }
 
 //"static" method
 
 //class for help
 CWKData::CWKData(long blockLen):kBlockSize(blockLen){
-    data_ = nullptr;
-    dataLen_ = 0;
-    pass_ = new uint8_t[kBlockSize];
-    passLen_ = 0;
-    salt_ = new uint8_t[kBlockSize];
-    saltLen_ = 0;
+    key_ = nullptr;
+    salt_ = nullptr;
 }
 
-bool CWKData::setData(uint8_t *data, long len){
-    if(!data || len<=0)
+bool CWKData::setKey(const uint8_t *key, long len){
+    if(!key || len<kMinLen)
         return false;
 
-    if(!data_){
-        data_ = new uint8_t[len];
-        dataMaxLen_ = len;
-    }else if(dataMaxLen_ < len){
-        delete[] data_;
-        data_ = new uint8_t[len];
-        dataMaxLen_ = len;
+    if(!key_){
+        key_ = new uint8_t[len];
+        keyMaxLen_ = len;
+    }else if(keyMaxLen_ < len){
+        delete[] key_;
+        key_ = new uint8_t[len];
+        keyMaxLen_ = len;
     }
 
-    std::memcpy(data_, data, len);
-    dataLen_ = len;
+    std::memcpy(key_, key, len);
+    keyLen_ = len;
     return true;
 }
 
-bool CWKData::setPass(uint8_t *pass, long len){
-    if(!pass || len<kMinLen)
-        return false;
-
-    if(len>kBlockSize)
-        return false;
-
-    std::memcpy(pass_, pass, len);
-    passLen_ = len;
-    return true;
-}
-
-bool CWKData::setSalt(uint8_t *salt, long len){
+bool CWKData::setSalt(const uint8_t *salt, long len){
     if(!salt || len<kMinLen)
         return false;
 
-    if(len>kBlockSize)
-        return false;
+    if(!salt_){
+        salt_ = new uint8_t[len];
+        saltMaxLen_ = len;
+    }else if(saltMaxLen_ < len){
+        delete[] salt_;
+        salt_ = new uint8_t[len];
+        saltMaxLen_ = len;
+    }
 
     std::memcpy(salt_, salt, len);
     saltLen_ = len;
     return true;
 }
 
-bool CWKData::getData(uint8_t *data){
-    if(!data)
-        return false;
-
-    std::memcpy(data, data_, dataLen_);
-    return true;
-}
-
-long CWKData::getDataLen(){
-    return dataLen_;
-}
-
 CWKData::~CWKData(){
-    if(data_)
-        delete data_;
-    delete pass_;
-    delete salt_;
+    if(key_)
+        delete[] key_;
+    if(salt_)
+        delete[] salt_;
 }
 
 
