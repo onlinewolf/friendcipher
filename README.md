@@ -3,8 +3,8 @@ Public and new cryptography with Keccak for C++ and Java, [C++ Doxygen here](htt
  - Powerful Random Number Generator (Rng)
  - Powerful list/array shuffle with Fisher–Yates shuffle and Rng
  - Symmetric key encryption with "unlimite" key and IV size (>=128 bit)
- - Support: 224, 256, 384 and 512 bit Keccak with update() method
-- [ ] FriendCrypt public plan (v0.7.0)
+ - Support and implemented: 224, 256, 384 and 512 bit Keccak with update() method
+- [ ] FriendCrypt public plan (v0.7.1)
 - [x] C++ source
 - [ ] Code teszt
 - [ ] Optimalisation
