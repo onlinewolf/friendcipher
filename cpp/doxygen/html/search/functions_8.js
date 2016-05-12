@@ -1,6 +1,9 @@
 var searchData=
 [
-  ['setiv',['setIV',['../classfriendcrypt_1_1_crypt_with_keccak.html#a6d660a0a24733d57bff385bcbe219121',1,'friendcrypt::CryptWithKeccak']]],
-  ['setkey',['setKey',['../classfriendcrypt_1_1_c_w_k_data.html#a6cf3ce2300cbdb9a64570a2240ff93f0',1,'friendcrypt::CWKData::setKey()'],['../classfriendcrypt_1_1_crypt_with_keccak.html#afc760fb19eb7f65bba83c08f6e2457a1',1,'friendcrypt::CryptWithKeccak::setKey()']]],
-  ['setsalt',['setSalt',['../classfriendcrypt_1_1_c_w_k_data.html#ad949a974da1a255630065c3d9d4801b5',1,'friendcrypt::CWKData::setSalt()'],['../classfriendcrypt_1_1_crypt_with_keccak.html#aa8dee01cf579accff4b15f8fb84c0f65',1,'friendcrypt::CryptWithKeccak::setSalt()']]]
+  ['random32bit',['random32bit',['../classfriendcrypt_1_1_rng.html#a2c8671a57a22c7ed00f865104445b995',1,'friendcrypt::Rng']]],
+  ['random8bit',['random8bit',['../classfriendcrypt_1_1_rng.html#a91990e2d42222cde44029bf46c4456d2',1,'friendcrypt::Rng']]],
+  ['reseed',['reSeed',['../classfriendcrypt_1_1_rng.html#adb6d5f68b9cdf78970249b3390d1c638',1,'friendcrypt::Rng']]],
+  ['reversecrazymix',['reverseCrazyMix',['../classfriendcrypt_1_1_mix_with_keccak.html#a080897e95baf000b10765be82bcf697a',1,'friendcrypt::MixWithKeccak']]],
+  ['reversemix',['reverseMix',['../classfriendcrypt_1_1_mix_with_keccak.html#ace6beca2aee7a059c415308eff8deb48',1,'friendcrypt::MixWithKeccak']]],
+  ['rng',['Rng',['../classfriendcrypt_1_1_rng.html#a2125149f0167f560b4a45a2942df38f4',1,'friendcrypt::Rng']]]
 ];

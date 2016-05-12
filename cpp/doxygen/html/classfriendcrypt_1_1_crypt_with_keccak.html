@@ -88,25 +88,27 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="classfriendcrypt_1_1_crypt_with_keccak-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">friendcrypt::CryptWithKeccak Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>The <a class="el" href="classfriendcrypt_1_1_crypt_with_keccak.html" title="The CryptWithKeccak class Encrypt and decrypt. ">CryptWithKeccak</a> class Encrypt and decrypt.  
+<p>The <a class="el" href="classfriendcrypt_1_1_crypt_with_keccak.html" title="The CryptWithKeccak class Encrypt and decrypt with powerful Rng and MixWithKeccak &quot;Unlimited&quot; key and...">CryptWithKeccak</a> class Encrypt and decrypt with powerful <a class="el" href="classfriendcrypt_1_1_rng.html" title="The Rng class Powerful Random Number Generator with Keccak (Not thread safe!) ">Rng</a> and <a class="el" href="classfriendcrypt_1_1_mix_with_keccak.html" title="The MixerWithKeccak class Fisher–Yates shuffle for CryptWithKeccak with Rng (Not thread safe!) ...">MixWithKeccak</a> "Unlimited" key and IV size (&gt;=128) Working level: 224 bit, 256 bit, 384 bit and 512 bit (Not thread safe!)  
  <a href="classfriendcrypt_1_1_crypt_with_keccak.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="fccrypt_8h_source.html">fccrypt.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:accec0784df6eee0956deb155a182cb65"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfriendcrypt_1_1_crypt_with_keccak.html#accec0784df6eee0956deb155a182cb65">CryptWithKeccak</a> (long blockBitSize)</td></tr>
-<tr class="memdesc:accec0784df6eee0956deb155a182cb65"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classfriendcrypt_1_1_crypt_with_keccak.html" title="The CryptWithKeccak class Encrypt and decrypt. ">CryptWithKeccak</a> Initalisation.  <a href="#accec0784df6eee0956deb155a182cb65">More...</a><br /></td></tr>
-<tr class="separator:accec0784df6eee0956deb155a182cb65"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af5ecee56aad0ae8e7c9bdd24a4e3d99b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfriendcrypt_1_1_crypt_with_keccak.html#af5ecee56aad0ae8e7c9bdd24a4e3d99b">createIV</a> (const uint8_t *salt, long len)</td></tr>
-<tr class="memdesc:af5ecee56aad0ae8e7c9bdd24a4e3d99b"><td class="mdescLeft">&#160;</td><td class="mdescRight">createIV Generate random Initialization Vector with Rng() and time(NULL)  <a href="#af5ecee56aad0ae8e7c9bdd24a4e3d99b">More...</a><br /></td></tr>
-<tr class="separator:af5ecee56aad0ae8e7c9bdd24a4e3d99b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c87cec1b66a825b209bda31ebca1eee"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfriendcrypt_1_1_crypt_with_keccak.html#a8c87cec1b66a825b209bda31ebca1eee">CryptWithKeccak</a> (long bitLen)</td></tr>
+<tr class="memdesc:a8c87cec1b66a825b209bda31ebca1eee"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classfriendcrypt_1_1_crypt_with_keccak.html" title="The CryptWithKeccak class Encrypt and decrypt with powerful Rng and MixWithKeccak &quot;Unlimited&quot; key and...">CryptWithKeccak</a> Create Initialization Vector with <a class="el" href="classfriendcrypt_1_1_rng.html#adb6d5f68b9cdf78970249b3390d1c638" title="reSeed Create new seed with last seed (the last seed is unkown if init() isn&#39;t called) ...">Rng.reSeed()</a> and time(NULL)  <a href="#a8c87cec1b66a825b209bda31ebca1eee">More...</a><br /></td></tr>
+<tr class="separator:a8c87cec1b66a825b209bda31ebca1eee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d7c17a6eea3ac9b57cda6eb15720d51"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2d7c17a6eea3ac9b57cda6eb15720d51"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfriendcrypt_1_1_crypt_with_keccak.html#a2d7c17a6eea3ac9b57cda6eb15720d51">createIV</a> ()</td></tr>
+<tr class="memdesc:a2d7c17a6eea3ac9b57cda6eb15720d51"><td class="mdescLeft">&#160;</td><td class="mdescRight">createIV Generate random Initialization Vector with <a class="el" href="classfriendcrypt_1_1_rng.html" title="The Rng class Powerful Random Number Generator with Keccak (Not thread safe!) ">Rng</a> <br /></td></tr>
+<tr class="separator:a2d7c17a6eea3ac9b57cda6eb15720d51"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6c02d48a5e771bd65657cab7637de489"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfriendcrypt_1_1_crypt_with_keccak.html#a6c02d48a5e771bd65657cab7637de489">getIVLen</a> ()</td></tr>
 <tr class="memdesc:a6c02d48a5e771bd65657cab7637de489"><td class="mdescLeft">&#160;</td><td class="mdescRight">getIVLen Get Initialization Vector length  <a href="#a6c02d48a5e771bd65657cab7637de489">More...</a><br /></td></tr>
 <tr class="separator:a6c02d48a5e771bd65657cab7637de489"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -119,21 +121,22 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:afc760fb19eb7f65bba83c08f6e2457a1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfriendcrypt_1_1_crypt_with_keccak.html#afc760fb19eb7f65bba83c08f6e2457a1">setKey</a> (const uint8_t *key, long len)</td></tr>
 <tr class="memdesc:afc760fb19eb7f65bba83c08f6e2457a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">setKey (copy)  <a href="#afc760fb19eb7f65bba83c08f6e2457a1">More...</a><br /></td></tr>
 <tr class="separator:afc760fb19eb7f65bba83c08f6e2457a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa8dee01cf579accff4b15f8fb84c0f65"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfriendcrypt_1_1_crypt_with_keccak.html#aa8dee01cf579accff4b15f8fb84c0f65">setSalt</a> (const uint8_t *salt, long len)</td></tr>
-<tr class="memdesc:aa8dee01cf579accff4b15f8fb84c0f65"><td class="mdescLeft">&#160;</td><td class="mdescRight">setSalt (copy)  <a href="#aa8dee01cf579accff4b15f8fb84c0f65">More...</a><br /></td></tr>
-<tr class="separator:aa8dee01cf579accff4b15f8fb84c0f65"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b2dd75ffb0be6d0d0a92ba95bc2e044"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfriendcrypt_1_1_crypt_with_keccak.html#a2b2dd75ffb0be6d0d0a92ba95bc2e044">encrypt</a> (const uint8_t *dataIn, uint8_t *dataOut, long len)</td></tr>
-<tr class="memdesc:a2b2dd75ffb0be6d0d0a92ba95bc2e044"><td class="mdescLeft">&#160;</td><td class="mdescRight">encrypt Encrypt with <a class="el" href="classfriendcrypt_1_1_keccak.html" title="The Keccak class Keccak C++ implementation with update() ">Keccak</a> and mix()  <a href="#a2b2dd75ffb0be6d0d0a92ba95bc2e044">More...</a><br /></td></tr>
+<tr class="memdesc:a2b2dd75ffb0be6d0d0a92ba95bc2e044"><td class="mdescLeft">&#160;</td><td class="mdescRight">encrypt Encrypt with <a class="el" href="classfriendcrypt_1_1_rng.html" title="The Rng class Powerful Random Number Generator with Keccak (Not thread safe!) ">Rng</a> and <a class="el" href="classfriendcrypt_1_1_mix_with_keccak.html#a603a965e047c305075a70bb2fba1c02f" title="mix Fisher–Yates shuffle for FriendCrypt ">MixWithKeccak.mix()</a>  <a href="#a2b2dd75ffb0be6d0d0a92ba95bc2e044">More...</a><br /></td></tr>
 <tr class="separator:a2b2dd75ffb0be6d0d0a92ba95bc2e044"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afe569a869fb41e611b7140562ec8f346"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfriendcrypt_1_1_crypt_with_keccak.html#afe569a869fb41e611b7140562ec8f346">decrypt</a> (const uint8_t *dataIn, uint8_t *dataOut, long len)</td></tr>
-<tr class="memdesc:afe569a869fb41e611b7140562ec8f346"><td class="mdescLeft">&#160;</td><td class="mdescRight">decrypt Decrypt with <a class="el" href="classfriendcrypt_1_1_keccak.html" title="The Keccak class Keccak C++ implementation with update() ">Keccak</a> and reverseMix()  <a href="#afe569a869fb41e611b7140562ec8f346">More...</a><br /></td></tr>
+<tr class="memdesc:afe569a869fb41e611b7140562ec8f346"><td class="mdescLeft">&#160;</td><td class="mdescRight">decrypt Decrypt with <a class="el" href="classfriendcrypt_1_1_rng.html" title="The Rng class Powerful Random Number Generator with Keccak (Not thread safe!) ">Rng</a> and <a class="el" href="classfriendcrypt_1_1_mix_with_keccak.html#ace6beca2aee7a059c415308eff8deb48" title="reverseMix Fisher–Yates reverse shuffle for FriendCrypt ">MixWithKeccak.reverseMix()</a>  <a href="#afe569a869fb41e611b7140562ec8f346">More...</a><br /></td></tr>
 <tr class="separator:afe569a869fb41e611b7140562ec8f346"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af80ec16c92fdc4e247ab828ce8dfbbe3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfriendcrypt_1_1_crypt_with_keccak.html#af80ec16c92fdc4e247ab828ce8dfbbe3">encryptCrazy</a> (const uint8_t *dataIn, uint8_t *dataOut, long len)</td></tr>
-<tr class="memdesc:af80ec16c92fdc4e247ab828ce8dfbbe3"><td class="mdescLeft">&#160;</td><td class="mdescRight">encrypt Encrypt with <a class="el" href="classfriendcrypt_1_1_keccak.html" title="The Keccak class Keccak C++ implementation with update() ">Keccak</a> and crazyMix()  <a href="#af80ec16c92fdc4e247ab828ce8dfbbe3">More...</a><br /></td></tr>
+<tr class="memdesc:af80ec16c92fdc4e247ab828ce8dfbbe3"><td class="mdescLeft">&#160;</td><td class="mdescRight">encrypt Encrypt with <a class="el" href="classfriendcrypt_1_1_rng.html" title="The Rng class Powerful Random Number Generator with Keccak (Not thread safe!) ">Rng</a> and <a class="el" href="classfriendcrypt_1_1_mix_with_keccak.html#abac3f60972e1bf91ceeae6d263699e08" title="crazyMix Poweful mix, this method use mix() with random times ">MixWithKeccak.crazyMix()</a>  <a href="#af80ec16c92fdc4e247ab828ce8dfbbe3">More...</a><br /></td></tr>
 <tr class="separator:af80ec16c92fdc4e247ab828ce8dfbbe3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad0fdecfea129ee2eabf25cefabf0c7db"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfriendcrypt_1_1_crypt_with_keccak.html#ad0fdecfea129ee2eabf25cefabf0c7db">decryptCrazy</a> (const uint8_t *dataIn, uint8_t *dataOut, long len)</td></tr>
-<tr class="memdesc:ad0fdecfea129ee2eabf25cefabf0c7db"><td class="mdescLeft">&#160;</td><td class="mdescRight">decrypt Decrypt with <a class="el" href="classfriendcrypt_1_1_keccak.html" title="The Keccak class Keccak C++ implementation with update() ">Keccak</a> and reverseCrazyMix()  <a href="#ad0fdecfea129ee2eabf25cefabf0c7db">More...</a><br /></td></tr>
+<tr class="memdesc:ad0fdecfea129ee2eabf25cefabf0c7db"><td class="mdescLeft">&#160;</td><td class="mdescRight">decrypt Decrypt with <a class="el" href="classfriendcrypt_1_1_rng.html" title="The Rng class Powerful Random Number Generator with Keccak (Not thread safe!) ">Rng</a> and <a class="el" href="classfriendcrypt_1_1_mix_with_keccak.html#a080897e95baf000b10765be82bcf697a" title="crazyMix Poweful reverse mix, this method use reverseMix() with random times ">MixWithKeccak.reverseCrazyMix()</a>  <a href="#ad0fdecfea129ee2eabf25cefabf0c7db">More...</a><br /></td></tr>
 <tr class="separator:ad0fdecfea129ee2eabf25cefabf0c7db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae57948af03c6a78573ca777ebaae2aeb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae57948af03c6a78573ca777ebaae2aeb"></a>
+virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfriendcrypt_1_1_crypt_with_keccak.html#ae57948af03c6a78573ca777ebaae2aeb">~CryptWithKeccak</a> ()</td></tr>
+<tr class="memdesc:ae57948af03c6a78573ca777ebaae2aeb"><td class="mdescLeft">&#160;</td><td class="mdescRight">~CryptWithKeccak delete iv_ <br /></td></tr>
+<tr class="separator:ae57948af03c6a78573ca777ebaae2aeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeab9bcd77ecfd5c2dbf70cb7bb240be6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aeab9bcd77ecfd5c2dbf70cb7bb240be6"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>CryptWithKeccak</b> (const <a class="el" href="classfriendcrypt_1_1_crypt_with_keccak.html">CryptWithKeccak</a> &amp;other)=delete</td></tr>
 <tr class="separator:aeab9bcd77ecfd5c2dbf70cb7bb240be6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -146,11 +149,22 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5f0dd7b1e3420e1016cfc3b4ce815cdb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5f0dd7b1e3420e1016cfc3b4ce815cdb"></a>
 <a class="el" href="classfriendcrypt_1_1_crypt_with_keccak.html">CryptWithKeccak</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classfriendcrypt_1_1_crypt_with_keccak.html">CryptWithKeccak</a> &amp;&amp;other)=delete</td></tr>
 <tr class="separator:a5f0dd7b1e3420e1016cfc3b4ce815cdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:af1e6ee8e2d430a23a6bce23330815f63"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af1e6ee8e2d430a23a6bce23330815f63"></a>
+const long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfriendcrypt_1_1_crypt_with_keccak.html#af1e6ee8e2d430a23a6bce23330815f63">kMdLen</a></td></tr>
+<tr class="memdesc:af1e6ee8e2d430a23a6bce23330815f63"><td class="mdescLeft">&#160;</td><td class="mdescRight">kMdLen Message digest byte length <br /></td></tr>
+<tr class="separator:af1e6ee8e2d430a23a6bce23330815f63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a8a24fa1125e2cb20b295a64a2520d8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5a8a24fa1125e2cb20b295a64a2520d8"></a>
+const long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfriendcrypt_1_1_crypt_with_keccak.html#a5a8a24fa1125e2cb20b295a64a2520d8">kMdBitLen</a></td></tr>
+<tr class="memdesc:a5a8a24fa1125e2cb20b295a64a2520d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">kMdBitLen Message digest bit length <br /></td></tr>
+<tr class="separator:a5a8a24fa1125e2cb20b295a64a2520d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The <a class="el" href="classfriendcrypt_1_1_crypt_with_keccak.html" title="The CryptWithKeccak class Encrypt and decrypt. ">CryptWithKeccak</a> class Encrypt and decrypt. </p>
+<div class="textblock"><p>The <a class="el" href="classfriendcrypt_1_1_crypt_with_keccak.html" title="The CryptWithKeccak class Encrypt and decrypt with powerful Rng and MixWithKeccak &quot;Unlimited&quot; key and...">CryptWithKeccak</a> class Encrypt and decrypt with powerful <a class="el" href="classfriendcrypt_1_1_rng.html" title="The Rng class Powerful Random Number Generator with Keccak (Not thread safe!) ">Rng</a> and <a class="el" href="classfriendcrypt_1_1_mix_with_keccak.html" title="The MixerWithKeccak class Fisher–Yates shuffle for CryptWithKeccak with Rng (Not thread safe!) ...">MixWithKeccak</a> "Unlimited" key and IV size (&gt;=128) Working level: 224 bit, 256 bit, 384 bit and 512 bit (Not thread safe!) </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="accec0784df6eee0956deb155a182cb65"></a>
+<a class="anchor" id="a8c87cec1b66a825b209bda31ebca1eee"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -161,7 +175,7 @@ Public Member Functions</h2></td></tr>
           <td class="memname">friendcrypt::CryptWithKeccak::CryptWithKeccak </td>
           <td>(</td>
           <td class="paramtype">long&#160;</td>
-          <td class="paramname"><em>blockBitSize</em></td><td>)</td>
+          <td class="paramname"><em>bitLen</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -172,10 +186,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="classfriendcrypt_1_1_crypt_with_keccak.html" title="The CryptWithKeccak class Encrypt and decrypt. ">CryptWithKeccak</a> Initalisation. </p>
+<p><a class="el" href="classfriendcrypt_1_1_crypt_with_keccak.html" title="The CryptWithKeccak class Encrypt and decrypt with powerful Rng and MixWithKeccak &quot;Unlimited&quot; key and...">CryptWithKeccak</a> Create Initialization Vector with <a class="el" href="classfriendcrypt_1_1_rng.html#adb6d5f68b9cdf78970249b3390d1c638" title="reSeed Create new seed with last seed (the last seed is unkown if init() isn&#39;t called) ...">Rng.reSeed()</a> and time(NULL) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">blockSize</td><td>Bit size of block 224, 256, 384, 512 bit </td></tr>
+    <tr><td class="paramname">bitLen</td><td>Bit size of <a class="el" href="classfriendcrypt_1_1_keccak.html" title="The Keccak class (SHA-3) Keccak C++ implementation with update() (Not thread safe!) ...">Keccak</a>: 224, 256, 384, 512 bit </td></tr>
   </table>
   </dd>
 </dl>
@@ -189,42 +203,6 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="af5ecee56aad0ae8e7c9bdd24a4e3d99b"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool friendcrypt::CryptWithKeccak::createIV </td>
-          <td>(</td>
-          <td class="paramtype">const uint8_t *&#160;</td>
-          <td class="paramname"><em>salt</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">long&#160;</td>
-          <td class="paramname"><em>len</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>createIV Generate random Initialization Vector with Rng() and time(NULL) </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">salt</td><td>Salt </td></tr>
-    <tr><td class="paramname">len</td><td>Length </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if success, false if salt is nullptr or len == 0 </dd></dl>
-
-</div>
-</div>
 <a class="anchor" id="afe569a869fb41e611b7140562ec8f346"></a>
 <div class="memitem">
 <div class="memproto">
@@ -255,7 +233,15 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>decrypt Decrypt with <a class="el" href="classfriendcrypt_1_1_keccak.html" title="The Keccak class Keccak C++ implementation with update() ">Keccak</a> and reverseMix() </p>
+<p>decrypt Decrypt with <a class="el" href="classfriendcrypt_1_1_rng.html" title="The Rng class Powerful Random Number Generator with Keccak (Not thread safe!) ">Rng</a> and <a class="el" href="classfriendcrypt_1_1_mix_with_keccak.html#ace6beca2aee7a059c415308eff8deb48" title="reverseMix Fisher–Yates reverse shuffle for FriendCrypt ">MixWithKeccak.reverseMix()</a> </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dataIn</td><td>Input data </td></tr>
+    <tr><td class="paramname">dataOut</td><td>Output data </td></tr>
+    <tr><td class="paramname">len</td><td>data length </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>true if success </dd></dl>
 
 </div>
@@ -290,7 +276,15 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>decrypt Decrypt with <a class="el" href="classfriendcrypt_1_1_keccak.html" title="The Keccak class Keccak C++ implementation with update() ">Keccak</a> and reverseCrazyMix() </p>
+<p>decrypt Decrypt with <a class="el" href="classfriendcrypt_1_1_rng.html" title="The Rng class Powerful Random Number Generator with Keccak (Not thread safe!) ">Rng</a> and <a class="el" href="classfriendcrypt_1_1_mix_with_keccak.html#a080897e95baf000b10765be82bcf697a" title="crazyMix Poweful reverse mix, this method use reverseMix() with random times ">MixWithKeccak.reverseCrazyMix()</a> </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dataIn</td><td>Input data </td></tr>
+    <tr><td class="paramname">dataOut</td><td>Output data </td></tr>
+    <tr><td class="paramname">len</td><td>data length </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>true if success </dd></dl>
 
 </div>
@@ -325,7 +319,15 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>encrypt Encrypt with <a class="el" href="classfriendcrypt_1_1_keccak.html" title="The Keccak class Keccak C++ implementation with update() ">Keccak</a> and mix() </p>
+<p>encrypt Encrypt with <a class="el" href="classfriendcrypt_1_1_rng.html" title="The Rng class Powerful Random Number Generator with Keccak (Not thread safe!) ">Rng</a> and <a class="el" href="classfriendcrypt_1_1_mix_with_keccak.html#a603a965e047c305075a70bb2fba1c02f" title="mix Fisher–Yates shuffle for FriendCrypt ">MixWithKeccak.mix()</a> </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dataIn</td><td>Input data </td></tr>
+    <tr><td class="paramname">dataOut</td><td>Output data </td></tr>
+    <tr><td class="paramname">len</td><td>data length </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>true if success </dd></dl>
 
 </div>
@@ -360,7 +362,15 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>encrypt Encrypt with <a class="el" href="classfriendcrypt_1_1_keccak.html" title="The Keccak class Keccak C++ implementation with update() ">Keccak</a> and crazyMix() </p>
+<p>encrypt Encrypt with <a class="el" href="classfriendcrypt_1_1_rng.html" title="The Rng class Powerful Random Number Generator with Keccak (Not thread safe!) ">Rng</a> and <a class="el" href="classfriendcrypt_1_1_mix_with_keccak.html#abac3f60972e1bf91ceeae6d263699e08" title="crazyMix Poweful mix, this method use mix() with random times ">MixWithKeccak.crazyMix()</a> </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dataIn</td><td>Input data </td></tr>
+    <tr><td class="paramname">dataOut</td><td>Output data </td></tr>
+    <tr><td class="paramname">len</td><td>data length </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>true if success </dd></dl>
 
 </div>
@@ -471,48 +481,12 @@ Public Member Functions</h2></td></tr>
 <p>setKey (copy) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">pass</td><td>Key </td></tr>
+    <tr><td class="paramname">key</td><td>Key </td></tr>
     <tr><td class="paramname">len</td><td>Key length (min: 16) </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if pass is copied </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="aa8dee01cf579accff4b15f8fb84c0f65"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool friendcrypt::CryptWithKeccak::setSalt </td>
-          <td>(</td>
-          <td class="paramtype">const uint8_t *&#160;</td>
-          <td class="paramname"><em>salt</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">long&#160;</td>
-          <td class="paramname"><em>len</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>setSalt (copy) </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">salt</td><td>Salt </td></tr>
-    <tr><td class="paramname">len</td><td>Salt length (min: 16) </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if salt is copied </dd></dl>
 
 </div>
 </div>
