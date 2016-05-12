@@ -8,38 +8,71 @@ namespace friendcrypt{
 
 /**
  * @brief The MixerWithKeccak class
- * Fisher–Yates shuffle for FriendCrypt
+ * Fisher–Yates shuffle for CryptWithKeccak with Rng
+ * (Not thread safe!)
  */
 class MixWithKeccak{
-    static const long kDigestLen = 64;
-    static const long kDigestBitLen = kDigestLen*8;
-    static const uint8_t kMaxCrazy = 24;
-    static const uint8_t kMinCrazy = 12;
-    uint8_t temp_[kDigestLen];
-    long listTemp_[kDigestLen];
+    uint8_t *temp_;
+    long *listTemp_;
     const uint8_t *key_;
     long keyLen_;
     const uint8_t *iv_;
     long ivLen_;
-    const uint8_t* salt_;
-    long saltLen_;
     Keccak hash_;
-    void listMix(uint8_t* tempIn, uint8_t* dataOut, long len, Rng &rng);
-    void listReverseMix(uint8_t* tempIn, uint8_t* dataOut, long len, Rng &rng);
+    Rng rng_;
+    bool init_;
+    void listMix(uint8_t* tempIn, uint8_t* dataOut, uint8_t len);
+    void listReverseMix(uint8_t* tempIn, uint8_t* dataOut, uint8_t len);
 public:
+    /**
+     * @brief kMdLen
+     * Message digest byte length
+     */
+    const long kMdLen;
+
+    /**
+     * @brief kMdBitLen
+     * Message digest bit length
+     */
+    const long kMdBitLen;
+
+    /**
+     * @brief kMaxCrazy
+     * Maximum random times for crazy mix
+     */
+    static const uint8_t kMaxCrazy = 24;
+
+    /**
+     * @brief kMinCrazy
+     * Minimum random times for crazy mix
+     */
+    static const uint8_t kMinCrazy = 12;
 
     /**
      * @brief MixWithKeccak
-     * Initialization
+     * Fisher–Yates shuffle for CryptWithKeccak with Rng
+     * @param bitLen Bit size of Keccak: 224, 256, 384, 512 bit
+     * @throw invalidArgsException if bitLen is incorrect
+     */
+    explicit MixWithKeccak(long bitLen);
+
+    /**
+     * @brief init
+     * Initialization/reset
      * @param key Key (address will be copied)
      * @param keyLen Key length (>0)
      * @param iv Initialization Vector (address will be copied)
      * @param ivLen Initialization Vector length (>0)
-     * @param salt Salt (address will be copied)
-     * @param saltLen Salt length (>0)
-     * @throw invalidArgsException if args are incorrect
+     * @return false if args are incorrect
      */
-    explicit MixWithKeccak(const uint8_t* key, long keyLen, const uint8_t* iv, long ivLen, const uint8_t* salt, long saltLen);
+    bool init(const uint8_t* key, long keyLen, const uint8_t* iv, long ivLen);
+
+    /**
+     * @brief isInited
+     * Mix initialization check
+     * @return true if init() is called
+     */
+    bool isInited();
 
     /**
      * @brief mix
@@ -65,7 +98,7 @@ public:
 
     /**
      * @brief crazyMix
-     * This method use mix() with random times
+     * Poweful mix, this method use mix() with random times
      * @param dataIn Input data (will be changed)
      * @param dataOut Output data
      * @param len Data length
@@ -75,7 +108,7 @@ public:
 
     /**
      * @brief crazyMix
-     * This method use reverseMix() with random times
+     * Poweful reverse mix, this method use reverseMix() with random times
      * @param dataIn Input data (will be changed)
      * @param dataOut Output data
      * @param len Data length
@@ -83,6 +116,10 @@ public:
      */
     bool reverseCrazyMix(const uint8_t* dataIn, uint8_t* dataOut, long len);
 
+    /**
+     * @brief ~MixWithKeccak
+     * Delete *temp_, *listTemp_
+     */
     virtual ~MixWithKeccak();
 
     //disabled
@@ -101,7 +138,7 @@ public:
  * @param bmax Maximum block size (>0)
  * @return block size
  */
-long calcBlockSize(uint32_t x, long bmax);
+uint8_t calcBlockSize(uint8_t x, uint8_t bmax);
 
 /**
  * @brief calcConvert
@@ -122,7 +159,7 @@ long calcConvert(long x, double xmax, long min, long max);
  * @param max Maximum number (>=1)
  * @return A number; interval: [min, max[
  */
-long calcCrazy(uint32_t x, uint8_t min, uint8_t max);
+uint8_t calcCrazy(uint8_t x, uint8_t min, uint8_t max);
 
 }//namespace
 #endif // FRIENDCRYPTMIXER_H

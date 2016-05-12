@@ -2,6 +2,7 @@
 #define CRYPT_H
 #include <cstdint>
 #include "fcrng.h"
+#include "fcmixer.h"
 
 namespace friendcrypt{
 
@@ -12,20 +13,11 @@ namespace friendcrypt{
 class CWKData{
     friend class CryptWithKeccak;
 private:
-    explicit CWKData(long blockLen);
+    explicit CWKData();
     uint8_t *key_;
     long keyLen_;
     long keyMaxLen_;
-    uint8_t *salt_;
-    long saltLen_;
-    long saltMaxLen_;
 public:
-    /**
-     * @brief kBlockSize
-     * Actual block size
-     */
-    const long kBlockSize;
-
     /**
      * @brief kMinLen
      * Minimum reguest length (128 bit)
@@ -41,26 +33,22 @@ public:
      */
     bool setKey(const uint8_t *key, long len);
 
-    /**
-     * @brief setSalt
-     * (copy)
-     * @param salt Salt
-     * @param len Salt length (min: kMinLen)
-     * @return true if salt is copied
-     */
-    bool setSalt(const uint8_t *salt, long len);
-
     ~CWKData();
 };
 
 
 /**
  * @brief The CryptWithKeccak class
- * Encrypt and decrypt
+ * Encrypt and decrypt with powerful Rng and MixWithKeccak
+ * "Unlimited" key and IV size (>=128)
+ * Working level: 224 bit, 256 bit, 384 bit and 512 bit
+ * (Not thread safe!)
  */
 class CryptWithKeccak{
     CWKData helper_;
-    Rng *rng_;
+    Rng rng_;
+    Rng ivRng_;
+    MixWithKeccak mixer_;
     uint8_t *iv_;
     long ivLen_;
     long ivMaxLen_;
@@ -69,21 +57,30 @@ class CryptWithKeccak{
     bool decode(const uint8_t *dataIn, uint8_t *dataOut, long len);
 public:
     /**
+     * @brief kMdLen
+     * Message digest byte length
+     */
+    const long kMdLen;
+
+    /**
+     * @brief kMdBitLen
+     * Message digest bit length
+     */
+    const long kMdBitLen;
+
+    /**
      * @brief CryptWithKeccak
-     * Initalisation
-     * @param blockSize Bit size of block 224, 256, 384, 512 bit
+     * Create Initialization Vector with Rng.reSeed() and time(NULL)
+     * @param bitLen Bit size of Keccak: 224, 256, 384, 512 bit
      * @throw invalidArgsException if blockSize is incorrect
      */
-    explicit CryptWithKeccak(long blockBitSize);
+    explicit CryptWithKeccak(long bitLen);
 
     /**
      * @brief createIV
-     * Generate random Initialization Vector with Rng() and time(NULL)
-     * @param salt Salt
-     * @param len Length
-     * @return true if success, false if salt is nullptr or len == 0
+     * Generate random Initialization Vector with Rng
      */
-    bool createIV(const uint8_t *salt, long len);
+    void createIV();
 
     /**
      * @brief getIVLen
@@ -112,49 +109,56 @@ public:
     /**
      * @brief setKey
      * (copy)
-     * @param pass Key
+     * @param key Key
      * @param len Key length (min: 16)
      * @return true if pass is copied
      */
     bool setKey(const uint8_t *key, long len);
 
     /**
-     * @brief setSalt
-     * (copy)
-     * @param salt Salt
-     * @param len Salt length (min: 16)
-     * @return true if salt is copied
-     */
-    bool setSalt(const uint8_t *salt, long len);
-
-    /**
      * @brief encrypt
-     * Encrypt with Keccak and mix()
+     * Encrypt with Rng and MixWithKeccak.mix()
+     * @param dataIn Input data
+     * @param dataOut Output data
+     * @param len data length
      * @return true if success
      */
     bool encrypt(const uint8_t *dataIn, uint8_t *dataOut, long len);
 
     /**
      * @brief decrypt
-     * Decrypt with Keccak and reverseMix()
+     * Decrypt with Rng and MixWithKeccak.reverseMix()
+     * @param dataIn Input data
+     * @param dataOut Output data
+     * @param len data length
      * @return true if success
      */
     bool decrypt(const uint8_t *dataIn, uint8_t *dataOut, long len);
 
     /**
      * @brief encrypt
-     * Encrypt with Keccak and crazyMix()
+     * Encrypt with Rng and MixWithKeccak.crazyMix()
+     * @param dataIn Input data
+     * @param dataOut Output data
+     * @param len data length
      * @return true if success
      */
     bool encryptCrazy(const uint8_t *dataIn, uint8_t *dataOut, long len);
 
     /**
      * @brief decrypt
-     * Decrypt with Keccak and reverseCrazyMix()
+     * Decrypt with Rng and MixWithKeccak.reverseCrazyMix()
+     * @param dataIn Input data
+     * @param dataOut Output data
+     * @param len data length
      * @return true if success
      */
     bool decryptCrazy(const uint8_t *dataIn, uint8_t *dataOut, long len);
 
+    /**
+     * @brief ~CryptWithKeccak
+     * delete iv_
+     */
     virtual ~CryptWithKeccak();
 
     //disabled

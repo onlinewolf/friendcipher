@@ -25,16 +25,13 @@ namespace friendcrypt{
 FriendCryptException defaultException;
 FriendCryptException invalidArgsException(1);
 
-FriendCryptException::FriendCryptException(){
-    what_ = 0;
+FriendCryptException::FriendCryptException():what_(0){
 }
 
-FriendCryptException::FriendCryptException(int what){
-    what_ = what;
+FriendCryptException::FriendCryptException(int what):what_(what){
 }
 
-FriendCryptException::FriendCryptException(const FriendCryptException& other){
-    what_ = other.what_;
+FriendCryptException::FriendCryptException(const FriendCryptException &other):what_(other.what_){
 }
 
 bool operator==(const FriendCryptException& lhs, const FriendCryptException& rhs){

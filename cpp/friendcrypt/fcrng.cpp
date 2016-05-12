@@ -1,12 +1,21 @@
 #include "fcrng.h"
 #include "fcexception.h"
-#include "fckeccak.h"
+#include "cstring"
 
 namespace friendcrypt{
 
-Rng::Rng(const uint8_t *seed, long seedLen, const uint8_t *salt, long saltLen): hash_(kMdBitLen){
-    if(!seed || seedLen <= 0)
+Rng::Rng(long bitLen): kMdBitLen(bitLen), kMdLen(bitLen/8), hash_(bitLen){
+    if(!keccakBitLenCheck(bitLen))
         throw invalidArgsException;
+
+    seed_ = new uint8_t[kMdLen];
+    randMd_ = new uint8_t[kMdLen];
+    init_ = false;
+}
+
+bool Rng::init(const uint8_t *seed, long seedLen, const uint8_t *salt, long saltLen){
+    if(!seed || seedLen <= 0)
+        return false;
 
     hash_.update(seed, seedLen);
 
@@ -18,12 +27,19 @@ Rng::Rng(const uint8_t *seed, long seedLen, const uint8_t *salt, long saltLen): 
     hash_.update(seed_, kMdLen);
     hash_.update(seed_, kMdLen);
     hash_.finish(randMd_);
+    init_ = true;
     p_ = 0;
+
+    return true;
 }
 
-void Rng::reSeed(const uint8_t *seed, long seedLen){
+bool Rng::isInited(){
+    return init_;
+}
+
+bool Rng::reSeed(const uint8_t *seed, long seedLen){
     if(!seed || seedLen <= 0)
-        throw invalidArgsException;
+        return false;
 
     hash_.update(seed_, kMdLen);
     hash_.update(seed, seedLen);
@@ -32,9 +48,16 @@ void Rng::reSeed(const uint8_t *seed, long seedLen){
     hash_.update(seed_, kMdLen);
     hash_.update(seed_, kMdLen);
     hash_.finish(randMd_);
+    init_ = true;
+    p_ = 0;
+
+    return true;
 }
 
 uint8_t Rng::random8bit(){
+    if(!init_)
+        return 0;
+
     if(p_ >= kMdLen){
         hash_.update(randMd_, kMdLen);
         hash_.update(seed_, kMdLen);
@@ -47,12 +70,20 @@ uint8_t Rng::random8bit(){
 }
 
 uint32_t Rng::random32bit(){
+    if(!init_)
+        return 0;
+
     uint32_t temp;
     uint8_t * t = (uint8_t *)&temp;
     for(int i=0; i<4; i++)
         t[i] = random8bit();
 
     return temp;
+}
+
+Rng::~Rng(){
+    delete[] seed_;
+    delete[] randMd_;
 }
 
 }//namespace

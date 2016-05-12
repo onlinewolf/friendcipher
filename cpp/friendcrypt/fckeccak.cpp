@@ -26,7 +26,6 @@ namespace friendcrypt{
 extern "C"{
 //original: https://github.com/gvanas/KeccakCodePackage/blob/master/Standalone/CompactFIPS202/Keccak-readable-and-compact.c
 //licence: http://creativecommons.org/publicdomain/zero/1.0/
-#include "string.h"
 
 #ifndef LITTLE_ENDIAN
 static uint64_t load64(const uint8_t *x){
@@ -133,9 +132,17 @@ void KeccakF1600_StatePermute(void *state){
 
 }//extern C
 
+//"static method"
+bool keccakBitLenCheck(long bitLen){
+    return bitLen == 224 || bitLen == 256 || bitLen == 384 || bitLen == 512;
+}
 
-Keccak::Keccak(long mdBitLen){
-    switch (mdBitLen) {
+//class
+Keccak::Keccak(long bitLen):kMdBitLen_(bitLen), kMdLen_(bitLen/8){
+    if(!keccakBitLenCheck(bitLen))
+        throw invalidArgsException;
+
+    switch(bitLen){
         case 224:
             rateInBytes_ = 144;
         break;
@@ -153,10 +160,8 @@ Keccak::Keccak(long mdBitLen){
         break;
 
         default:
-            throw invalidArgsException;
         break;
     }
-    mdLen_ = mdBitLen / 8;
     forUpdate_ = new uint8_t[rateInBytes_];
     reset();
 }
@@ -202,13 +207,12 @@ void Keccak::finish(uint8_t *out){
         KeccakF1600_StatePermute(state_);
     }
 
-    memcpy(out, state_, mdLen_);
+    memcpy(out, state_, kMdLen_);
     reset();
 }
 
 Keccak::~Keccak(){
     delete[] forUpdate_;
 }
-
 
 }//namesapce

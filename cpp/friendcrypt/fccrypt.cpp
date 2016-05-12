@@ -24,19 +24,19 @@ URL: https://github.com/onlinewolf/friendcrypt
 #include <ctime>
 #include "fccrypt.h"
 #include "fcexception.h"
-#include "fcmixer.h"
 #include "fckeccak.h"
 
 namespace friendcrypt{
 
 //class
-CryptWithKeccak::CryptWithKeccak(long blockBitSize): helper_(blockBitSize/8){
-    if(blockBitSize != 224 && blockBitSize != 256 && blockBitSize != 384 && blockBitSize != 512)
+CryptWithKeccak::CryptWithKeccak(long bitLen):
+        kMdLen(bitLen/8), kMdBitLen(bitLen), mixer_(bitLen), rng_(bitLen), ivRng_(bitLen){
+    if(!keccakBitLenCheck(bitLen))
         throw invalidArgsException;
 
     iv_ = nullptr;
     uint32_t temp = static_cast<uint32_t>(time(NULL));
-    rng_ = new Rng((uint8_t*)&temp, 4, nullptr, 0);
+    ivRng_.reSeed((uint8_t*)&temp, 4);
 }
 
 void CryptWithKeccak::ivCheck(long len){
@@ -53,19 +53,12 @@ void CryptWithKeccak::ivCheck(long len){
     }
 }
 
-bool CryptWithKeccak::createIV(const uint8_t *salt, long len){
-    if(!salt || len <= 0)
-        return false;
+void CryptWithKeccak::createIV(){
+    ivCheck(kMdLen);
+    ivLen_ = kMdLen;
 
-    ivCheck(helper_.kBlockSize);
-    ivLen_ = helper_.kBlockSize;
-
-    rng_->reSeed(salt, len);
-
-    for(long i=0; i<helper_.kBlockSize; i++)
-        iv_[i] = rng_->random8bit();
-
-    return true;
+    for(long i=0; i<kMdLen; i++)
+        iv_[i] = ivRng_.random8bit();
 }
 
 long CryptWithKeccak::getIVLen(){
@@ -98,26 +91,17 @@ bool CryptWithKeccak::setKey(const uint8_t *key, long len){
     return helper_.setKey(key, len);
 }
 
-bool CryptWithKeccak::setSalt(const uint8_t *salt, long len){
-    return helper_.setSalt(salt, len);
-}
-
 
 bool CryptWithKeccak::encode(const uint8_t *dataIn, uint8_t *dataOut, long len){
     if(!dataIn || !dataOut || len <= 0)
         return false;
 
-    if(!iv_ || !helper_.key_ || !helper_.salt_)
+    if(!iv_ || !helper_.key_)
         return false;
 
-    try{
-        Rng rng(helper_.key_, helper_.keyLen_, helper_.salt_, helper_.saltLen_);
-        rng.reSeed(iv_, ivLen_);
+        rng_.init(iv_, ivLen_, helper_.key_, helper_.keyLen_);
         for(long i=0; i<len; i++)
-            dataOut[i] = dataIn[i] ^ rng.random8bit();
-    }catch(FriendCryptException &e){
-        return false;
-    }
+            dataOut[i] = dataIn[i] ^ rng_.random8bit();
 
     return true;
 }
@@ -131,19 +115,17 @@ bool CryptWithKeccak::encrypt(const uint8_t *dataIn, uint8_t *dataOut, long len)
     if(!dataIn || !dataOut || len <= 0)
         return false;
 
-    if(!iv_ || !helper_.key_ || !helper_.salt_)
+    if(!iv_ || !helper_.key_)
         return false;
 
     if(!encode(dataIn, dataOut, len))
         return false;
 
-    try{
-        MixWithKeccak mixer(helper_.key_, helper_.keyLen_, iv_, ivLen_, helper_.salt_, helper_.saltLen_);
-        if(!mixer.mix(dataOut, dataOut, len, 0))
-            return false;
-    }catch(FriendCryptException &e){
+    mixer_.init(helper_.key_, helper_.keyLen_, iv_, ivLen_);
+
+    if(!mixer_.mix(dataOut, dataOut, len, 0))
         return false;
-    }
+
 
     return true;
 }
@@ -153,16 +135,13 @@ bool CryptWithKeccak::decrypt(const uint8_t *dataIn, uint8_t *dataOut, long len)
     if(!dataIn || !dataOut || len <= 0)
         return false;
 
-    if(!iv_ || !helper_.key_ || !helper_.salt_)
+    if(!iv_ || !helper_.key_)
         return false;
 
-    try{
-        MixWithKeccak mixer(helper_.key_, helper_.keyLen_, iv_, ivLen_, helper_.salt_, helper_.saltLen_);
-        if(!mixer.reverseMix(dataIn, dataOut, len, 0))
-            return false;
-    }catch(FriendCryptException &e){
+    mixer_.init(helper_.key_, helper_.keyLen_, iv_, ivLen_);
+
+    if(!mixer_.reverseMix(dataIn, dataOut, len, 0))
         return false;
-    }
 
     if(!decode(dataOut, dataOut, len))
         return false;
@@ -175,19 +154,16 @@ bool CryptWithKeccak::encryptCrazy(const uint8_t *dataIn, uint8_t *dataOut, long
     if(!dataIn || !dataOut || len <= 0)
         return false;
 
-    if(!iv_ || !helper_.key_ || !helper_.salt_)
+    if(!iv_ || !helper_.key_)
         return false;
 
     if(!encode(dataIn, dataOut, len))
         return false;
 
-    try{
-        MixWithKeccak mixer(helper_.key_, helper_.keyLen_, iv_, ivLen_, helper_.salt_, helper_.saltLen_);
-        if(!mixer.crazyMix(dataOut, dataOut, len))
-            return false;
-    }catch(FriendCryptException &e){
+
+    mixer_.init(helper_.key_, helper_.keyLen_, iv_, ivLen_);
+    if(!mixer_.crazyMix(dataOut, dataOut, len))
         return false;
-    }
 
 
     return true;
@@ -197,16 +173,13 @@ bool CryptWithKeccak::decryptCrazy(const uint8_t *dataIn, uint8_t *dataOut, long
     if(!dataIn || !dataOut || len <= 0)
         return false;
 
-    if(!iv_ || !helper_.key_ || !helper_.salt_)
+    if(!iv_ || !helper_.key_)
         return false;
 
-    try{
-        MixWithKeccak mixer(helper_.key_, helper_.keyLen_, iv_, ivLen_, helper_.salt_, helper_.saltLen_);
-        if(!mixer.reverseCrazyMix(dataIn, dataOut, len))
-            return false;
-    }catch(FriendCryptException &e){
+
+    mixer_.init(helper_.key_, helper_.keyLen_, iv_, ivLen_);
+    if(!mixer_.reverseCrazyMix(dataIn, dataOut, len))
         return false;
-    }
 
     if(!decode(dataOut, dataOut, len))
         return false;
@@ -218,15 +191,13 @@ bool CryptWithKeccak::decryptCrazy(const uint8_t *dataIn, uint8_t *dataOut, long
 CryptWithKeccak::~CryptWithKeccak(){
     if(iv_)
         delete[] iv_;
-    delete rng_;
 }
 
 //"static" method
 
 //class for help
-CWKData::CWKData(long blockLen):kBlockSize(blockLen){
+CWKData::CWKData(){
     key_ = nullptr;
-    salt_ = nullptr;
 }
 
 bool CWKData::setKey(const uint8_t *key, long len){
@@ -247,29 +218,9 @@ bool CWKData::setKey(const uint8_t *key, long len){
     return true;
 }
 
-bool CWKData::setSalt(const uint8_t *salt, long len){
-    if(!salt || len<kMinLen)
-        return false;
-
-    if(!salt_){
-        salt_ = new uint8_t[len];
-        saltMaxLen_ = len;
-    }else if(saltMaxLen_ < len){
-        delete[] salt_;
-        salt_ = new uint8_t[len];
-        saltMaxLen_ = len;
-    }
-
-    std::memcpy(salt_, salt, len);
-    saltLen_ = len;
-    return true;
-}
-
 CWKData::~CWKData(){
     if(key_)
         delete[] key_;
-    if(salt_)
-        delete[] salt_;
 }
 
 

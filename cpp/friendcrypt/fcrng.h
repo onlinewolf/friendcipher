@@ -26,35 +26,61 @@ namespace friendcrypt{
 
 /**
  * @brief The Rng class
- * Random Number Generator with Keccak
+ * Powerful Random Number Generator with Keccak
+ * (Not thread safe!)
  */
 class Rng{
-    static const long kMdLen = 64;
-    static const long kMdBitLen = kMdLen*8;
     Keccak hash_;
-    uint8_t seed_[kMdLen];
-    uint8_t randMd_[kMdLen];
+    uint8_t *seed_;
+    uint8_t *randMd_;
     uint8_t p_;
+    bool init_;
 public:
     /**
+     * @brief kMdLen
+     * Message digest byte length
+     */
+    const long kMdLen;
+    /**
+     * @brief kMdBitLen
+     * Message digest bit length
+     */
+    const long kMdBitLen;
+
+    /**
      * @brief Rng
-     * Initialization with seed (salt is optional)
+     * Random Number Generator with Keccak
+     * @param bitLen Bit size of Keccak: 224, 256, 384, 512 bit
+     * @throw invalidArgsException if bitLen is invalid
+     */
+    explicit Rng(long bitLen);
+
+    /**
+     * @brief init
+     * Initialization/reset with seed (salt is optional)
      * @param seed Seed data
      * @param seedLen Seed data length
      * @param salt Salt (can be nullptr)
      * @param saltLen Salt length (can be 0)
-     * @throw invalidArgsException if seed is nullptr or seedLen is <=0
+     * @return false if seed is nullptr or seedLen is <=0
      */
-    explicit Rng(const uint8_t *seed, long seedLen, const uint8_t *salt, long saltLen);
+    bool init(const uint8_t *seed, long seedLen, const uint8_t *salt, long saltLen);
+
+    /**
+     * @brief isInit
+     * Rng initialization check
+     * @return true if init() is called
+     */
+    bool isInited();
 
     /**
      * @brief reSeed
-     * Create new seed with last seed
+     * Create new seed with last seed (the last seed is unkown if init() isn't called)
      * @param seed New seed
      * @param seedLen New seed length
-     * @throw invalidArgsException if seed is nullptr or seedLen is <=0
+     * @return false if seed is nullptr or seedLen is <=0
      */
-    void reSeed(const uint8_t *seed, long seedLen);
+    bool reSeed(const uint8_t *seed, long seedLen);
 
     /**
      * @brief random8bit
@@ -69,6 +95,12 @@ public:
      * @return random number
      */
     uint32_t random32bit();
+
+    /**
+     * @brief ~Rng
+     * Delete *seed_, *randMd_
+     */
+    virtual ~Rng();
 
     //disabled
     Rng(const Rng& other)=delete;

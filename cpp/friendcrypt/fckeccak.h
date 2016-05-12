@@ -9,7 +9,8 @@ namespace friendcrypt{
 
 /**
  * @brief The Keccak class
- * Keccak C++ implementation with update()
+ * (SHA-3) Keccak C++ implementation with update()
+ * (Not thread safe!)
  */
 class Keccak{
     uint8_t state_[200];
@@ -17,16 +18,27 @@ class Keccak{
     static const uint8_t kDelimitedSuffix_ = 0x06;
     uint8_t* forUpdate_;
     long updatePos_;
-    long mdLen_;
     void reset();
 public:
     /**
+     * @brief kMdLen_
+     * Message digest byte length
+     */
+    const long kMdLen_;
+
+    /**
+     * @brief kMdBitLen_
+     * Message digest bit length
+     */
+    const long kMdBitLen_;
+
+    /**
      * @brief Keccak
      * Message digest bit length: 224, 256, 384, 512
-     * @param mdBitLen Message digest bit length
+     * @param bitLen Message digest bit length
      * @throw invalidArgsException if mdBitLen is incorrect
      */
-    explicit Keccak(long mdBitLen);
+    explicit Keccak(long bitLen);
     /**
      * @brief update
      * Add new data
@@ -54,6 +66,16 @@ public:
     Keccak& operator=(Keccak&& other)=delete;
 };
 
+
+//"static method"
+
+/**
+ * @brief keccakBitLenCheck
+ * Message digest bit length checker
+ * @param bitLen Bit length
+ * @return true if Bit length is right
+ */
+bool keccakBitLenCheck(long bitLen);
 
 }//namespace
 #endif // FCKECCAK_H

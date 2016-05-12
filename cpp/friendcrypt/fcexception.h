@@ -7,9 +7,10 @@ namespace friendcrypt{
 /**
  * @brief The FriendCryptException class
  * Exception for FriendCrypt
+ * (Thread safe!)
  */
 class FriendCryptException: public std::exception{
-    int what_;
+    const int what_;
 public:
     FriendCryptException();
     explicit FriendCryptException(int what);
@@ -30,18 +31,25 @@ public:
      * @return false if equal
      */
     friend bool operator!=(const FriendCryptException& lhs, const FriendCryptException& rhs);
+
     virtual ~FriendCryptException();
 
+    //disabled
     FriendCryptException(FriendCryptException&& other)=delete;
     FriendCryptException& operator=(const FriendCryptException&)=delete;
     FriendCryptException& operator=(FriendCryptException&& other)=delete;
 
 };
 
+/**
+ * @brief defaultException
+ * Never use!
+ */
 extern FriendCryptException defaultException;
+
 /**
  * @brief invalidArgsException
- * If arguments are wrong.
+ * Use if arguments are wrong.
  */
 extern FriendCryptException invalidArgsException;
 
