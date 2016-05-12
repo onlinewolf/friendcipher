@@ -1,12 +1,10 @@
 var searchData=
 [
   ['keccak',['Keccak',['../classfriendcrypt_1_1_keccak.html',1,'friendcrypt']]],
-  ['keccak',['Keccak',['../classfriendcrypt_1_1_keccak.html#a7dca3e5e812977d398fe19b84632788f',1,'friendcrypt::Keccak']]],
+  ['keccak',['Keccak',['../classfriendcrypt_1_1_keccak.html#a17e2bfe612de332a56f797ae5d61b185',1,'friendcrypt::Keccak']]],
   ['kmaxcrazy',['kMaxCrazy',['../classfriendcrypt_1_1_mix_with_keccak.html#a7cb1b5ec55dfd1963aec38c68c120052',1,'friendcrypt::MixWithKeccak']]],
-  ['kmdbitlen',['kMdBitLen',['../classfriendcrypt_1_1_crypt_with_keccak.html#a5a8a24fa1125e2cb20b295a64a2520d8',1,'friendcrypt::CryptWithKeccak::kMdBitLen()'],['../classfriendcrypt_1_1_mix_with_keccak.html#aa2c7643f36e41ebdb1dfcc139fb3f48e',1,'friendcrypt::MixWithKeccak::kMdBitLen()'],['../classfriendcrypt_1_1_rng.html#adfd0e80fa198e55356fae18cbd56eca6',1,'friendcrypt::Rng::kMdBitLen()']]],
-  ['kmdbitlen_5f',['kMdBitLen_',['../classfriendcrypt_1_1_keccak.html#a2f52581fc87bc3aa9733840a0bdc481d',1,'friendcrypt::Keccak']]],
-  ['kmdlen',['kMdLen',['../classfriendcrypt_1_1_crypt_with_keccak.html#af1e6ee8e2d430a23a6bce23330815f63',1,'friendcrypt::CryptWithKeccak::kMdLen()'],['../classfriendcrypt_1_1_mix_with_keccak.html#a66e63a78cb9c66af08cd0ff24992069c',1,'friendcrypt::MixWithKeccak::kMdLen()'],['../classfriendcrypt_1_1_rng.html#a50d273777527c0ff55b4cce84960b88b',1,'friendcrypt::Rng::kMdLen()']]],
-  ['kmdlen_5f',['kMdLen_',['../classfriendcrypt_1_1_keccak.html#ae60cfd75d6c2b9a0af31308231fb1f97',1,'friendcrypt::Keccak']]],
+  ['kmdbitlen',['kMdBitLen',['../classfriendcrypt_1_1_crypt_with_keccak.html#a1f4bc04cfd9f79b6799628fc90364f0b',1,'friendcrypt::CryptWithKeccak::kMdBitLen()'],['../classfriendcrypt_1_1_keccak.html#a372e1035e3b96223d10a94e1acf992c2',1,'friendcrypt::Keccak::kMdBitLen()'],['../classfriendcrypt_1_1_mix_with_keccak.html#ad3cf615e5a138c670ca685b495acc8c9',1,'friendcrypt::MixWithKeccak::kMdBitLen()'],['../classfriendcrypt_1_1_rng.html#a82ec0795afae4c6da766a1f490ddbdf6',1,'friendcrypt::Rng::kMdBitLen()']]],
+  ['kmdlen',['kMdLen',['../classfriendcrypt_1_1_crypt_with_keccak.html#a73c534cc26b26f5ddb3731a665d96d0f',1,'friendcrypt::CryptWithKeccak::kMdLen()'],['../classfriendcrypt_1_1_keccak.html#a287027a91455d8c15d275c4c0634df05',1,'friendcrypt::Keccak::kMdLen()'],['../classfriendcrypt_1_1_mix_with_keccak.html#a30e94630406a99477f1127a9efa0b63e',1,'friendcrypt::MixWithKeccak::kMdLen()'],['../classfriendcrypt_1_1_rng.html#a7c0b21adb7afd4677317151c9d2ec12f',1,'friendcrypt::Rng::kMdLen()']]],
   ['kmincrazy',['kMinCrazy',['../classfriendcrypt_1_1_mix_with_keccak.html#aa80ef35dfdeaae73c54fac6b7e6bb563',1,'friendcrypt::MixWithKeccak']]],
-  ['kminlen',['kMinLen',['../classfriendcrypt_1_1_c_w_k_data.html#ae8f0ade2f43bff01fe51e722e5f2b53c',1,'friendcrypt::CWKData']]]
+  ['kminlen',['kMinLen',['../classfriendcrypt_1_1_c_w_k_data.html#ace3a56e04aead50cae7e86c9ca7b19eb',1,'friendcrypt::CWKData']]]
 ];
