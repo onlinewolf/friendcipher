@@ -138,7 +138,7 @@ bool keccakBitLenCheck(int bitLen){
 }
 
 //class
-Keccak::Keccak(int bitLen):kMdBitLen_(bitLen), kMdLen_(bitLen/8){
+Keccak::Keccak(int bitLen):kMdBitLen(bitLen), kMdLen(bitLen/8){
     if(!keccakBitLenCheck(bitLen))
         throw invalidArgsException;
 
@@ -207,7 +207,7 @@ void Keccak::finish(uint8_t *out){
         KeccakF1600_StatePermute(state_);
     }
 
-    memcpy(out, state_, kMdLen_);
+    memcpy(out, state_, kMdLen);
     reset();
 }
 

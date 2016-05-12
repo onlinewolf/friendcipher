@@ -21,16 +21,16 @@ class Keccak{
     void reset();
 public:
     /**
-     * @brief kMdLen_
+     * @brief kMdLen
      * Message digest byte length
      */
-    const int kMdLen_;
+    const int kMdLen;
 
     /**
-     * @brief kMdBitLen_
+     * @brief kMdBitLen
      * Message digest bit length
      */
-    const int kMdBitLen_;
+    const int kMdBitLen;
 
     /**
      * @brief Keccak
