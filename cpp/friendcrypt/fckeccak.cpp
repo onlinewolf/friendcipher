@@ -13,7 +13,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+aint with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 URL: https://github.com/onlinewolf/friendcrypt
 */
@@ -133,12 +133,12 @@ void KeccakF1600_StatePermute(void *state){
 }//extern C
 
 //"static method"
-bool keccakBitLenCheck(long bitLen){
+bool keccakBitLenCheck(int bitLen){
     return bitLen == 224 || bitLen == 256 || bitLen == 384 || bitLen == 512;
 }
 
 //class
-Keccak::Keccak(long bitLen):kMdBitLen_(bitLen), kMdLen_(bitLen/8){
+Keccak::Keccak(int bitLen):kMdBitLen_(bitLen), kMdLen_(bitLen/8){
     if(!keccakBitLenCheck(bitLen))
         throw invalidArgsException;
 
@@ -171,7 +171,7 @@ void Keccak::reset(){
     memset(state_, 0, sizeof(state_));
 }
 
-void Keccak::update(const uint8_t *data, long len){
+void Keccak::update(const uint8_t *data, int len){
     if(!data || len <= 0)
         return;
 

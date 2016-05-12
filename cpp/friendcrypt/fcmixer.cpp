@@ -13,30 +13,29 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+aint with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 URL: https://github.com/onlinewolf/friendcrypt
 */
 #include <cmath>
-#include <cstring>
 #include "fcmixer.h"
 #include "fcexception.h"
 
 namespace friendcrypt{
 
 //class
-MixWithKeccak::MixWithKeccak(long bitLen):
+MixWithKeccak::MixWithKeccak(int bitLen):
             rng_(bitLen), hash_(bitLen), key_(nullptr), iv_(nullptr), kMdLen(bitLen/8), kMdBitLen(bitLen){
     if(!keccakBitLenCheck(bitLen))
         throw invalidArgsException;
 
     temp_ = new uint8_t[kMdLen];
-    listTemp_ = new long[kMdLen];
+    listTemp_ = new int[kMdLen];
     init_ = false;
 
 }
 
-bool MixWithKeccak::init(const uint8_t *key, long keyLen, const uint8_t *iv, long ivLen){
+bool MixWithKeccak::init(const uint8_t *key, int keyLen, const uint8_t *iv, int ivLen){
     if(!key || keyLen <= 0 || !iv || ivLen <= 0)
         return false;
 
@@ -53,7 +52,7 @@ bool MixWithKeccak::isInited(){
 }
 
 void MixWithKeccak::listMix(uint8_t* tempIn, uint8_t* dataOut, uint8_t len){
-    if(!tempIn || !dataOut || len<=0)
+    if(!tempIn || !dataOut || len==0)
         return;
 
     uint8_t random;
@@ -65,10 +64,10 @@ void MixWithKeccak::listMix(uint8_t* tempIn, uint8_t* dataOut, uint8_t len){
 }
 
 void MixWithKeccak::listReverseMix(uint8_t* tempIn, uint8_t* dataOut, uint8_t len){
-    if(!tempIn || !dataOut || len<=0)
+    if(!tempIn || !dataOut || len==0)
         return;
 
-    for(long i=0; i<kMdLen; i++)
+    for(int i=0; i<kMdLen; i++)
         listTemp_[i] = i;
 
     uint8_t random;
@@ -80,7 +79,7 @@ void MixWithKeccak::listReverseMix(uint8_t* tempIn, uint8_t* dataOut, uint8_t le
 }
 
 
-bool MixWithKeccak::mix(const uint8_t* dataIn, uint8_t *dataOut, long len, uint32_t counter){
+bool MixWithKeccak::mix(const uint8_t* dataIn, uint8_t *dataOut, int len, uint32_t counter){
     if(!dataIn || !dataOut || len <= 0 || !init_)
         return false;
 
@@ -93,7 +92,7 @@ bool MixWithKeccak::mix(const uint8_t* dataIn, uint8_t *dataOut, long len, uint3
 
     uint8_t blockLen = calcBlockSize(rng_.random8bit(), kMdLen);
     uint8_t neg = 0;
-    for(long i=0; i<len; i++){
+    for(int i=0; i<len; i++){
         temp_[neg] = dataIn[i];
         neg++;
         if(neg > blockLen){
@@ -112,7 +111,7 @@ bool MixWithKeccak::mix(const uint8_t* dataIn, uint8_t *dataOut, long len, uint3
     return true;
 }
 
-bool MixWithKeccak::reverseMix(const uint8_t* dataIn, uint8_t *dataOut, long len, uint32_t counter){
+bool MixWithKeccak::reverseMix(const uint8_t* dataIn, uint8_t *dataOut, int len, uint32_t counter){
     if(!dataIn || !dataOut || len <= 0 || !init_)
         return false;
 
@@ -125,7 +124,7 @@ bool MixWithKeccak::reverseMix(const uint8_t* dataIn, uint8_t *dataOut, long len
 
     uint8_t blockLen = calcBlockSize(rng_.random8bit(), kMdLen);
     uint8_t neg = 0;
-    for(long i=0; i<len; i++){
+    for(int i=0; i<len; i++){
         temp_[neg] = dataIn[i];
         neg++;
         if(neg > blockLen){
@@ -144,7 +143,7 @@ bool MixWithKeccak::reverseMix(const uint8_t* dataIn, uint8_t *dataOut, long len
     return true;
 }
 
-bool MixWithKeccak::crazyMix(const uint8_t *dataIn, uint8_t *dataOut, long len){
+bool MixWithKeccak::crazyMix(const uint8_t *dataIn, uint8_t *dataOut, int len){
     if(!dataIn || !dataOut || len <= 0 || !init_)
         return false;
 
@@ -152,12 +151,12 @@ bool MixWithKeccak::crazyMix(const uint8_t *dataIn, uint8_t *dataOut, long len){
     rng_.init(key_, keyLen_, iv_, ivLen_);
 
     const uint8_t *temp = dataIn;
-    long crazyNumber = (long)calcCrazy(rng_.random8bit(), kMinCrazy, kMaxCrazy) & 0xFF;
+    int crazyNumber = calcCrazy(rng_.random8bit(), kMinCrazy, kMaxCrazy) & 0xFF;
 
     if(crazyNumber % 2 != 1)
         crazyNumber++;
 
-    for(long i=0; i<crazyNumber; i++){
+    for(int i=0; i<crazyNumber; i++){
         if(!mix(temp, dataOut, len, i))
             return false;
         if(i == 0){
@@ -167,19 +166,19 @@ bool MixWithKeccak::crazyMix(const uint8_t *dataIn, uint8_t *dataOut, long len){
     return true;
 }
 
-bool MixWithKeccak::reverseCrazyMix(const uint8_t *dataIn, uint8_t *dataOut, long len){
+bool MixWithKeccak::reverseCrazyMix(const uint8_t *dataIn, uint8_t *dataOut, int len){
     if(!dataIn || !dataOut || len <= 0 || !init_)
         return false;
 
     rng_.init(key_, keyLen_, iv_, ivLen_);
 
     const uint8_t *temp = dataIn;
-    long crazyNumber = (long)calcCrazy(rng_.random8bit(), kMinCrazy, kMaxCrazy) & 0xFF;
+    int crazyNumber = calcCrazy(rng_.random8bit(), kMinCrazy, kMaxCrazy) & 0xFF;
 
     if(crazyNumber % 2 != 1)
         crazyNumber++;
 
-    for(long i=crazyNumber-1; i>=0; i--){
+    for(int i=crazyNumber-1; i>=0; i--){
         if(!reverseMix(temp, dataOut, len, i))
             return false;
         if(i == crazyNumber-1){
@@ -205,7 +204,7 @@ uint8_t calcBlockSize(uint8_t x, uint8_t bmax){
     return x + bmin;
 }
 
-long calcConvert(long x, double xmax, long min, long max){
+int calcConvert(int x, double xmax, int min, int max){
     if(x<0 || xmax<=0 || min<0 || max<=1)
         return 0;
 
@@ -213,7 +212,7 @@ long calcConvert(long x, double xmax, long min, long max){
         return 0;
 
     if(min>max){
-        long temp = min;
+        int temp = min;
         min = max;
         max = temp;
     }

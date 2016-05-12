@@ -13,14 +13,11 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+aint with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 URL: https://github.com/onlinewolf/friendcrypt
 */
-#include <string>
-#include <cstdlib>
-#include <cstdio>
-#include <cmath>
+#include <cstring>
 #include <ctime>
 #include "fccrypt.h"
 #include "fcexception.h"
@@ -29,17 +26,17 @@ URL: https://github.com/onlinewolf/friendcrypt
 namespace friendcrypt{
 
 //class
-CryptWithKeccak::CryptWithKeccak(long bitLen):
+CryptWithKeccak::CryptWithKeccak(int bitLen):
         kMdLen(bitLen/8), kMdBitLen(bitLen), mixer_(bitLen), rng_(bitLen), ivRng_(bitLen){
     if(!keccakBitLenCheck(bitLen))
         throw invalidArgsException;
 
     iv_ = nullptr;
-    uint32_t temp = static_cast<uint32_t>(time(NULL));
-    ivRng_.reSeed((uint8_t*)&temp, 4);
+    time_t ti = time(NULL);//4 byte or 8 byte size
+    ivRng_.reSeed(reinterpret_cast<uint8_t*>(&ti), sizeof(ti));
 }
 
-void CryptWithKeccak::ivCheck(long len){
+void CryptWithKeccak::ivCheck(int len){
     if(len <= 0)
         return;
 
@@ -57,18 +54,18 @@ void CryptWithKeccak::createIV(){
     ivCheck(kMdLen);
     ivLen_ = kMdLen;
 
-    for(long i=0; i<kMdLen; i++)
+    for(int i=0; i<kMdLen; i++)
         iv_[i] = ivRng_.random8bit();
 }
 
-long CryptWithKeccak::getIVLen(){
+int CryptWithKeccak::getIVLen(){
     if(!iv_)
         return 0;
 
     return ivLen_;
 }
 
-bool CryptWithKeccak::setIV(const uint8_t *iv, long len){
+bool CryptWithKeccak::setIV(const uint8_t *iv, int len){
     if(!iv || len < helper_.kMinLen)
         return false;
 
@@ -87,12 +84,12 @@ bool CryptWithKeccak::getIV(uint8_t *iv){
     return true;
 }
 
-bool CryptWithKeccak::setKey(const uint8_t *key, long len){
+bool CryptWithKeccak::setKey(const uint8_t *key, int len){
     return helper_.setKey(key, len);
 }
 
 
-bool CryptWithKeccak::encode(const uint8_t *dataIn, uint8_t *dataOut, long len){
+bool CryptWithKeccak::encode(const uint8_t *dataIn, uint8_t *dataOut, int len){
     if(!dataIn || !dataOut || len <= 0)
         return false;
 
@@ -100,18 +97,18 @@ bool CryptWithKeccak::encode(const uint8_t *dataIn, uint8_t *dataOut, long len){
         return false;
 
         rng_.init(iv_, ivLen_, helper_.key_, helper_.keyLen_);
-        for(long i=0; i<len; i++)
+        for(int i=0; i<len; i++)
             dataOut[i] = dataIn[i] ^ rng_.random8bit();
 
     return true;
 }
 
-bool CryptWithKeccak::decode(const uint8_t *dataIn, uint8_t *dataOut, long len){
+bool CryptWithKeccak::decode(const uint8_t *dataIn, uint8_t *dataOut, int len){
     return encode(dataIn, dataOut, len);
 }
 
 
-bool CryptWithKeccak::encrypt(const uint8_t *dataIn, uint8_t *dataOut, long len){
+bool CryptWithKeccak::encrypt(const uint8_t *dataIn, uint8_t *dataOut, int len){
     if(!dataIn || !dataOut || len <= 0)
         return false;
 
@@ -131,7 +128,7 @@ bool CryptWithKeccak::encrypt(const uint8_t *dataIn, uint8_t *dataOut, long len)
 }
 
 
-bool CryptWithKeccak::decrypt(const uint8_t *dataIn, uint8_t *dataOut, long len){
+bool CryptWithKeccak::decrypt(const uint8_t *dataIn, uint8_t *dataOut, int len){
     if(!dataIn || !dataOut || len <= 0)
         return false;
 
@@ -150,7 +147,7 @@ bool CryptWithKeccak::decrypt(const uint8_t *dataIn, uint8_t *dataOut, long len)
 }
 
 
-bool CryptWithKeccak::encryptCrazy(const uint8_t *dataIn, uint8_t *dataOut, long len){
+bool CryptWithKeccak::encryptCrazy(const uint8_t *dataIn, uint8_t *dataOut, int len){
     if(!dataIn || !dataOut || len <= 0)
         return false;
 
@@ -169,7 +166,7 @@ bool CryptWithKeccak::encryptCrazy(const uint8_t *dataIn, uint8_t *dataOut, long
     return true;
 }
 
-bool CryptWithKeccak::decryptCrazy(const uint8_t *dataIn, uint8_t *dataOut, long len){
+bool CryptWithKeccak::decryptCrazy(const uint8_t *dataIn, uint8_t *dataOut, int len){
     if(!dataIn || !dataOut || len <= 0)
         return false;
 
@@ -200,7 +197,7 @@ CWKData::CWKData(){
     key_ = nullptr;
 }
 
-bool CWKData::setKey(const uint8_t *key, long len){
+bool CWKData::setKey(const uint8_t *key, int len){
     if(!key || len<kMinLen)
         return false;
 

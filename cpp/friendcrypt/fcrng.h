@@ -13,7 +13,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+aint with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 URL: https://github.com/onlinewolf/friendcrypt
 */
@@ -40,12 +40,12 @@ public:
      * @brief kMdLen
      * Message digest byte length
      */
-    const long kMdLen;
+    const int kMdLen;
     /**
      * @brief kMdBitLen
      * Message digest bit length
      */
-    const long kMdBitLen;
+    const int kMdBitLen;
 
     /**
      * @brief Rng
@@ -53,7 +53,7 @@ public:
      * @param bitLen Bit size of Keccak: 224, 256, 384, 512 bit
      * @throw invalidArgsException if bitLen is invalid
      */
-    explicit Rng(long bitLen);
+    explicit Rng(int bitLen);
 
     /**
      * @brief init
@@ -64,7 +64,7 @@ public:
      * @param saltLen Salt length (can be 0)
      * @return false if seed is nullptr or seedLen is <=0
      */
-    bool init(const uint8_t *seed, long seedLen, const uint8_t *salt, long saltLen);
+    bool init(const uint8_t *seed, int seedLen, const uint8_t *salt, int saltLen);
 
     /**
      * @brief isInit
@@ -80,7 +80,7 @@ public:
      * @param seedLen New seed length
      * @return false if seed is nullptr or seedLen is <=0
      */
-    bool reSeed(const uint8_t *seed, long seedLen);
+    bool reSeed(const uint8_t *seed, int seedLen);
 
     /**
      * @brief random8bit

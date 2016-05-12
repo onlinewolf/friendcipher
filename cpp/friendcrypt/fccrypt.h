@@ -15,14 +15,14 @@ class CWKData{
 private:
     explicit CWKData();
     uint8_t *key_;
-    long keyLen_;
-    long keyMaxLen_;
+    int keyLen_;
+    int keyMaxLen_;
 public:
     /**
      * @brief kMinLen
      * Minimum reguest length (128 bit)
      */
-    static const long kMinLen = 16;
+    static const int kMinLen = 16;
 
     /**
      * @brief setKey
@@ -31,7 +31,7 @@ public:
      * @param len Key length (min: kMinLen)
      * @return true if pass is copied
      */
-    bool setKey(const uint8_t *key, long len);
+    bool setKey(const uint8_t *key, int len);
 
     ~CWKData();
 };
@@ -50,23 +50,23 @@ class CryptWithKeccak{
     Rng ivRng_;
     MixWithKeccak mixer_;
     uint8_t *iv_;
-    long ivLen_;
-    long ivMaxLen_;
-    void ivCheck(long len);
-    bool encode(const uint8_t *dataIn, uint8_t *dataOut, long len);
-    bool decode(const uint8_t *dataIn, uint8_t *dataOut, long len);
+    int ivLen_;
+    int ivMaxLen_;
+    void ivCheck(int len);
+    bool encode(const uint8_t *dataIn, uint8_t *dataOut, int len);
+    bool decode(const uint8_t *dataIn, uint8_t *dataOut, int len);
 public:
     /**
      * @brief kMdLen
      * Message digest byte length
      */
-    const long kMdLen;
+    const int kMdLen;
 
     /**
      * @brief kMdBitLen
      * Message digest bit length
      */
-    const long kMdBitLen;
+    const int kMdBitLen;
 
     /**
      * @brief CryptWithKeccak
@@ -74,7 +74,7 @@ public:
      * @param bitLen Bit size of Keccak: 224, 256, 384, 512 bit
      * @throw invalidArgsException if blockSize is incorrect
      */
-    explicit CryptWithKeccak(long bitLen);
+    explicit CryptWithKeccak(int bitLen);
 
     /**
      * @brief createIV
@@ -87,7 +87,7 @@ public:
      * Get Initialization Vector length
      * @return Initialization Vector length or 0 if not have IV
      */
-    long getIVLen();
+    int getIVLen();
 
     /**
      * @brief setIV
@@ -96,7 +96,7 @@ public:
      * @param len Initialization Vector length
      * @return true if success, false if iv is nullptr or len < 16 (128 bit)
      */
-    bool setIV(const uint8_t *iv, long len);
+    bool setIV(const uint8_t *iv, int len);
 
     /**
      * @brief getIV
@@ -113,7 +113,7 @@ public:
      * @param len Key length (min: 16)
      * @return true if pass is copied
      */
-    bool setKey(const uint8_t *key, long len);
+    bool setKey(const uint8_t *key, int len);
 
     /**
      * @brief encrypt
@@ -123,7 +123,7 @@ public:
      * @param len data length
      * @return true if success
      */
-    bool encrypt(const uint8_t *dataIn, uint8_t *dataOut, long len);
+    bool encrypt(const uint8_t *dataIn, uint8_t *dataOut, int len);
 
     /**
      * @brief decrypt
@@ -133,7 +133,7 @@ public:
      * @param len data length
      * @return true if success
      */
-    bool decrypt(const uint8_t *dataIn, uint8_t *dataOut, long len);
+    bool decrypt(const uint8_t *dataIn, uint8_t *dataOut, int len);
 
     /**
      * @brief encrypt
@@ -143,7 +143,7 @@ public:
      * @param len data length
      * @return true if success
      */
-    bool encryptCrazy(const uint8_t *dataIn, uint8_t *dataOut, long len);
+    bool encryptCrazy(const uint8_t *dataIn, uint8_t *dataOut, int len);
 
     /**
      * @brief decrypt
@@ -153,7 +153,7 @@ public:
      * @param len data length
      * @return true if success
      */
-    bool decryptCrazy(const uint8_t *dataIn, uint8_t *dataOut, long len);
+    bool decryptCrazy(const uint8_t *dataIn, uint8_t *dataOut, int len);
 
     /**
      * @brief ~CryptWithKeccak

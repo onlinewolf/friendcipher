@@ -13,11 +13,11 @@ namespace friendcrypt{
  */
 class MixWithKeccak{
     uint8_t *temp_;
-    long *listTemp_;
+    int *listTemp_;
     const uint8_t *key_;
-    long keyLen_;
+    int keyLen_;
     const uint8_t *iv_;
-    long ivLen_;
+    int ivLen_;
     Keccak hash_;
     Rng rng_;
     bool init_;
@@ -28,13 +28,13 @@ public:
      * @brief kMdLen
      * Message digest byte length
      */
-    const long kMdLen;
+    const int kMdLen;
 
     /**
      * @brief kMdBitLen
      * Message digest bit length
      */
-    const long kMdBitLen;
+    const int kMdBitLen;
 
     /**
      * @brief kMaxCrazy
@@ -54,7 +54,7 @@ public:
      * @param bitLen Bit size of Keccak: 224, 256, 384, 512 bit
      * @throw invalidArgsException if bitLen is incorrect
      */
-    explicit MixWithKeccak(long bitLen);
+    explicit MixWithKeccak(int bitLen);
 
     /**
      * @brief init
@@ -65,7 +65,7 @@ public:
      * @param ivLen Initialization Vector length (>0)
      * @return false if args are incorrect
      */
-    bool init(const uint8_t* key, long keyLen, const uint8_t* iv, long ivLen);
+    bool init(const uint8_t* key, int keyLen, const uint8_t* iv, int ivLen);
 
     /**
      * @brief isInited
@@ -83,7 +83,7 @@ public:
      * @param counter Counter for CrazyMix (use: 0)
      * @return true if success
      */
-    bool mix(const uint8_t* dataIn, uint8_t *dataOut, long len, uint32_t counter);
+    bool mix(const uint8_t* dataIn, uint8_t *dataOut, int len, uint32_t counter);
 
     /**
      * @brief reverseMix
@@ -94,7 +94,7 @@ public:
      * @param counter Counter for CrazyMix (use: 0)
      * @return true if success
      */
-    bool reverseMix(const uint8_t* dataIn, uint8_t* dataOut, long len, uint32_t counter);
+    bool reverseMix(const uint8_t* dataIn, uint8_t* dataOut, int len, uint32_t counter);
 
     /**
      * @brief crazyMix
@@ -104,7 +104,7 @@ public:
      * @param len Data length
      * @return true if success
      */
-    bool crazyMix(const uint8_t* dataIn, uint8_t* dataOut, long len);
+    bool crazyMix(const uint8_t* dataIn, uint8_t* dataOut, int len);
 
     /**
      * @brief crazyMix
@@ -114,7 +114,7 @@ public:
      * @param len Data length
      * @return true if success
      */
-    bool reverseCrazyMix(const uint8_t* dataIn, uint8_t* dataOut, long len);
+    bool reverseCrazyMix(const uint8_t* dataIn, uint8_t* dataOut, int len);
 
     /**
      * @brief ~MixWithKeccak
@@ -149,7 +149,7 @@ uint8_t calcBlockSize(uint8_t x, uint8_t bmax);
  * @param max Maximum y number (>0)
  * @return y number
  */
-long calcConvert(long x, double xmax, long min, long max);
+int calcConvert(int x, double xmax, int min, int max);
 
 /**
  * @brief calcCrazy

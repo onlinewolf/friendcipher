@@ -11,27 +11,27 @@
  * Fast test!
  */
 int main(int argc, char *argv[]){
-    const long kMdBitLen = 512;
-    const long kMdLen = kMdBitLen/8;
+    const int kMdBitLen = 224;
+    const int kMdLen = kMdBitLen/8;
 
 
-    const long kDataLen = 16;
+    const int kDataLen = 16;
     uint8_t data[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
                               21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
                               41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
                               61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80};
     uint8_t dataOut[kDataLen];
     uint8_t dataOut2[kDataLen];
-    const long kKeyLen = 16;
+    const int kKeyLen = 16;
     uint8_t key[kKeyLen] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
-    const long kIvLen = 16;
+    const int kIvLen = 16;
     uint8_t iv[kIvLen] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
 
     /*friendcrypt::MixWithKeccak mixer(kMdBitLen);
     mixer.init(key, kKeyLen, iv, kIvLen);
     mixer.crazyMix(data, dataOut, kDataLen);
 
-    for (long i=0; i<kDataLen; i++) {
+    for (int i=0; i<kDataLen; i++) {
         std::cout << std::dec << std::uppercase << static_cast<int>(dataOut[i]) << ", ";
     }
     std::cout << std::endl;
@@ -39,7 +39,7 @@ int main(int argc, char *argv[]){
 
     mixer.reverseCrazyMix(dataOut, dataOut2, kDataLen);
 
-    for (long i=0; i<kDataLen; i++) {
+    for (int i=0; i<kDataLen; i++) {
         std::cout << std::dec << std::uppercase << static_cast<int>(dataOut2[i]) << ", ";
     }
     std::cout << std::endl;*/
@@ -59,14 +59,14 @@ int main(int argc, char *argv[]){
         enCrypt.getIV(iv2);
         deCrypt.setIV(iv2, enCrypt.getIVLen());
         std::cout << "iv: ";
-        for (long i=0; i<kMdLen; i++) {
+        for (int i=0; i<kMdLen; i++) {
             std::cout << std::hex << std::setw(2) << std::uppercase << static_cast<int>(iv2[i]);
         }
         std::cout << std::endl;
 
         //plaintext
         std::cout << "data:    ";
-        for (long i=0; i<kDataLen; i++) {
+        for (int i=0; i<kDataLen; i++) {
             std::cout << std::hex << std::setw(2) << std::uppercase << static_cast<int>(data[i]);
         }
         std::cout << std::endl;
@@ -77,7 +77,7 @@ int main(int argc, char *argv[]){
         //encrypt
         enCrypt.encrypt(data, dataOut, kDataLen);
         std::cout << "encrypt: ";
-        for (long i=0; i<kDataLen; i++) {
+        for (int i=0; i<kDataLen; i++) {
             std::cout << std::hex << std::setw(2) << std::uppercase << static_cast<int>(dataOut[i]);
         }
         std::cout << std::endl;
@@ -85,7 +85,7 @@ int main(int argc, char *argv[]){
         //decrypt
         deCrypt.decrypt(dataOut, dataOut2, kDataLen);
         std::cout << "decrypt: ";
-        for (long i=0; i<kDataLen; i++) {
+        for (int i=0; i<kDataLen; i++) {
             std::cout << std::hex << std::setw(2) << std::uppercase << static_cast<int>(dataOut2[i]);
         }
         std::cout << std::endl;
@@ -106,14 +106,14 @@ int main(int argc, char *argv[]){
         enCrypt.getIV(iv2);
         deCrypt.setIV(iv2, enCrypt.getIVLen());
         std::cout << "iv: ";
-        for (long i=0; i<kMdLen; i++) {
+        for (int i=0; i<kMdLen; i++) {
             std::cout << std::hex << std::setw(2) << std::uppercase << static_cast<int>(iv2[i]);
         }
         std::cout << std::endl;
 
         //plaintext
         std::cout << "data:    ";
-        for (long i=0; i<kDataLen; i++) {
+        for (int i=0; i<kDataLen; i++) {
             std::cout << std::hex << std::setw(2) << std::uppercase << static_cast<int>(data[i]);
         }
         std::cout << std::endl;
@@ -124,7 +124,7 @@ int main(int argc, char *argv[]){
         //encrypt
         enCrypt.encryptCrazy(data, dataOut, kDataLen);
         std::cout << "encrypt: ";
-        for (long i=0; i<kDataLen; i++) {
+        for (int i=0; i<kDataLen; i++) {
             std::cout << std::hex << std::setw(2) << std::uppercase << static_cast<int>(dataOut[i]);
         }
         std::cout << std::endl;
@@ -132,7 +132,7 @@ int main(int argc, char *argv[]){
         //decrypt
         deCrypt.decryptCrazy(dataOut, dataOut2, kDataLen);
         std::cout << "decrypt: ";
-        for (long i=0; i<kDataLen; i++) {
+        for (int i=0; i<kDataLen; i++) {
             std::cout << std::hex << std::setw(2) << std::uppercase << static_cast<int>(dataOut2[i]);
         }
         std::cout << std::endl;
@@ -150,7 +150,7 @@ int main(int argc, char *argv[]){
     enCrypt.getIV(iv);
     deCrypt.setIV(iv, enCrypt.getIVLen());
     std::cout << "iv: ";
-    for (long i=0; i<kIvLen; i++) {
+    for (int i=0; i<kIvLen; i++) {
         std::cout << std::hex << std::setw(2) << std::uppercase << static_cast<int>(iv[i]);
     }
     std::cout << std::endl;
@@ -158,7 +158,7 @@ int main(int argc, char *argv[]){
 
     //plaintext
     std::cout << "data:    ";
-    for (long i=0; i<kDataLen; i++) {
+    for (int i=0; i<kDataLen; i++) {
         std::cout << std::hex << std::setw(2) << std::uppercase << static_cast<int>(data[i]);
     }
     std::cout << std::endl;
@@ -167,7 +167,7 @@ int main(int argc, char *argv[]){
     //encrypt
     enCrypt.encryptCrazy(data, dataOut, kDataLen);
     std::cout << "encrypt: ";
-    for (long i=0; i<kDataLen; i++) {
+    for (int i=0; i<kDataLen; i++) {
         std::cout << std::hex << std::setw(2) << std::uppercase << static_cast<int>(dataOut[i]);
     }
     std::cout << std::endl;
@@ -176,7 +176,7 @@ int main(int argc, char *argv[]){
     //decrypt
     deCrypt.decryptCrazy(dataOut, dataOut2, kDataLen);
     std::cout << "decrypt: ";
-    for (long i=0; i<kDataLen; i++) {
+    for (int i=0; i<kDataLen; i++) {
         std::cout << std::hex << std::setw(2) << std::uppercase << static_cast<int>(dataOut2[i]);
     }
     std::cout << std::endl;
@@ -194,7 +194,7 @@ int main(int argc, char *argv[]){
     hash.update(data2, 40);
     hash.finish(mDigest);
     //show
-    for (long i=0; i<kMdLen; i++) {
+    for (int i=0; i<kMdLen; i++) {
         std::cout << std::hex << std::setw(2) << std::uppercase << static_cast<int>(mDigest[i]);
     }
     std::cout << std::endl;

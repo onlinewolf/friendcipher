@@ -1,10 +1,9 @@
 #include "fcrng.h"
 #include "fcexception.h"
-#include "cstring"
 
 namespace friendcrypt{
 
-Rng::Rng(long bitLen): kMdBitLen(bitLen), kMdLen(bitLen/8), hash_(bitLen){
+Rng::Rng(int bitLen): kMdBitLen(bitLen), kMdLen(bitLen/8), hash_(bitLen){
     if(!keccakBitLenCheck(bitLen))
         throw invalidArgsException;
 
@@ -13,7 +12,7 @@ Rng::Rng(long bitLen): kMdBitLen(bitLen), kMdLen(bitLen/8), hash_(bitLen){
     init_ = false;
 }
 
-bool Rng::init(const uint8_t *seed, long seedLen, const uint8_t *salt, long saltLen){
+bool Rng::init(const uint8_t *seed, int seedLen, const uint8_t *salt, int saltLen){
     if(!seed || seedLen <= 0)
         return false;
 
@@ -37,7 +36,7 @@ bool Rng::isInited(){
     return init_;
 }
 
-bool Rng::reSeed(const uint8_t *seed, long seedLen){
+bool Rng::reSeed(const uint8_t *seed, int seedLen){
     if(!seed || seedLen <= 0)
         return false;
 
