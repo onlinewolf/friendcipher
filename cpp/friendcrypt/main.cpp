@@ -40,14 +40,14 @@ int main(int argc, char *argv[]){
     uint8_t *dataOut2 = new uint8_t[kDataLen];
 
     //key
-    const int kKeyLen = 48;
+    const int kKeyLen = 32;
     uint8_t *key = new uint8_t[kKeyLen];
     for(int i=0; i<kKeyLen; i++){
         key[i] = rng.random8bit();
     }
 
     //iv
-    const int kIvLen = 48;
+    const int kIvLen = 32;
     uint8_t *iv = new uint8_t[kIvLen];
     for(int i=0; i<kIvLen; i++){
         iv[i] = rng.random8bit();
@@ -319,7 +319,7 @@ int main(int argc, char *argv[]){
     std::cout << std::endl;
     std::cout << std::endl;*/
 
-    /*uint8_t data1[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+    uint8_t data1[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
         21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40};
     uint8_t data2[]{41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
         61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80};
@@ -331,10 +331,10 @@ int main(int argc, char *argv[]){
     hash.update(data2, 40);
     hash.finish(mDigest);
     //show
-    for (int i=0; i<kMdLen; i++) {
-        std::cout << std::hex << std::setw(2) << std::uppercase << static_cast<int>(mDigest[i]);
+    for(int i=0; i<kMdLen; i++){
+        std::cout << std::hex << std::setw(2) << std::setfill('0') << std::uppercase << static_cast<int>(mDigest[i]);
     }
-    std::cout << std::endl;*/
+    std::cout << std::endl;
 
     /*
     rng.init((uint8_t*)&ti, sizeof(ti), nullptr, 0);

@@ -132,6 +132,7 @@ void KeccakF1600_StatePermute(void *state){
 
 }//extern C
 
+
 //"static method"
 bool keccakBitLenCheck(int bitLen){
     return bitLen == 224 || bitLen == 256 || bitLen == 384 || bitLen == 512;
