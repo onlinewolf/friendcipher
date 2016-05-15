@@ -9,7 +9,6 @@ Public and new cryptography for C++ and Java, [C++ Doxygen here](https://onlinew
 - [ ] Optimalisation
 - [x] Performance teszt
 - [ ] Java source
-Description:
-- Is this slower than AES? Yes. (if the hash is Keccak.)
-- Was it created for the future? Yes.
+ - Is this slower than AES? Yes. (if the hash is Keccak.)
+ - Was it created for the future? Yes.
 
