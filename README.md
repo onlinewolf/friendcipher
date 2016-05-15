@@ -4,7 +4,7 @@ Public and new cryptography with Keccak for C++ and Java, [C++ Doxygen here](htt
  - Powerful list/array shuffle with Fisher–Yates shuffle and Rng
  - Symmetric key encryption with "unlimite" key and IV size (>=128 bit)
  - Support and implemented: 224, 256, 384 and 512 bit Keccak with update() method
-- [ ] FriendCrypt public plan (v0.7.1)
+- [ ] FriendCrypt public plan
 - [x] C++ source
 - [ ] Code teszt
 - [ ] Optimalisation
