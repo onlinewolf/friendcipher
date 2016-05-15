@@ -11,7 +11,7 @@ namespace friendcrypt{
  * Helper class
  */
 class CWKData{
-    friend class CryptWithKeccak;
+    friend class CryptWithRng;
 private:
     explicit CWKData();
     uint8_t *key_;
@@ -38,17 +38,17 @@ public:
 
 
 /**
- * @brief The CryptWithKeccak class
- * Encrypt and decrypt with powerful Rng and MixWithKeccak
+ * @brief The CryptWithRng class
+ * Encrypt and decrypt with powerful Rng and MixWithRng
  * "Unlimited" key and IV size (>=128)
  * Working level: 224 bit, 256 bit, 384 bit and 512 bit
  * (Not thread safe!)
  */
-class CryptWithKeccak{
+class CryptWithRng{
     CWKData helper_;
-    Rng rng_;
-    Rng ivRng_;
-    MixWithKeccak mixer_;
+    RngWithKeccak rng_;
+    RngWithKeccak ivRng_;
+    MixWithRng mixer_;
     uint8_t *iv_;
     int ivLen_;
     int ivMaxLen_;
@@ -69,12 +69,12 @@ public:
     const int kMdBitLen;
 
     /**
-     * @brief CryptWithKeccak
+     * @brief CryptWithRng
      * Create Initialization Vector with Rng.reSeed() and time(NULL)
      * @param bitLen Bit size of Keccak: 224, 256, 384, 512 bit
      * @throw invalidArgsException if blockSize is incorrect
      */
-    explicit CryptWithKeccak(int bitLen);
+    explicit CryptWithRng(int bitLen);
 
     /**
      * @brief createIV
@@ -156,16 +156,16 @@ public:
     bool decryptCrazy(const uint8_t *dataIn, uint8_t *dataOut, int len);
 
     /**
-     * @brief ~CryptWithKeccak
+     * @brief ~CryptWithRng
      * delete iv_
      */
-    virtual ~CryptWithKeccak();
+    virtual ~CryptWithRng();
 
     //disabled
-    CryptWithKeccak(const CryptWithKeccak& other)=delete;
-    CryptWithKeccak(CryptWithKeccak&& other)=delete;
-    CryptWithKeccak& operator=(const CryptWithKeccak& other)=delete;
-    CryptWithKeccak& operator=(CryptWithKeccak&& other)=delete;
+    CryptWithRng(const CryptWithRng& other)=delete;
+    CryptWithRng(CryptWithRng&& other)=delete;
+    CryptWithRng& operator=(const CryptWithRng& other)=delete;
+    CryptWithRng& operator=(CryptWithRng&& other)=delete;
 };
 
 

@@ -6,11 +6,11 @@
 namespace friendcrypt{
 
 /**
- * @brief The Rng class
+ * @brief The RngWithKeccak class
  * Powerful Random Number Generator with Keccak
  * (Not thread safe!)
  */
-class Rng{
+class RngWithKeccak{
     Keccak hash_;
     uint8_t *seed_;
     uint8_t *randMd_;
@@ -34,7 +34,7 @@ public:
      * @param bitLen Bit size of Keccak: 224, 256, 384, 512 bit
      * @throw invalidArgsException if bitLen is invalid
      */
-    explicit Rng(int bitLen);
+    explicit RngWithKeccak(int bitLen);
 
     /**
      * @brief init
@@ -78,16 +78,16 @@ public:
     uint32_t random32bit();
 
     /**
-     * @brief ~Rng
+     * @brief ~RngWithKeccak
      * Delete *seed_, *randMd_
      */
-    virtual ~Rng();
+    virtual ~RngWithKeccak();
 
     //disabled
-    Rng(const Rng& other)=delete;
-    Rng(Rng&& other)=delete;
-    Rng& operator=(const Rng& other)=delete;
-    Rng& operator=(Rng&& other)=delete;
+    RngWithKeccak(const RngWithKeccak& other)=delete;
+    RngWithKeccak(RngWithKeccak&& other)=delete;
+    RngWithKeccak& operator=(const RngWithKeccak& other)=delete;
+    RngWithKeccak& operator=(RngWithKeccak&& other)=delete;
 };
 
 }//namespace

@@ -7,11 +7,11 @@
 namespace friendcrypt{
 
 /**
- * @brief The MixerWithKeccak class
- * Fisher–Yates shuffle for CryptWithKeccak with Rng
+ * @brief The MixWithRng class
+ * Fisher–Yates shuffle for CryptWithRng
  * (Not thread safe!)
  */
-class MixWithKeccak{
+class MixWithRng{
     uint8_t *temp_;
     int *listTemp_;
     const uint8_t *key_;
@@ -19,7 +19,7 @@ class MixWithKeccak{
     const uint8_t *iv_;
     int ivLen_;
     Keccak hash_;
-    Rng rng_;
+    RngWithKeccak rng_;
     bool init_;
     void listMix(uint8_t* tempIn, uint8_t* dataOut, uint8_t len);
     void listReverseMix(uint8_t* tempIn, uint8_t* dataOut, uint8_t len);
@@ -49,12 +49,12 @@ public:
     static const uint8_t kMinCrazy = 6;
 
     /**
-     * @brief MixWithKeccak
-     * Fisher–Yates shuffle for CryptWithKeccak with Rng
+     * @brief MixWithRng
+     * Fisher–Yates shuffle for CryptWithRng
      * @param bitLen Bit size of Keccak: 224, 256, 384, 512 bit
      * @throw invalidArgsException if bitLen is incorrect
      */
-    explicit MixWithKeccak(int bitLen);
+    explicit MixWithRng(int bitLen);
 
     /**
      * @brief init
@@ -76,7 +76,7 @@ public:
 
     /**
      * @brief mix
-     * Fisher–Yates shuffle for FriendCrypt
+     * Fisher–Yates shuffle for CryptWithRng
      * @param dataIn Input data
      * @param dataOut Output data
      * @param len Data length
@@ -87,7 +87,7 @@ public:
 
     /**
      * @brief reverseMix
-     * Fisher–Yates reverse shuffle for FriendCrypt
+     * Fisher–Yates reverse shuffle for CryptWithRng
      * @param dataIn Input data
      * @param dataOut Output data
      * @param len Data length
@@ -117,16 +117,16 @@ public:
     bool reverseCrazyMix(const uint8_t* dataIn, uint8_t* dataOut, int len);
 
     /**
-     * @brief ~MixWithKeccak
+     * @brief ~MixWithRng
      * Delete *temp_, *listTemp_
      */
-    virtual ~MixWithKeccak();
+    virtual ~MixWithRng();
 
     //disabled
-    MixWithKeccak(const MixWithKeccak& other)=delete;
-    MixWithKeccak(MixWithKeccak&& other)=delete;
-    MixWithKeccak& operator=(const MixWithKeccak& other)=delete;
-    MixWithKeccak& operator=(MixWithKeccak&& other)=delete;
+    MixWithRng(const MixWithRng& other)=delete;
+    MixWithRng(MixWithRng&& other)=delete;
+    MixWithRng& operator=(const MixWithRng& other)=delete;
+    MixWithRng& operator=(MixWithRng&& other)=delete;
 };
 
 

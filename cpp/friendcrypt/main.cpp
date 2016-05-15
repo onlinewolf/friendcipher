@@ -25,36 +25,40 @@ int main(int argc, char *argv[]){
     const int kMdBitLen = 384;
     const int kMdLen = kMdBitLen/8;
 
-    friendcrypt::Rng rng(kMdBitLen);
+    friendcrypt::RngWithKeccak rng(kMdBitLen);
     time_t ti = time(NULL);
     rng.init((uint8_t*)&ti, sizeof(ti), nullptr, 0);
 
     //data
-    const int kDataLen = 32*1024;
+    //const int kDataLen = 32*1024;//for test
+    const int kDataLen = 80;//for crypt
     uint8_t *data = new uint8_t[kDataLen];
-    for(int i=0; i<kDataLen; i++){
+    /*for(int i=0; i<kDataLen; i++){//for test
         data[i] = rng.random8bit();
+    }*/
+    for(int i=0; i<kDataLen; i++){//for test
+        data[i] = i;
     }
 
     uint8_t *dataOut = new uint8_t[kDataLen];
     uint8_t *dataOut2 = new uint8_t[kDataLen];
 
     //key
-    const int kKeyLen = 32;
+    const int kKeyLen = 48;
     uint8_t *key = new uint8_t[kKeyLen];
     for(int i=0; i<kKeyLen; i++){
         key[i] = rng.random8bit();
     }
 
     //iv
-    const int kIvLen = 32;
+    const int kIvLen = 48;
     uint8_t *iv = new uint8_t[kIvLen];
     for(int i=0; i<kIvLen; i++){
         iv[i] = rng.random8bit();
     }
 
 
-    //Keccak speed test
+    /*//Keccak speed test
     std::cout << "(Keccak) Data length: " << kDataLen << std::endl;
     std::cout << "224 bit: "; convert(friendcrypt::test::keccakSpeed(224, data, kDataLen, dataOut)); std::cout << std::endl;
     std::cout << "256 bit: "; convert(friendcrypt::test::keccakSpeed(256, data, kDataLen, dataOut)); std::cout << std::endl;
@@ -161,10 +165,10 @@ int main(int argc, char *argv[]){
     std::cout << "256 bit: "; convert(friendcrypt::test::cryptSpeed(false, true, 256, data, dataOut, kDataLen, key, kKeyLen, nullptr, 0)); std::cout << ", (IV: 256 bit)" << std::endl;
     std::cout << "384 bit: "; convert(friendcrypt::test::cryptSpeed(false, true, 384, data, dataOut, kDataLen, key, kKeyLen, nullptr, 0)); std::cout << ", (IV: 384 bit)" << std::endl;
     std::cout << "512 bit: "; convert(friendcrypt::test::cryptSpeed(false, true, 512, data, dataOut, kDataLen, key, kKeyLen, nullptr, 0)); std::cout << ", (IV: 512 bit)" << std::endl;
-    std::cout << std::endl;
+    std::cout << std::endl;*/
 
     //other minimal test
-    /*friendcrypt::MixWithKeccak mixer(kMdBitLen);
+    friendcrypt::MixWithRng mixer(kMdBitLen);
     mixer.init(key, kKeyLen, iv, kIvLen);
     mixer.crazyMix(data, dataOut, kDataLen);
 
@@ -179,13 +183,14 @@ int main(int argc, char *argv[]){
     for (int i=0; i<kDataLen; i++) {
         std::cout << std::dec << std::uppercase << static_cast<int>(dataOut2[i]) << ", ";
     }
-    std::cout << std::endl;*/
+    std::cout << std::endl;
+    std::cout << std::endl;
 
 
     /*//normal crypt
-    friendcrypt::CryptWithKeccak enCrypt(kMdBitLen);
+    friendcrypt::CryptWithRng enCrypt(kMdBitLen);
     enCrypt.setKey(key, kKeyLen);
-    friendcrypt::CryptWithKeccak deCrypt(kMdBitLen);//for test
+    friendcrypt::CryptWithRng deCrypt(kMdBitLen);//for test
     deCrypt.setKey(key, kKeyLen);
 
     enCrypt.createIV();
@@ -229,10 +234,10 @@ int main(int argc, char *argv[]){
         std::cout << std::endl;
     }*/
 
-    /*//try crazy crypt
-    friendcrypt::CryptWithKeccak enCrypt(kMdBitLen);
+    //try crazy crypt
+    friendcrypt::CryptWithRng enCrypt(kMdBitLen);
     enCrypt.setKey(key, kKeyLen);
-    friendcrypt::CryptWithKeccak deCrypt(kMdBitLen);//for test
+    friendcrypt::CryptWithRng deCrypt(kMdBitLen);//for test
     deCrypt.setKey(key, kKeyLen);
 
     enCrypt.createIV();
@@ -274,13 +279,13 @@ int main(int argc, char *argv[]){
         }
         std::cout << std::endl;
         std::cout << std::endl;
-    }*/
+    }
 
     /*//try crazy crypt
-    friendcrypt::CryptWithKeccak enCrypt(kMdBitLen);
+    friendcrypt::CryptWithRng enCrypt(kMdBitLen);
     enCrypt.setKey(key, kKeyLen);
     enCrypt.setIV(iv, kIvLen);
-    friendcrypt::CryptWithKeccak deCrypt(kMdBitLen);//for test
+    friendcrypt::CryptWithRng deCrypt(kMdBitLen);//for test
     deCrypt.setKey(key, kKeyLen);
 
     //IV

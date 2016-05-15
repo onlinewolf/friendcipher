@@ -1,5 +1,5 @@
 /*
-friendcrypt::Rng
+friendcrypt::RngWithKeccak
 Copyright (C) 2016 OnlineWolf
 
 This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@ URL: https://github.com/onlinewolf/friendcrypt
 
 namespace friendcrypt{
 
-Rng::Rng(int bitLen): kMdBitLen(bitLen), kMdLen(bitLen/8), hash_(bitLen){
+RngWithKeccak::RngWithKeccak(int bitLen): kMdBitLen(bitLen), kMdLen(bitLen/8), hash_(bitLen){
     if(!keccakBitLenCheck(bitLen))
         throw invalidArgsException;
 
@@ -31,7 +31,7 @@ Rng::Rng(int bitLen): kMdBitLen(bitLen), kMdLen(bitLen/8), hash_(bitLen){
     init_ = false;
 }
 
-bool Rng::init(const uint8_t *seed, int seedLen, const uint8_t *salt, int saltLen){
+bool RngWithKeccak::init(const uint8_t *seed, int seedLen, const uint8_t *salt, int saltLen){
     if(!seed || seedLen <= 0)
         return false;
 
@@ -51,11 +51,11 @@ bool Rng::init(const uint8_t *seed, int seedLen, const uint8_t *salt, int saltLe
     return true;
 }
 
-bool Rng::isInited(){
+bool RngWithKeccak::isInited(){
     return init_;
 }
 
-bool Rng::reSeed(const uint8_t *seed, int seedLen){
+bool RngWithKeccak::reSeed(const uint8_t *seed, int seedLen){
     if(!seed || seedLen <= 0)
         return false;
 
@@ -72,7 +72,7 @@ bool Rng::reSeed(const uint8_t *seed, int seedLen){
     return true;
 }
 
-uint8_t Rng::random8bit(){
+uint8_t RngWithKeccak::random8bit(){
     if(!init_)
         return 0;
 
@@ -87,7 +87,7 @@ uint8_t Rng::random8bit(){
     return temp;
 }
 
-uint32_t Rng::random32bit(){
+uint32_t RngWithKeccak::random32bit(){
     if(!init_)
         return 0;
 
@@ -99,7 +99,7 @@ uint32_t Rng::random32bit(){
     return temp;
 }
 
-Rng::~Rng(){
+RngWithKeccak::~RngWithKeccak(){
     delete[] seed_;
     delete[] randMd_;
 }

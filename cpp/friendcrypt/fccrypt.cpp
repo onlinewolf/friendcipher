@@ -1,5 +1,5 @@
 /*
-friendcrypt::CryptWithKeccak
+friendcrypt::CryptWithRng
 Copyright (C) 2016 OnlineWolf
 
 This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,7 @@ URL: https://github.com/onlinewolf/friendcrypt
 namespace friendcrypt{
 
 //class
-CryptWithKeccak::CryptWithKeccak(int bitLen):
+CryptWithRng::CryptWithRng(int bitLen):
         kMdLen(bitLen/8), kMdBitLen(bitLen), mixer_(bitLen), rng_(bitLen), ivRng_(bitLen){
     if(!keccakBitLenCheck(bitLen))
         throw invalidArgsException;
@@ -36,7 +36,7 @@ CryptWithKeccak::CryptWithKeccak(int bitLen):
     ivRng_.reSeed(reinterpret_cast<uint8_t*>(&ti), sizeof(ti));
 }
 
-void CryptWithKeccak::ivCheck(int len){
+void CryptWithRng::ivCheck(int len){
     if(len <= 0)
         return;
 
@@ -50,7 +50,7 @@ void CryptWithKeccak::ivCheck(int len){
     }
 }
 
-void CryptWithKeccak::createIV(){
+void CryptWithRng::createIV(){
     ivCheck(kMdLen);
     ivLen_ = kMdLen;
 
@@ -58,14 +58,14 @@ void CryptWithKeccak::createIV(){
         iv_[i] = ivRng_.random8bit();
 }
 
-int CryptWithKeccak::getIVLen(){
+int CryptWithRng::getIVLen(){
     if(!iv_)
         return 0;
 
     return ivLen_;
 }
 
-bool CryptWithKeccak::setIV(const uint8_t *iv, int len){
+bool CryptWithRng::setIV(const uint8_t *iv, int len){
     if(!iv || len < helper_.kMinLen)
         return false;
 
@@ -76,7 +76,7 @@ bool CryptWithKeccak::setIV(const uint8_t *iv, int len){
     return true;
 }
 
-bool CryptWithKeccak::getIV(uint8_t *iv){
+bool CryptWithRng::getIV(uint8_t *iv){
     if(!iv)
         return false;
 
@@ -84,12 +84,12 @@ bool CryptWithKeccak::getIV(uint8_t *iv){
     return true;
 }
 
-bool CryptWithKeccak::setKey(const uint8_t *key, int len){
+bool CryptWithRng::setKey(const uint8_t *key, int len){
     return helper_.setKey(key, len);
 }
 
 
-bool CryptWithKeccak::encode(const uint8_t *dataIn, uint8_t *dataOut, int len){
+bool CryptWithRng::encode(const uint8_t *dataIn, uint8_t *dataOut, int len){
     if(!dataIn || !dataOut || len <= 0)
         return false;
 
@@ -103,12 +103,12 @@ bool CryptWithKeccak::encode(const uint8_t *dataIn, uint8_t *dataOut, int len){
     return true;
 }
 
-bool CryptWithKeccak::decode(const uint8_t *dataIn, uint8_t *dataOut, int len){
+bool CryptWithRng::decode(const uint8_t *dataIn, uint8_t *dataOut, int len){
     return encode(dataIn, dataOut, len);
 }
 
 
-bool CryptWithKeccak::encrypt(const uint8_t *dataIn, uint8_t *dataOut, int len){
+bool CryptWithRng::encrypt(const uint8_t *dataIn, uint8_t *dataOut, int len){
     if(!dataIn || !dataOut || len <= 0)
         return false;
 
@@ -128,7 +128,7 @@ bool CryptWithKeccak::encrypt(const uint8_t *dataIn, uint8_t *dataOut, int len){
 }
 
 
-bool CryptWithKeccak::decrypt(const uint8_t *dataIn, uint8_t *dataOut, int len){
+bool CryptWithRng::decrypt(const uint8_t *dataIn, uint8_t *dataOut, int len){
     if(!dataIn || !dataOut || len <= 0)
         return false;
 
@@ -147,7 +147,7 @@ bool CryptWithKeccak::decrypt(const uint8_t *dataIn, uint8_t *dataOut, int len){
 }
 
 
-bool CryptWithKeccak::encryptCrazy(const uint8_t *dataIn, uint8_t *dataOut, int len){
+bool CryptWithRng::encryptCrazy(const uint8_t *dataIn, uint8_t *dataOut, int len){
     if(!dataIn || !dataOut || len <= 0)
         return false;
 
@@ -166,7 +166,7 @@ bool CryptWithKeccak::encryptCrazy(const uint8_t *dataIn, uint8_t *dataOut, int 
     return true;
 }
 
-bool CryptWithKeccak::decryptCrazy(const uint8_t *dataIn, uint8_t *dataOut, int len){
+bool CryptWithRng::decryptCrazy(const uint8_t *dataIn, uint8_t *dataOut, int len){
     if(!dataIn || !dataOut || len <= 0)
         return false;
 
@@ -185,7 +185,7 @@ bool CryptWithKeccak::decryptCrazy(const uint8_t *dataIn, uint8_t *dataOut, int 
 }
 
 
-CryptWithKeccak::~CryptWithKeccak(){
+CryptWithRng::~CryptWithRng(){
     if(iv_)
         delete[] iv_;
 }

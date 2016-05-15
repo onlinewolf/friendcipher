@@ -30,7 +30,7 @@ namespace{//anonymous namespace for help
 
 static const uint64_t kDifferent = 1000000; //us
 
-uint64_t cryptSpeedCalc(bool enc, bool crazy, CryptWithKeccak &crypt, const uint8_t *dataIn, uint8_t *dataOut, int len){
+uint64_t cryptSpeedCalc(bool enc, bool crazy, CryptWithRng &crypt, const uint8_t *dataIn, uint8_t *dataOut, int len){
     if(!dataIn || !dataOut || len<=0)
         return 1L;
 
@@ -67,7 +67,7 @@ uint64_t cryptSpeedCalc(bool enc, bool crazy, CryptWithKeccak &crypt, const uint
     return results / kSpeedTestTimes;
 }
 
-uint64_t mixSpeedCalc(bool enc, bool crazy, MixWithKeccak &mixer, const uint8_t *dataIn, uint8_t *dataOut, int len){
+uint64_t mixSpeedCalc(bool enc, bool crazy, MixWithRng &mixer, const uint8_t *dataIn, uint8_t *dataOut, int len){
     if(!dataIn || !dataOut || len<=0)
         return 1L;
 
@@ -112,7 +112,7 @@ uint64_t cryptSpeed(bool enc, bool crazy, int bitLen, const uint8_t *dataIn, uin
     if(!dataIn || !dataOut || len<=0 || !key || keyLen<=0 || !keccakBitLenCheck(bitLen))
         return 0L;
 
-    CryptWithKeccak crypt(bitLen);
+    CryptWithRng crypt(bitLen);
     if(!iv || ivLen<=0){
         crypt.createIV();
     }else{
@@ -127,7 +127,7 @@ uint64_t mixSpeed(bool enc, bool crazy, int bitLen, const uint8_t *dataIn, uint8
     if(!dataIn || !dataOut || len<=0 || !key || keyLen<=0 || !iv || ivLen<=0 || !keccakBitLenCheck(bitLen))
         return 0L;
 
-    MixWithKeccak mixer(bitLen);
+    MixWithRng mixer(bitLen);
     mixer.init(key, keyLen, iv, ivLen);
     return (len*kDifferent)/mixSpeedCalc(enc, crazy, mixer, dataIn, dataOut, len);
 }
@@ -155,7 +155,7 @@ uint64_t rngSpeed(int bitLen, const uint8_t *key, int keyLen, const uint8_t *iv,
         return 0L;
 
     uint64_t results = 0L;
-    Rng rng(bitLen);
+    RngWithKeccak rng(bitLen);
     rng.init(key, keyLen, iv, ivLen);
     for(int i=0; i<kSpeedTestTimes; i++){
         auto start = std::chrono::high_resolution_clock::now();

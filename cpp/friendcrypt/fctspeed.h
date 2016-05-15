@@ -25,7 +25,7 @@ uint64_t keccakSpeed(int bitLen, const uint8_t *dataIn, int len, uint8_t *dataOu
 
 /**
  * @brief rngSpeed
- * Rng speed test
+ * RngWithKeccak speed test
  * @param bitLen Message digest bit length
  * @param key Key
  * @param keyLen Key length
@@ -39,7 +39,7 @@ uint64_t rngSpeed(int bitLen, const uint8_t *key, int keyLen, const uint8_t *iv,
 
 /**
  * @brief mixSpeed
- * MixWithKeccak speed test
+ * MixWithRng speed test
  * @param enc Encrypt/decrypt mode
  * @param crazy Crazy/normal mode
  * @param bitLen Message digest bit length
@@ -56,7 +56,7 @@ uint64_t mixSpeed(bool enc, bool crazy, int bitLen, const uint8_t *dataIn, uint8
 
 /**
  * @brief cryptSpeed
- * CryptWithKeccak speed test
+ * CryptWithRng speed test
  * @param enc Encrypt/decrypt mode
  * @param crazy Crazy/normal mode
  * @param bitLen Message digest bit length
