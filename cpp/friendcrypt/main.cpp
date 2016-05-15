@@ -5,28 +5,165 @@
 #include "fccrypt.h"
 #include "fckeccak.h"
 #include "fcrng.h"
+#include "fctspeed.h"
 
+void convert(uint64_t x){
+    if(x > 1024*1024*1024)
+        std::cout << x/(1024*1024*1024) << " GBps";
+    else if(x > 1024*1024)
+        std::cout << x/(1024*1024) << " MBps";
+    else if(x > 1024)
+        std::cout << x/1024 << " kBps";
+    else
+        std::cout << x << " Bps";
+}
 
 /*
  * Fast test!
  */
 int main(int argc, char *argv[]){
-    const int kMdBitLen = 224;
+    const int kMdBitLen = 384;
     const int kMdLen = kMdBitLen/8;
 
+    friendcrypt::Rng rng(kMdBitLen);
+    time_t ti = time(NULL);
+    rng.init((uint8_t*)&ti, sizeof(ti), nullptr, 0);
 
-    const int kDataLen = 16;
-    uint8_t data[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-                              21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
-                              41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
-                              61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80};
-    uint8_t dataOut[kDataLen];
-    uint8_t dataOut2[kDataLen];
-    const int kKeyLen = 16;
-    uint8_t key[kKeyLen] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
-    const int kIvLen = 16;
-    uint8_t iv[kIvLen] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
+    //data
+    const int kDataLen = 32*1024;
+    uint8_t *data = new uint8_t[kDataLen];
+    for(int i=0; i<kDataLen; i++){
+        data[i] = rng.random8bit();
+    }
 
+    uint8_t *dataOut = new uint8_t[kDataLen];
+    uint8_t *dataOut2 = new uint8_t[kDataLen];
+
+    //key
+    const int kKeyLen = 48;
+    uint8_t *key = new uint8_t[kKeyLen];
+    for(int i=0; i<kKeyLen; i++){
+        key[i] = rng.random8bit();
+    }
+
+    //iv
+    const int kIvLen = 48;
+    uint8_t *iv = new uint8_t[kIvLen];
+    for(int i=0; i<kIvLen; i++){
+        iv[i] = rng.random8bit();
+    }
+
+
+    //Keccak speed test
+    std::cout << "(Keccak) Data length: " << kDataLen << std::endl;
+    std::cout << "224 bit: "; convert(friendcrypt::test::keccakSpeed(224, data, kDataLen, dataOut)); std::cout << std::endl;
+    std::cout << "256 bit: "; convert(friendcrypt::test::keccakSpeed(256, data, kDataLen, dataOut)); std::cout << std::endl;
+    std::cout << "384 bit: "; convert(friendcrypt::test::keccakSpeed(384, data, kDataLen, dataOut)); std::cout << std::endl;
+    std::cout << "512 bit: "; convert(friendcrypt::test::keccakSpeed(512, data, kDataLen, dataOut)); std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
+
+    //Rng speed test
+    std::cout << "(Rng) Data length: " << kDataLen << std::endl;
+    std::cout << "224 bit: "; convert(friendcrypt::test::rngSpeed(224, key, kKeyLen, iv, kIvLen, dataOut, kDataLen)); std::cout << std::endl;
+    std::cout << "256 bit: "; convert(friendcrypt::test::rngSpeed(256, key, kKeyLen, iv, kIvLen, dataOut, kDataLen)); std::cout << std::endl;
+    std::cout << "384 bit: "; convert(friendcrypt::test::rngSpeed(384, key, kKeyLen, iv, kIvLen, dataOut, kDataLen)); std::cout << std::endl;
+    std::cout << "512 bit: "; convert(friendcrypt::test::rngSpeed(512, key, kKeyLen, iv, kIvLen, dataOut, kDataLen)); std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
+
+
+    //mix speed test
+    std::cout << "(mix) Data length: " << kDataLen << ", Key length: " << kKeyLen*8 << " bit, IV length: " << kIvLen*8 << " bit"<< std::endl;
+    std::cout << "224 bit: "; convert(friendcrypt::test::mixSpeed(true, false, 224, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
+    std::cout << "256 bit: "; convert(friendcrypt::test::mixSpeed(true, false, 256, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
+    std::cout << "384 bit: "; convert(friendcrypt::test::mixSpeed(true, false, 384, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
+    std::cout << "512 bit: "; convert(friendcrypt::test::mixSpeed(true, false, 512, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
+    std::cout << std::endl;
+
+    std::cout << "(reverseMix) Data length: " << kDataLen << ", Key length: " << kKeyLen*8 << " bit, IV length: " << kIvLen*8 << " bit"<< std::endl;
+    std::cout << "224 bit: "; convert(friendcrypt::test::mixSpeed(false, false, 224, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
+    std::cout << "256 bit: "; convert(friendcrypt::test::mixSpeed(false, false, 256, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
+    std::cout << "384 bit: "; convert(friendcrypt::test::mixSpeed(false, false, 384, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
+    std::cout << "512 bit: "; convert(friendcrypt::test::mixSpeed(false, false, 512, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
+    std::cout << std::endl;
+
+    std::cout << "(crazyMix) Data length: " << kDataLen << ", Key length: " << kKeyLen*8 << " bit, IV length: " << kIvLen*8 << " bit"<< std::endl;
+    std::cout << "224 bit: "; convert(friendcrypt::test::mixSpeed(true, true, 224, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
+    std::cout << "256 bit: "; convert(friendcrypt::test::mixSpeed(true, true, 256, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
+    std::cout << "384 bit: "; convert(friendcrypt::test::mixSpeed(true, true, 384, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
+    std::cout << "512 bit: "; convert(friendcrypt::test::mixSpeed(true, true, 512, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
+    std::cout << std::endl;
+
+    std::cout << "(reverseCrazyMix) Data length: " << kDataLen << ", Key length: " << kKeyLen*8 << " bit, IV length: " << kIvLen*8 << " bit"<< std::endl;
+    std::cout << "224 bit: "; convert(friendcrypt::test::mixSpeed(false, true, 224, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
+    std::cout << "256 bit: "; convert(friendcrypt::test::mixSpeed(false, true, 256, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
+    std::cout << "384 bit: "; convert(friendcrypt::test::mixSpeed(false, true, 384, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
+    std::cout << "512 bit: "; convert(friendcrypt::test::mixSpeed(false, true, 512, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
+
+
+    //crypt speed test
+    std::cout << "(encrypt) Data length: " << kDataLen << " byte, Key length: " << kKeyLen*8 << " bit, IV length: " << kIvLen*8 << " bit"<< std::endl;
+    std::cout << "224 bit: "; convert(friendcrypt::test::cryptSpeed(true, false, 224, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
+    std::cout << "256 bit: "; convert(friendcrypt::test::cryptSpeed(true, false, 256, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
+    std::cout << "384 bit: "; convert(friendcrypt::test::cryptSpeed(true, false, 384, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
+    std::cout << "512 bit: "; convert(friendcrypt::test::cryptSpeed(true, false, 512, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
+    std::cout << std::endl;
+
+    std::cout << "(encrypt) Data length: " << kDataLen << ", Key length: " << kKeyLen*8 << " bit" << std::endl;
+    std::cout << "224 bit: "; convert(friendcrypt::test::cryptSpeed(true, false, 224, data, dataOut, kDataLen, key, kKeyLen, nullptr, 0)); std::cout << ", (IV: 224 bit)" << std::endl;
+    std::cout << "256 bit: "; convert(friendcrypt::test::cryptSpeed(true, false, 256, data, dataOut, kDataLen, key, kKeyLen, nullptr, 0)); std::cout << ", (IV: 256 bit)" << std::endl;
+    std::cout << "384 bit: "; convert(friendcrypt::test::cryptSpeed(true, false, 384, data, dataOut, kDataLen, key, kKeyLen, nullptr, 0)); std::cout << ", (IV: 384 bit)" << std::endl;
+    std::cout << "512 bit: "; convert(friendcrypt::test::cryptSpeed(true, false, 512, data, dataOut, kDataLen, key, kKeyLen, nullptr, 0)); std::cout << ", (IV: 512 bit)" << std::endl;
+    std::cout << std::endl;
+
+    std::cout << "(decrypt) Data length: " << kDataLen << " byte, Key length: " << kKeyLen*8 << " bit, IV length: " << kIvLen*8 << " bit"<< std::endl;
+    std::cout << "224 bit: "; convert(friendcrypt::test::cryptSpeed(false, false, 224, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
+    std::cout << "256 bit: "; convert(friendcrypt::test::cryptSpeed(false, false, 256, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
+    std::cout << "384 bit: "; convert(friendcrypt::test::cryptSpeed(false, false, 384, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
+    std::cout << "512 bit: "; convert(friendcrypt::test::cryptSpeed(false, false, 512, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
+    std::cout << std::endl;
+
+    std::cout << "(decrypt) Data length: " << kDataLen << ", Key length: " << kKeyLen*8 << " bit" << std::endl;
+    std::cout << "224 bit: "; convert(friendcrypt::test::cryptSpeed(false, false, 224, data, dataOut, kDataLen, key, kKeyLen, nullptr, 0)); std::cout << ", (IV: 224 bit)" << std::endl;
+    std::cout << "256 bit: "; convert(friendcrypt::test::cryptSpeed(false, false, 256, data, dataOut, kDataLen, key, kKeyLen, nullptr, 0)); std::cout << ", (IV: 256 bit)" << std::endl;
+    std::cout << "384 bit: "; convert(friendcrypt::test::cryptSpeed(false, false, 384, data, dataOut, kDataLen, key, kKeyLen, nullptr, 0)); std::cout << ", (IV: 384 bit)" << std::endl;
+    std::cout << "512 bit: "; convert(friendcrypt::test::cryptSpeed(false, false, 512, data, dataOut, kDataLen, key, kKeyLen, nullptr, 0)); std::cout << ", (IV: 512 bit)" << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
+
+
+    std::cout << "(crazyEncrypt) Data length: " << kDataLen << " byte, Key length: " << kKeyLen*8 << " bit, IV length: " << kIvLen*8 << " bit"<< std::endl;
+    std::cout << "224 bit: "; convert(friendcrypt::test::cryptSpeed(true, true, 224, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
+    std::cout << "256 bit: "; convert(friendcrypt::test::cryptSpeed(true, true, 256, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
+    std::cout << "384 bit: "; convert(friendcrypt::test::cryptSpeed(true, true, 384, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
+    std::cout << "512 bit: "; convert(friendcrypt::test::cryptSpeed(true, true, 512, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
+    std::cout << std::endl;
+
+    std::cout << "(crazyEncrypt) Data length: " << kDataLen << ", Key length: " << kKeyLen*8 << " bit" << std::endl;
+    std::cout << "224 bit: "; convert(friendcrypt::test::cryptSpeed(true, true, 224, data, dataOut, kDataLen, key, kKeyLen, nullptr, 0)); std::cout << ", (IV: 224 bit)" << std::endl;
+    std::cout << "256 bit: "; convert(friendcrypt::test::cryptSpeed(true, true, 256, data, dataOut, kDataLen, key, kKeyLen, nullptr, 0)); std::cout << ", (IV: 256 bit)" << std::endl;
+    std::cout << "384 bit: "; convert(friendcrypt::test::cryptSpeed(true, true, 384, data, dataOut, kDataLen, key, kKeyLen, nullptr, 0)); std::cout << ", (IV: 384 bit)" << std::endl;
+    std::cout << "512 bit: "; convert(friendcrypt::test::cryptSpeed(true, true, 512, data, dataOut, kDataLen, key, kKeyLen, nullptr, 0)); std::cout << ", (IV: 512 bit)" << std::endl;
+    std::cout << std::endl;
+
+    std::cout << "(crazyDecrypt) Data length: " << kDataLen << " byte, Key length: " << kKeyLen*8 << " bit, IV length: " << kIvLen*8 << " bit"<< std::endl;
+    std::cout << "224 bit: "; convert(friendcrypt::test::cryptSpeed(false, true, 224, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
+    std::cout << "256 bit: "; convert(friendcrypt::test::cryptSpeed(false, true, 256, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
+    std::cout << "384 bit: "; convert(friendcrypt::test::cryptSpeed(false, true, 384, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
+    std::cout << "512 bit: "; convert(friendcrypt::test::cryptSpeed(false, true, 512, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
+    std::cout << std::endl;
+
+    std::cout << "(crazyDecrypt) Data length: " << kDataLen << ", Key length: " << kKeyLen*8 << " bit" << std::endl;
+    std::cout << "224 bit: "; convert(friendcrypt::test::cryptSpeed(false, true, 224, data, dataOut, kDataLen, key, kKeyLen, nullptr, 0)); std::cout << ", (IV: 224 bit)" << std::endl;
+    std::cout << "256 bit: "; convert(friendcrypt::test::cryptSpeed(false, true, 256, data, dataOut, kDataLen, key, kKeyLen, nullptr, 0)); std::cout << ", (IV: 256 bit)" << std::endl;
+    std::cout << "384 bit: "; convert(friendcrypt::test::cryptSpeed(false, true, 384, data, dataOut, kDataLen, key, kKeyLen, nullptr, 0)); std::cout << ", (IV: 384 bit)" << std::endl;
+    std::cout << "512 bit: "; convert(friendcrypt::test::cryptSpeed(false, true, 512, data, dataOut, kDataLen, key, kKeyLen, nullptr, 0)); std::cout << ", (IV: 512 bit)" << std::endl;
+    std::cout << std::endl;
+
+    //other minimal test
     /*friendcrypt::MixWithKeccak mixer(kMdBitLen);
     mixer.init(key, kKeyLen, iv, kIvLen);
     mixer.crazyMix(data, dataOut, kDataLen);
@@ -92,7 +229,7 @@ int main(int argc, char *argv[]){
         std::cout << std::endl;
     }*/
 
-    //try crazy crypt
+    /*//try crazy crypt
     friendcrypt::CryptWithKeccak enCrypt(kMdBitLen);
     enCrypt.setKey(key, kKeyLen);
     friendcrypt::CryptWithKeccak deCrypt(kMdBitLen);//for test
@@ -137,7 +274,7 @@ int main(int argc, char *argv[]){
         }
         std::cout << std::endl;
         std::cout << std::endl;
-    }
+    }*/
 
     /*//try crazy crypt
     friendcrypt::CryptWithKeccak enCrypt(kMdBitLen);
@@ -182,7 +319,7 @@ int main(int argc, char *argv[]){
     std::cout << std::endl;
     std::cout << std::endl;*/
 
-    uint8_t data1[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+    /*uint8_t data1[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
         21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40};
     uint8_t data2[]{41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
         61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80};
@@ -197,20 +334,18 @@ int main(int argc, char *argv[]){
     for (int i=0; i<kMdLen; i++) {
         std::cout << std::hex << std::setw(2) << std::uppercase << static_cast<int>(mDigest[i]);
     }
-    std::cout << std::endl;
+    std::cout << std::endl;*/
 
-    /*uint32_t ti = static_cast<uint32_t>(time(NULL));
-    friendcrypt::Rng rng(kMdBitLen);
-    uint8_t data1[]{1, 2, 3, 5};
-
-    rng.init((uint8_t*)&ti, 4, nullptr, 0);
+    /*
+    rng.init((uint8_t*)&ti, sizeof(ti), nullptr, 0);
     std::cout << std::hex << "r8:   " << static_cast<int>(rng.random8bit()) << std::endl;
     std::cout << std::hex << "1r32: " << static_cast<int>(rng.random32bit()) << std::endl;
     std::cout << std::hex << "2r32: " << static_cast<int>(rng.random32bit()) << std::endl;
     std::cout << std::hex << "3r32: " << static_cast<int>(rng.random32bit()) << std::endl;
     std::cout << std::hex << "4r32: " << static_cast<int>(rng.random32bit()) << std::endl;
 
-    rng.init((uint8_t*)&ti, 4, data1, 4);
+    uint8_t data1[]{1, 2, 3, 5};
+    rng.init((uint8_t*)&ti, sizeof(ti), data1, 4);
     std::cout << std::hex << "r8:   " << static_cast<int>(rng.random8bit()) << std::endl;
     std::cout << std::hex << "1r32: " << static_cast<int>(rng.random32bit()) << std::endl;
     std::cout << std::hex << "2r32: " << static_cast<int>(rng.random32bit()) << std::endl;
@@ -224,5 +359,10 @@ int main(int argc, char *argv[]){
     std::cout << std::hex << "3r32: " << static_cast<int>(rng.random32bit()) << std::endl;
     std::cout << std::hex << "4r32: " << static_cast<int>(rng.random32bit()) << std::endl;*/
 
+    delete[] data;
+    delete[] key;
+    delete[] iv;
+    delete[] dataOut;
+    delete[] dataOut2;
     return 0;
 }

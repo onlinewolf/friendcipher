@@ -40,13 +40,13 @@ public:
      * @brief kMaxCrazy
      * Maximum random times for crazy mix
      */
-    static const uint8_t kMaxCrazy = 24;
+    static const uint8_t kMaxCrazy = 12;
 
     /**
      * @brief kMinCrazy
      * Minimum random times for crazy mix
      */
-    static const uint8_t kMinCrazy = 12;
+    static const uint8_t kMinCrazy = 6;
 
     /**
      * @brief MixWithKeccak

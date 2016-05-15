@@ -59,16 +59,16 @@ static void xor64(uint8_t *x, uint64_t u){
 #endif
 
 #define ROL64(a, offset) ((((uint64_t)a) << offset) ^ (((uint64_t)a) >> (64-offset)))
-#define i(x, y) ((x)+5*(y))
+#define CALC(x, y) ((x)+5*(y))
 
 #ifdef LITTLE_ENDIAN
-    #define readLane(x, y)          (((uint64_t*)state)[i(x, y)])
-    #define writeLane(x, y, lane)   (((uint64_t*)state)[i(x, y)]) = (lane)
-    #define XORLane(x, y, lane)     (((uint64_t*)state)[i(x, y)]) ^= (lane)
+    #define readLane(x, y)          (((uint64_t*)state)[CALC(x, y)])
+    #define writeLane(x, y, lane)   (((uint64_t*)state)[CALC(x, y)]) = (lane)
+    #define XORLane(x, y, lane)     (((uint64_t*)state)[CALC(x, y)]) ^= (lane)
 #else
-    #define readLane(x, y)          load64((uint8_t*)state+sizeof(uint64_t)*i(x, y))
-    #define writeLane(x, y, lane)   store64((uint8_t*)state+sizeof(uint64_t)*i(x, y), lane)
-    #define XORLane(x, y, lane)     xor64((uint8_t*)state+sizeof(uint64_t)*i(x, y), lane)
+    #define readLane(x, y)          load64((uint8_t*)state+sizeof(uint64_t)*CALC(x, y))
+    #define writeLane(x, y, lane)   store64((uint8_t*)state+sizeof(uint64_t)*CALC(x, y), lane)
+    #define XORLane(x, y, lane)     xor64((uint8_t*)state+sizeof(uint64_t)*CALC(x, y), lane)
 #endif
 
 int LFSR86540(uint8_t *LFSR){
@@ -175,20 +175,20 @@ void Keccak::update(const uint8_t *data, int len){
     if(!data || len <= 0)
         return;
 
-    int neg = 0;
-    int i;
-    for(i=0; i<len; i++){
-        forUpdate_[updatePos_+i+neg] = data[i];
-        if((updatePos_+i+neg) == rateInBytes_-1){
+    int reCount = 0;
+    for(int j=0; j<len; j++){
+        forUpdate_[updatePos_ + reCount] = data[j];
+        reCount++;
+        if(updatePos_ + reCount > rateInBytes_-1){
             updatePos_ = 0;
-            for (int x = 0; x < rateInBytes_; x++)
+            reCount = 0;
+            for(int x=0; x < rateInBytes_; x++)
                 state_[x] ^= forUpdate_[x];
             KeccakF1600_StatePermute(state_);
-            neg -= i+1;
         }
     }
 
-    updatePos_ = updatePos_+i+neg;
+    updatePos_ += reCount;
 }
 
 void Keccak::finish(uint8_t *out){
@@ -196,13 +196,11 @@ void Keccak::finish(uint8_t *out){
         return;
 
     if(updatePos_ > 0){
-        for(int i=0; i<updatePos_; i++){
-            state_[i] ^= forUpdate_[i];
+        for(int j=0; j<updatePos_; j++){
+            state_[j] ^= forUpdate_[j];
         }
 
         state_[updatePos_] ^= kDelimitedSuffix_;
-        if (((kDelimitedSuffix_ & 0x80) != 0) && (updatePos_ == (rateInBytes_-1)))
-            KeccakF1600_StatePermute(state_);
         state_[rateInBytes_-1] ^= 0x80;
         KeccakF1600_StatePermute(state_);
     }

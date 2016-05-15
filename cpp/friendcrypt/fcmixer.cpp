@@ -91,21 +91,21 @@ bool MixWithKeccak::mix(const uint8_t* dataIn, uint8_t *dataOut, int len, uint32
     rng_.reSeed(temp_, kMdLen);
 
     uint8_t blockLen = calcBlockSize(rng_.random8bit(), kMdLen);
-    uint8_t neg = 0;
+    uint8_t reCount = 0;
     for(int i=0; i<len; i++){
-        temp_[neg] = dataIn[i];
-        neg++;
-        if(neg > blockLen){
-            listMix(temp_, &dataOut[i-blockLen], neg);
-            neg = 0;
+        temp_[reCount] = dataIn[i];
+        reCount++;
+        if(reCount > blockLen){
+            listMix(temp_, &dataOut[i-blockLen], reCount);
+            reCount = 0;
             if(i!=(len-1)){
                 blockLen = calcBlockSize(rng_.random8bit(), kMdLen);
             }
         }
     }
 
-    if(neg!=0){
-        listMix(temp_, &dataOut[len-neg], neg);
+    if(reCount!=0){
+        listMix(temp_, &dataOut[len-reCount], reCount);
     }
 
     return true;
@@ -123,21 +123,21 @@ bool MixWithKeccak::reverseMix(const uint8_t* dataIn, uint8_t *dataOut, int len,
     rng_.reSeed(temp_, kMdLen);
 
     uint8_t blockLen = calcBlockSize(rng_.random8bit(), kMdLen);
-    uint8_t neg = 0;
+    uint8_t reCount = 0;
     for(int i=0; i<len; i++){
-        temp_[neg] = dataIn[i];
-        neg++;
-        if(neg > blockLen){
-            listReverseMix(temp_, &dataOut[i-blockLen], neg);
-            neg = 0;
+        temp_[reCount] = dataIn[i];
+        reCount++;
+        if(reCount > blockLen){
+            listReverseMix(temp_, &dataOut[i-blockLen], reCount);
+            reCount = 0;
             if(i!=(len-1)){
                 blockLen = calcBlockSize(rng_.random8bit(), kMdLen);
             }
         }
     }
 
-    if(neg!=0){
-        listReverseMix(temp_, &dataOut[len-neg], neg);
+    if(reCount!=0){
+        listReverseMix(temp_, &dataOut[len-reCount], reCount);
     }
 
     return true;
