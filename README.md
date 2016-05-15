@@ -8,5 +8,5 @@ Public and new cryptography with Keccak for C++ and Java, [C++ Doxygen here](htt
 - [x] C++ source
 - [ ] Code teszt
 - [ ] Optimalisation
-- [ ] Performance teszt
+- [x] Performance teszt
 - [ ] Java source
