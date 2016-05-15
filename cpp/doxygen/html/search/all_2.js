@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['encrypt',['encrypt',['../classfriendcrypt_1_1_crypt_with_keccak.html#abeb368fa0b42bd907ce003b88c39b2b6',1,'friendcrypt::CryptWithKeccak']]],
-  ['encryptcrazy',['encryptCrazy',['../classfriendcrypt_1_1_crypt_with_keccak.html#aeea0434f495365ed4e8f961f36f0158b',1,'friendcrypt::CryptWithKeccak']]]
+  ['encrypt',['encrypt',['../classfriendcrypt_1_1_crypt_with_rng.html#a6b8b90956abfb36a8f731508539a347b',1,'friendcrypt::CryptWithRng']]],
+  ['encryptcrazy',['encryptCrazy',['../classfriendcrypt_1_1_crypt_with_rng.html#a9f3a558ed58097530b97d467a741f95a',1,'friendcrypt::CryptWithRng']]]
 ];

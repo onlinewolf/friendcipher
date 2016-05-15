@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['_7ecryptwithkeccak',['~CryptWithKeccak',['../classfriendcrypt_1_1_crypt_with_keccak.html#ae57948af03c6a78573ca777ebaae2aeb',1,'friendcrypt::CryptWithKeccak']]],
+  ['_7ecryptwithrng',['~CryptWithRng',['../classfriendcrypt_1_1_crypt_with_rng.html#ae557334cf056e0cdd5b204ef56e81e67',1,'friendcrypt::CryptWithRng']]],
   ['_7ekeccak',['~Keccak',['../classfriendcrypt_1_1_keccak.html#a55594235b10bfb1a80c4616bf28eefd2',1,'friendcrypt::Keccak']]],
-  ['_7emixwithkeccak',['~MixWithKeccak',['../classfriendcrypt_1_1_mix_with_keccak.html#a107aa10ddde7da020cef6ae2b468785d',1,'friendcrypt::MixWithKeccak']]],
-  ['_7erng',['~Rng',['../classfriendcrypt_1_1_rng.html#a65b789b29d0d0298f44193f13b160a78',1,'friendcrypt::Rng']]]
+  ['_7emixwithrng',['~MixWithRng',['../classfriendcrypt_1_1_mix_with_rng.html#a59bc0ba9853bfcd0f89bfb5e2f6cca53',1,'friendcrypt::MixWithRng']]],
+  ['_7erngwithkeccak',['~RngWithKeccak',['../classfriendcrypt_1_1_rng_with_keccak.html#a4360c6df09e0b4c7b14df7d48f181681',1,'friendcrypt::RngWithKeccak']]]
 ];

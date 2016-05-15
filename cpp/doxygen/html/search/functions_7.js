@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['mix',['mix',['../classfriendcrypt_1_1_mix_with_keccak.html#ab6147e2dc8abeb1eb843eb77e3217f54',1,'friendcrypt::MixWithKeccak']]],
-  ['mixwithkeccak',['MixWithKeccak',['../classfriendcrypt_1_1_mix_with_keccak.html#aea1bfca582cf06fd6b4c5c757d792ad0',1,'friendcrypt::MixWithKeccak']]]
+  ['mix',['mix',['../classfriendcrypt_1_1_mix_with_rng.html#ac2387f9d07cc4b338b7fb1d4ea989d2e',1,'friendcrypt::MixWithRng']]],
+  ['mixwithrng',['MixWithRng',['../classfriendcrypt_1_1_mix_with_rng.html#a2580cf548f1f332a8d5fe0e073ed7250',1,'friendcrypt::MixWithRng']]]
 ];

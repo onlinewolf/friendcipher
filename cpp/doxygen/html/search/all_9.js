@@ -1,10 +1,10 @@
 var searchData=
 [
-  ['random32bit',['random32bit',['../classfriendcrypt_1_1_rng.html#a2c8671a57a22c7ed00f865104445b995',1,'friendcrypt::Rng']]],
-  ['random8bit',['random8bit',['../classfriendcrypt_1_1_rng.html#a91990e2d42222cde44029bf46c4456d2',1,'friendcrypt::Rng']]],
-  ['reseed',['reSeed',['../classfriendcrypt_1_1_rng.html#acba15a0ab557961f539d00663832f6fa',1,'friendcrypt::Rng']]],
-  ['reversecrazymix',['reverseCrazyMix',['../classfriendcrypt_1_1_mix_with_keccak.html#ac6e23fa5bf7d91f0fe9514a7190a7c2d',1,'friendcrypt::MixWithKeccak']]],
-  ['reversemix',['reverseMix',['../classfriendcrypt_1_1_mix_with_keccak.html#a051285f79afd59cc8dd38f600c898316',1,'friendcrypt::MixWithKeccak']]],
-  ['rng',['Rng',['../classfriendcrypt_1_1_rng.html',1,'friendcrypt']]],
-  ['rng',['Rng',['../classfriendcrypt_1_1_rng.html#a706c1ec2c2e66ceb19b52b6cbc2848da',1,'friendcrypt::Rng']]]
+  ['random32bit',['random32bit',['../classfriendcrypt_1_1_rng_with_keccak.html#a6642368694c008202ed584d737398d6b',1,'friendcrypt::RngWithKeccak']]],
+  ['random8bit',['random8bit',['../classfriendcrypt_1_1_rng_with_keccak.html#a6690f8a3b3b876a1df9075ccae499b03',1,'friendcrypt::RngWithKeccak']]],
+  ['reseed',['reSeed',['../classfriendcrypt_1_1_rng_with_keccak.html#a653e70b869ef78920818bab5bfbae093',1,'friendcrypt::RngWithKeccak']]],
+  ['reversecrazymix',['reverseCrazyMix',['../classfriendcrypt_1_1_mix_with_rng.html#ae9f7d799b46a82f9ecbb01a2fe9fde0f',1,'friendcrypt::MixWithRng']]],
+  ['reversemix',['reverseMix',['../classfriendcrypt_1_1_mix_with_rng.html#ac4296f0587f5a4e5e92b2c982d335dbf',1,'friendcrypt::MixWithRng']]],
+  ['rngwithkeccak',['RngWithKeccak',['../classfriendcrypt_1_1_rng_with_keccak.html',1,'friendcrypt']]],
+  ['rngwithkeccak',['RngWithKeccak',['../classfriendcrypt_1_1_rng_with_keccak.html#ab4a6bf8cc7e47d11d3093f1673ac0368',1,'friendcrypt::RngWithKeccak']]]
 ];
