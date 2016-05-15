@@ -11,5 +11,5 @@ Public and new cryptography for C++ and Java, [C++ Doxygen here](https://onlinew
 - [ ] Java source
 - Is this slower than AES? Yes.
 - Is this a bad idea in 2016? Yes.
-- Was it created for the future? Yes
+- Was it created for the future? Yes.
 
