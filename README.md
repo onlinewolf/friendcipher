@@ -1,6 +1,6 @@
 # FriendCipher
 Public and new cipher plan,
- - Core: Random Number Generator
+ - Core: Random Number Generator with Hash
  - Mixer: Fisher–Yates shuffle
  - Future plan: new symmetric key encryption 
  - Was it created for the future? Yes.
@@ -10,5 +10,6 @@ Public and new cipher plan,
 - [ ] Optimalisation
 - [ ] Performance teszt
 - [ ] Java source
+- [ ] Python source
 
 
