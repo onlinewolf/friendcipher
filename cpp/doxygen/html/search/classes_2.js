@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['keccak',['Keccak',['../classfriendcrypt_1_1_keccak.html',1,'friendcrypt']]]
+  ['keccak',['Keccak',['../classfriendcipher_1_1_keccak.html',1,'friendcipher']]]
 ];

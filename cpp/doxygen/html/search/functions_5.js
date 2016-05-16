@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['init',['init',['../classfriendcrypt_1_1_mix_with_rng.html#ad043bae51c9cd0d23c5b50c5ae0e0d80',1,'friendcrypt::MixWithRng::init()'],['../classfriendcrypt_1_1_rng_with_keccak.html#a0b56d78da066166d6df5d873ed3c09be',1,'friendcrypt::RngWithKeccak::init()']]],
-  ['isinited',['isInited',['../classfriendcrypt_1_1_mix_with_rng.html#a016ef3334ba496197906560dae0a3ed2',1,'friendcrypt::MixWithRng::isInited()'],['../classfriendcrypt_1_1_rng_with_keccak.html#a584a2243017696ba35a200ab6da23691',1,'friendcrypt::RngWithKeccak::isInited()']]]
+  ['init',['init',['../classfriendcipher_1_1_mix_with_rng.html#a5dab44903c1378d4ec221391f6558e2d',1,'friendcipher::MixWithRng::init()'],['../classfriendcipher_1_1_rng_with_keccak.html#af8816a38290fa926a16c5618a8a840b8',1,'friendcipher::RngWithKeccak::init()']]],
+  ['isinited',['isInited',['../classfriendcipher_1_1_mix_with_rng.html#a4176195b8c429e344a1339856d381e6e',1,'friendcipher::MixWithRng::isInited()'],['../classfriendcipher_1_1_rng_with_keccak.html#a80564f56ebbbb985197bbf7d0b614f46',1,'friendcipher::RngWithKeccak::isInited()']]]
 ];

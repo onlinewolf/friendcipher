@@ -1,9 +1,9 @@
 var searchData=
 [
-  ['random32bit',['random32bit',['../classfriendcrypt_1_1_rng_with_keccak.html#a6642368694c008202ed584d737398d6b',1,'friendcrypt::RngWithKeccak']]],
-  ['random8bit',['random8bit',['../classfriendcrypt_1_1_rng_with_keccak.html#a6690f8a3b3b876a1df9075ccae499b03',1,'friendcrypt::RngWithKeccak']]],
-  ['reseed',['reSeed',['../classfriendcrypt_1_1_rng_with_keccak.html#a653e70b869ef78920818bab5bfbae093',1,'friendcrypt::RngWithKeccak']]],
-  ['reversecrazymix',['reverseCrazyMix',['../classfriendcrypt_1_1_mix_with_rng.html#ae9f7d799b46a82f9ecbb01a2fe9fde0f',1,'friendcrypt::MixWithRng']]],
-  ['reversemix',['reverseMix',['../classfriendcrypt_1_1_mix_with_rng.html#ac4296f0587f5a4e5e92b2c982d335dbf',1,'friendcrypt::MixWithRng']]],
-  ['rngwithkeccak',['RngWithKeccak',['../classfriendcrypt_1_1_rng_with_keccak.html#ab4a6bf8cc7e47d11d3093f1673ac0368',1,'friendcrypt::RngWithKeccak']]]
+  ['random32bit',['random32bit',['../classfriendcipher_1_1_rng_with_keccak.html#ad0660e9de74b5a539dd22dd138ac0fc6',1,'friendcipher::RngWithKeccak']]],
+  ['random8bit',['random8bit',['../classfriendcipher_1_1_rng_with_keccak.html#a12673d82506e6be80737cf3efdb00394',1,'friendcipher::RngWithKeccak']]],
+  ['reseed',['reSeed',['../classfriendcipher_1_1_rng_with_keccak.html#a94158d353f00006c037778fe274a1a65',1,'friendcipher::RngWithKeccak']]],
+  ['reversecrazymix',['reverseCrazyMix',['../classfriendcipher_1_1_mix_with_rng.html#a0a96c4706b6952d855e6ceb5efdde671',1,'friendcipher::MixWithRng']]],
+  ['reversemix',['reverseMix',['../classfriendcipher_1_1_mix_with_rng.html#a8c2feef52cf93e1a1258c388a971cc52',1,'friendcipher::MixWithRng']]],
+  ['rngwithkeccak',['RngWithKeccak',['../classfriendcipher_1_1_rng_with_keccak.html#a443fab206018a3861c8c2f629c5c30b6',1,'friendcipher::RngWithKeccak']]]
 ];

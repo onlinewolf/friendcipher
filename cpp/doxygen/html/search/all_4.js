@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['getiv',['getIV',['../classfriendcrypt_1_1_crypt_with_rng.html#a2130fc1d7756450e2b207cafc7e73b30',1,'friendcrypt::CryptWithRng']]],
-  ['getivlen',['getIVLen',['../classfriendcrypt_1_1_crypt_with_rng.html#ab99ad7a5b54a6a2eda100ee95fcfd679',1,'friendcrypt::CryptWithRng']]]
+  ['getiv',['getIV',['../classfriendcipher_1_1_crypt_with_rng.html#a0f48abf96d8f92fad8aef93f8373d460',1,'friendcipher::CryptWithRng']]],
+  ['getivlen',['getIVLen',['../classfriendcipher_1_1_crypt_with_rng.html#abda822e000d5a1695cf3844e248f498b',1,'friendcipher::CryptWithRng']]]
 ];

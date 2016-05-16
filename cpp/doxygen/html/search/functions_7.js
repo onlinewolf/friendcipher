@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['mix',['mix',['../classfriendcrypt_1_1_mix_with_rng.html#ac2387f9d07cc4b338b7fb1d4ea989d2e',1,'friendcrypt::MixWithRng']]],
-  ['mixwithrng',['MixWithRng',['../classfriendcrypt_1_1_mix_with_rng.html#a2580cf548f1f332a8d5fe0e073ed7250',1,'friendcrypt::MixWithRng']]]
+  ['mix',['mix',['../classfriendcipher_1_1_mix_with_rng.html#aa262f36566d985274a8896076eeb97cd',1,'friendcipher::MixWithRng']]],
+  ['mixwithrng',['MixWithRng',['../classfriendcipher_1_1_mix_with_rng.html#ad7eddcda10bf3cea79b58da5dfa5ef30',1,'friendcipher::MixWithRng']]]
 ];

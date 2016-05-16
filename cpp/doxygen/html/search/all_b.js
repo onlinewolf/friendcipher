@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['update',['update',['../classfriendcrypt_1_1_keccak.html#a5614af4efe71ef76840414ae52e93503',1,'friendcrypt::Keccak']]]
+  ['update',['update',['../classfriendcipher_1_1_keccak.html#afdaf63a24a43a0039f3fd44ff92d4fba',1,'friendcipher::Keccak']]]
 ];

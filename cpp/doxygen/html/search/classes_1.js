@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['friendcryptexception',['FriendCryptException',['../classfriendcrypt_1_1_friend_crypt_exception.html',1,'friendcrypt']]]
+  ['friendcipherexception',['FriendCipherException',['../classfriendcipher_1_1_friend_cipher_exception.html',1,'friendcipher']]]
 ];
