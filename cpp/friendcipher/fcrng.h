@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <fckeccak.h>
 
-namespace friendcrypt{
+namespace friendcipher{
 
 /**
  * @brief The RngWithKeccak class

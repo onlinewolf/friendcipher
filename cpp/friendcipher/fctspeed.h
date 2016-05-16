@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <chrono>
 
-namespace friendcrypt{
+namespace friendcipher{
 namespace test{
 
 /**

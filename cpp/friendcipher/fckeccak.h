@@ -2,7 +2,7 @@
 #define FCKECCAK_H
 #include <cstdint>
 
-namespace friendcrypt{
+namespace friendcipher{
 
 //Intel x86, x86-64
 #define LITTLE_ENDIAN

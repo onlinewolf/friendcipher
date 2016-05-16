@@ -2,7 +2,7 @@
 #include <iomanip>
 #include "fcmixer.h"
 #include "fcexception.h"
-#include "fccrypt.h"
+#include "fccipher.h"
 #include "fckeccak.h"
 #include "fcrng.h"
 #include "fctspeed.h"
@@ -25,7 +25,7 @@ int main(int argc, char *argv[]){
     const int kMdBitLen = 384;
     const int kMdLen = kMdBitLen/8;
 
-    friendcrypt::RngWithKeccak rng(kMdBitLen);
+    friendcipher::RngWithKeccak rng(kMdBitLen);
     time_t ti = time(NULL);
     rng.init((uint8_t*)&ti, sizeof(ti), nullptr, 0);
 
@@ -168,7 +168,7 @@ int main(int argc, char *argv[]){
     std::cout << std::endl;*/
 
     //other minimal test
-    friendcrypt::MixWithRng mixer(kMdBitLen);
+    friendcipher::MixWithRng mixer(kMdBitLen);
     mixer.init(key, kKeyLen, iv, kIvLen);
     mixer.crazyMix(data, dataOut, kDataLen);
 
@@ -235,9 +235,9 @@ int main(int argc, char *argv[]){
     }*/
 
     //try crazy crypt
-    friendcrypt::CryptWithRng enCrypt(kMdBitLen);
+    friendcipher::CryptWithRng enCrypt(kMdBitLen);
     enCrypt.setKey(key, kKeyLen);
-    friendcrypt::CryptWithRng deCrypt(kMdBitLen);//for test
+    friendcipher::CryptWithRng deCrypt(kMdBitLen);//for test
     deCrypt.setKey(key, kKeyLen);
 
     enCrypt.createIV();
@@ -331,7 +331,7 @@ int main(int argc, char *argv[]){
 
     uint8_t mDigest[kMdLen];
     //fc
-    friendcrypt::Keccak hash(kMdBitLen);
+    friendcipher::Keccak hash(kMdBitLen);
     hash.update(data1, 40);
     hash.update(data2, 40);
     hash.finish(mDigest);

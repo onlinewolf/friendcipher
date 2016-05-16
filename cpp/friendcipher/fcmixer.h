@@ -4,7 +4,7 @@
 #include "fckeccak.h"
 #include "fcrng.h"
 
-namespace friendcrypt{
+namespace friendcipher{
 
 /**
  * @brief The MixWithRng class

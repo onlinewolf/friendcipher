@@ -1,5 +1,5 @@
 /*
-friendcrypt::FriendCryptException
+friendcipher::FriendCryptException
 Copyright (C) 2016 OnlineWolf
 
 This program is free software: you can redistribute it and/or modify
@@ -15,33 +15,33 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-URL: https://github.com/onlinewolf/friendcrypt
+URL: https://github.com/onlinewolf/friendcipher
 */
 #include <cstring>
 #include "fcexception.h"
 
-namespace friendcrypt{
+namespace friendcipher{
 
-FriendCryptException defaultException;
-FriendCryptException invalidArgsException(1);
+FriendCipherException defaultException;
+FriendCipherException invalidArgsException(1);
 
-FriendCryptException::FriendCryptException():what_(0){
+FriendCipherException::FriendCipherException():what_(0){
 }
 
-FriendCryptException::FriendCryptException(int what):what_(what){
+FriendCipherException::FriendCipherException(int what):what_(what){
 }
 
-FriendCryptException::FriendCryptException(const FriendCryptException &other):what_(other.what_){
+FriendCipherException::FriendCipherException(const FriendCipherException &other):what_(other.what_){
 }
 
-bool operator==(const FriendCryptException& lhs, const FriendCryptException& rhs){
+bool operator==(const FriendCipherException& lhs, const FriendCipherException& rhs){
     return lhs.what_ == rhs.what_;
 }
 
-bool operator!=(const FriendCryptException& lhs, const FriendCryptException& rhs){
+bool operator!=(const FriendCipherException& lhs, const FriendCipherException& rhs){
     return !(lhs == rhs);
 }
 
-FriendCryptException::~FriendCryptException(){}
+FriendCipherException::~FriendCipherException(){}
 
 }

@@ -4,7 +4,7 @@
 #include "fcrng.h"
 #include "fcmixer.h"
 
-namespace friendcrypt{
+namespace friendcipher{
 
 /**
  * @brief The CWKData class

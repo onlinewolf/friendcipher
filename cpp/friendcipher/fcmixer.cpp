@@ -1,5 +1,5 @@
 /*
-friendcrypt::MixWithRng
+friendcipher::MixWithRng
 Copyright (C) 2016 OnlineWolf
 
 This program is free software: you can redistribute it and/or modify
@@ -15,13 +15,13 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-URL: https://github.com/onlinewolf/friendcrypt
+URL: https://github.com/onlinewolf/friendcipher
 */
 #include <cmath>
 #include "fcmixer.h"
 #include "fcexception.h"
 
-namespace friendcrypt{
+namespace friendcipher{
 
 //class
 MixWithRng::MixWithRng(int bitLen):

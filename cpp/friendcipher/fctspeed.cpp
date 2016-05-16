@@ -1,5 +1,5 @@
 /*
-friendcrypt::test
+friendcipher::test
 Copyright (C) 2016 OnlineWolf
 
 This program is free software: you can redistribute it and/or modify
@@ -15,15 +15,15 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-URL: https://github.com/onlinewolf/friendcrypt
+URL: https://github.com/onlinewolf/friendcipher
 */
 #include "fctspeed.h"
-#include "fccrypt.h"
+#include "fccipher.h"
 #include "fcmixer.h"
 #include "fckeccak.h"
 #include "fcrng.h"
 
-namespace friendcrypt{
+namespace friendcipher{
 namespace test{
 
 namespace{//anonymous namespace for help
