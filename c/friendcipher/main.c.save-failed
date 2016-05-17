@@ -67,17 +67,17 @@ int main(){
     printf("\n\n");
 
     printf("(Encrypt) Data length: %d; key: %d bit; iv: %d bit\n", DATA_LEN, KEY_BITLEN, IV_BITLEN);
-    printf("224 bit: "); convert(cipherSpeed(1, 224, data, dataOut, DATA_LEN, key, KEY_LEN, iv, IV_LEN)); printf("\n");
-    printf("256 bit: "); convert(cipherSpeed(1, 256, data, dataOut, DATA_LEN, key, KEY_LEN, iv, IV_LEN)); printf("\n");
-    printf("384 bit: "); convert(cipherSpeed(1, 384, data, dataOut, DATA_LEN, key, KEY_LEN, iv, IV_LEN)); printf("\n");
-    printf("512 bit: "); convert(cipherSpeed(1, 512, data, dataOut, DATA_LEN, key, KEY_LEN, iv, IV_LEN)); printf("\n");
+    printf("224 bit: "); convert(rngSpeed(224, key, KEY_LEN, iv, IV_LEN, dataOut, DATA_LEN)); printf("\n");
+    printf("256 bit: "); convert(rngSpeed(256, key, KEY_LEN, iv, IV_LEN, dataOut, DATA_LEN)); printf("\n");
+    printf("384 bit: "); convert(rngSpeed(384, key, KEY_LEN, iv, IV_LEN, dataOut, DATA_LEN)); printf("\n");
+    printf("512 bit: "); convert(rngSpeed(512, key, KEY_LEN, iv, IV_LEN, dataOut, DATA_LEN)); printf("\n");
     printf("\n\n");
 
     printf("(Decrypt) Data length: %d; key: %d bit; iv: %d bit\n", DATA_LEN, KEY_BITLEN, IV_BITLEN);
-    printf("224 bit: "); convert(cipherSpeed(0, 224, data, dataOut, DATA_LEN, key, KEY_LEN, iv, IV_LEN)); printf("\n");
-    printf("256 bit: "); convert(cipherSpeed(0, 256, data, dataOut, DATA_LEN, key, KEY_LEN, iv, IV_LEN)); printf("\n");
-    printf("384 bit: "); convert(cipherSpeed(0, 384, data, dataOut, DATA_LEN, key, KEY_LEN, iv, IV_LEN)); printf("\n");
-    printf("512 bit: "); convert(cipherSpeed(0, 512, data, dataOut, DATA_LEN, key, KEY_LEN, iv, IV_LEN)); printf("\n");
+    printf("224 bit: "); convert(rngSpeed(224, key, KEY_LEN, iv, IV_LEN, dataOut, DATA_LEN)); printf("\n");
+    printf("256 bit: "); convert(rngSpeed(256, key, KEY_LEN, iv, IV_LEN, dataOut, DATA_LEN)); printf("\n");
+    printf("384 bit: "); convert(rngSpeed(384, key, KEY_LEN, iv, IV_LEN, dataOut, DATA_LEN)); printf("\n");
+    printf("512 bit: "); convert(rngSpeed(512, key, KEY_LEN, iv, IV_LEN, dataOut, DATA_LEN)); printf("\n");
     printf("\n\n");
 
     /*

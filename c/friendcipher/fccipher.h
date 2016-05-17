@@ -13,11 +13,13 @@ typedef struct{
     int rateInBytes;
     int updatePos;
     int mdLen;
+    int init;
 }fc_hash_t;
 
-void fc_hashInit(fc_hash_t *context, int bitLen);
-void fc_hashUpdate(fc_hash_t *context, const uint8_t *data, int len);
-void fc_hashFinish(fc_hash_t *context, uint8_t *out);
+int fc_hashBitLenCheck(int bitLen);
+int fc_hashInit(fc_hash_t *context, int bitLen);
+int fc_hashUpdate(fc_hash_t *context, const uint8_t *data, int len);
+int fc_hashFinish(fc_hash_t *context, uint8_t *out);
 
 
 #define FC_RNG_MAX_DIGEST 64
@@ -94,21 +96,24 @@ typedef struct{
 
 typedef struct{
     uint8_t temp[FC_CIPHER_MAX_DIGEST];
-    int *listTemp[FC_CIPHER_MAX_DIGEST];
+    int listTemp[FC_CIPHER_MAX_DIGEST];
+    uint8_t xorTemp[FC_CIPHER_MAX_DIGEST];
     fc_hash_t ctxhash;
     fc_rng_t ctxIvRng;
     fc_rng_t ctxCipherRng;
     fc_rng_t ctxMixRng;
+    int mdLen;
     uint8_t *key;
     int keyLen;
     uint8_t *iv;
     int ivLen;
+    int init;
 }fc_cipher_t;
 
 
-void fc_cipher_init(fc_cipher_t *context, int bitLen);
+int fc_cipher_init(fc_cipher_t *context, int bitLen);
 int fc_cipher_setIv(fc_cipher_t *context, uint8_t *iv, int len);
-void fc_cipher_genIv(fc_cipher_t *context, uint8_t *iv, int len);
+int fc_cipher_genIv(fc_cipher_t *context, uint8_t *iv, int len);
 int fc_cipher_setKey(fc_cipher_t *context, uint8_t *key, int len);
 int fc_cipher_encrypt(fc_cipher_t *context, const uint8_t *dataIn, uint8_t *dataOut, int len);
 int fc_cipher_decrypt(fc_cipher_t *context, const uint8_t *dataIn, uint8_t *dataOut, int len);

@@ -32,9 +32,9 @@ static const uint64_t kDifferent = 1000000; //us
 
 uint64_t cryptSpeedCalc(bool enc, bool crazy, CryptWithRng &crypt, const uint8_t *dataIn, uint8_t *dataOut, int len){
     if(!dataIn || !dataOut || len<=0)
-        return 1L;
+        return 1LL;
 
-    uint64_t results = 0L;
+    uint64_t results = 0LL;
 
     for(int i=0; i<kSpeedTestTimes; i++){
         if(enc){
@@ -69,9 +69,9 @@ uint64_t cryptSpeedCalc(bool enc, bool crazy, CryptWithRng &crypt, const uint8_t
 
 uint64_t mixSpeedCalc(bool enc, bool crazy, MixWithRng &mixer, const uint8_t *dataIn, uint8_t *dataOut, int len){
     if(!dataIn || !dataOut || len<=0)
-        return 1L;
+        return 1LL;
 
-    uint64_t results = 0L;
+    uint64_t results = 0LL;
 
     for(int i=0; i<kSpeedTestTimes; i++){
         if(enc){
@@ -108,9 +108,9 @@ uint64_t mixSpeedCalc(bool enc, bool crazy, MixWithRng &mixer, const uint8_t *da
 
 
 
-uint64_t cryptSpeed(bool enc, bool crazy, int bitLen, const uint8_t *dataIn, uint8_t *dataOut, int len, const uint8_t *key, int keyLen, const uint8_t* iv, int ivLen){
+uint64_t cipherSpeed(bool enc, bool crazy, int bitLen, const uint8_t *dataIn, uint8_t *dataOut, int len, const uint8_t *key, int keyLen, const uint8_t* iv, int ivLen){
     if(!dataIn || !dataOut || len<=0 || !key || keyLen<=0 || !keccakBitLenCheck(bitLen))
-        return 0L;
+        return 0LL;
 
     CryptWithRng crypt(bitLen);
     if(!iv || ivLen<=0){
@@ -125,7 +125,7 @@ uint64_t cryptSpeed(bool enc, bool crazy, int bitLen, const uint8_t *dataIn, uin
 
 uint64_t mixSpeed(bool enc, bool crazy, int bitLen, const uint8_t *dataIn, uint8_t *dataOut, int len, const uint8_t *key, int keyLen, const uint8_t* iv, int ivLen){
     if(!dataIn || !dataOut || len<=0 || !key || keyLen<=0 || !iv || ivLen<=0 || !keccakBitLenCheck(bitLen))
-        return 0L;
+        return 0LL;
 
     MixWithRng mixer(bitLen);
     mixer.init(key, keyLen, iv, ivLen);
@@ -134,9 +134,9 @@ uint64_t mixSpeed(bool enc, bool crazy, int bitLen, const uint8_t *dataIn, uint8
 
 uint64_t keccakSpeed(int bitLen, const uint8_t *dataIn, int len, uint8_t *dataOut){
     if(!keccakBitLenCheck(bitLen) || !dataIn || len <= 0 || !dataOut)
-        return 0L;
+        return 0LL;
 
-    uint64_t results = 0L;
+    uint64_t results = 0LL;
     Keccak hash(bitLen);
 
     for(int i=0; i<kSpeedTestTimes; i++){
@@ -147,14 +147,14 @@ uint64_t keccakSpeed(int bitLen, const uint8_t *dataIn, int len, uint8_t *dataOu
         results += std::chrono::duration_cast<std::chrono::microseconds>(finish-start).count();
     }
 
-    return (len*kDifferent*kSpeedTestTimes)/(results == 0L ? 1L : results);
+    return (len*kDifferent*kSpeedTestTimes)/(results == 0LL ? 1LL : results);
 }
 
 uint64_t rngSpeed(int bitLen, const uint8_t *key, int keyLen, const uint8_t *iv, int ivLen, uint8_t *out, int outLen){
     if(!out || outLen<=0 || !key || keyLen<=0 || !keccakBitLenCheck(bitLen))
-        return 0L;
+        return 0LL;
 
-    uint64_t results = 0L;
+    uint64_t results = 0LL;
     RngWithKeccak rng(bitLen);
     rng.init(key, keyLen, iv, ivLen);
     for(int i=0; i<kSpeedTestTimes; i++){
@@ -165,7 +165,7 @@ uint64_t rngSpeed(int bitLen, const uint8_t *key, int keyLen, const uint8_t *iv,
         results += std::chrono::duration_cast<std::chrono::microseconds>(finish-start).count();
     }
 
-    return (outLen*kDifferent*kSpeedTestTimes)/(results == 0L ? 1L : results);
+    return (outLen*kDifferent*kSpeedTestTimes)/(results == 0LL ? 1LL : results);
 }
 
 

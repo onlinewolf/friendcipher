@@ -69,7 +69,7 @@ uint64_t mixSpeed(bool enc, bool crazy, int bitLen, const uint8_t *dataIn, uint8
  * @param ivLen IV length (optional)
  * @return Byte/s
  */
-uint64_t cryptSpeed(bool enc, bool crazy, int bitLen, const uint8_t *dataIn, uint8_t *dataOut, int len, const uint8_t *key, int keyLen, const uint8_t *iv, int ivLen);
+uint64_t cipherSpeed(bool enc, bool crazy, int bitLen, const uint8_t *dataIn, uint8_t *dataOut, int len, const uint8_t *key, int keyLen, const uint8_t *iv, int ivLen);
 
 }//namespace
 }//namespace
