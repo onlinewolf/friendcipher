@@ -3,6 +3,7 @@
 *.cbp
 *.depend
 *.layout
+*.save-failed
 html/
 Release/
 Debug/
