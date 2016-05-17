@@ -3,7 +3,7 @@
 #include "fcmixer.h"
 #include "fcexception.h"
 #include "fccipher.h"
-#include "fckeccak.h"
+#include "fchash.h"
 #include "fcrng.h"
 #include "fctspeed.h"
 
@@ -25,7 +25,7 @@ int main(int argc, char *argv[]){
     const int kMdBitLen = 384;
     const int kMdLen = kMdBitLen/8;
 
-    friendcipher::RngWithKeccak rng(kMdBitLen);
+    friendcipher::RngWithHash rng(kMdBitLen);
     time_t ti = time(NULL);
     rng.init((uint8_t*)&ti, sizeof(ti), nullptr, 0);
 

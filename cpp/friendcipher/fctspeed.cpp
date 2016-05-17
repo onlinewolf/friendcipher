@@ -20,7 +20,7 @@ URL: https://github.com/onlinewolf/friendcipher
 #include "fctspeed.h"
 #include "fccipher.h"
 #include "fcmixer.h"
-#include "fckeccak.h"
+#include "fchash.h"
 #include "fcrng.h"
 
 namespace friendcipher{
@@ -137,7 +137,7 @@ uint64_t keccakSpeed(int bitLen, const uint8_t *dataIn, int len, uint8_t *dataOu
         return 0LL;
 
     uint64_t results = 0LL;
-    Keccak hash(bitLen);
+    Hash hash(bitLen);
 
     for(int i=0; i<kSpeedTestTimes; i++){
         auto start = std::chrono::high_resolution_clock::now();
@@ -155,7 +155,7 @@ uint64_t rngSpeed(int bitLen, const uint8_t *key, int keyLen, const uint8_t *iv,
         return 0LL;
 
     uint64_t results = 0LL;
-    RngWithKeccak rng(bitLen);
+    RngWithHash rng(bitLen);
     rng.init(key, keyLen, iv, ivLen);
     for(int i=0; i<kSpeedTestTimes; i++){
         auto start = std::chrono::high_resolution_clock::now();

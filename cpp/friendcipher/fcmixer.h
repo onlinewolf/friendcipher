@@ -1,7 +1,7 @@
 #ifndef FRIENDCRYPTMIXER_H
 #define FRIENDCRYPTMIXER_H
 #include <cstdint>
-#include "fckeccak.h"
+#include "fchash.h"
 #include "fcrng.h"
 
 namespace friendcipher{
@@ -18,8 +18,8 @@ class MixWithRng{
     int keyLen_;
     const uint8_t *iv_;
     int ivLen_;
-    Keccak hash_;
-    RngWithKeccak rng_;
+    Hash hash_;
+    RngWithHash rng_;
     bool init_;
     void listMix(uint8_t* tempIn, uint8_t* dataOut, uint8_t len);
     void listReverseMix(uint8_t* tempIn, uint8_t* dataOut, uint8_t len);

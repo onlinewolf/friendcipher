@@ -22,7 +22,7 @@ URL: https://github.com/onlinewolf/friendcipher
 
 namespace friendcipher{
 
-RngWithKeccak::RngWithKeccak(int bitLen): kMdBitLen(bitLen), kMdLen(bitLen/8), hash_(bitLen){
+RngWithHash::RngWithHash(int bitLen): kMdBitLen(bitLen), kMdLen(bitLen/8), hash_(bitLen){
     if(!keccakBitLenCheck(bitLen))
         throw invalidArgsException;
 
@@ -31,7 +31,7 @@ RngWithKeccak::RngWithKeccak(int bitLen): kMdBitLen(bitLen), kMdLen(bitLen/8), h
     init_ = false;
 }
 
-bool RngWithKeccak::init(const uint8_t *seed, int seedLen, const uint8_t *salt, int saltLen){
+bool RngWithHash::init(const uint8_t *seed, int seedLen, const uint8_t *salt, int saltLen){
     if(!seed || seedLen <= 0)
         return false;
 
@@ -51,11 +51,11 @@ bool RngWithKeccak::init(const uint8_t *seed, int seedLen, const uint8_t *salt, 
     return true;
 }
 
-bool RngWithKeccak::isInited(){
+bool RngWithHash::isInited(){
     return init_;
 }
 
-bool RngWithKeccak::reSeed(const uint8_t *seed, int seedLen){
+bool RngWithHash::reSeed(const uint8_t *seed, int seedLen){
     if(!seed || seedLen <= 0)
         return false;
 
@@ -72,7 +72,7 @@ bool RngWithKeccak::reSeed(const uint8_t *seed, int seedLen){
     return true;
 }
 
-uint8_t RngWithKeccak::random8bit(){
+uint8_t RngWithHash::random8bit(){
     if(!init_)
         return 0;
 
@@ -87,7 +87,7 @@ uint8_t RngWithKeccak::random8bit(){
     return temp;
 }
 
-uint32_t RngWithKeccak::random32bit(){
+uint32_t RngWithHash::random32bit(){
     if(!init_)
         return 0;
 
@@ -99,7 +99,7 @@ uint32_t RngWithKeccak::random32bit(){
     return temp;
 }
 
-RngWithKeccak::~RngWithKeccak(){
+RngWithHash::~RngWithHash(){
     delete[] seed_;
     delete[] randMd_;
 }

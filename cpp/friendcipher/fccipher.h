@@ -46,8 +46,8 @@ public:
  */
 class CryptWithRng{
     CWKData helper_;
-    RngWithKeccak rng_;
-    RngWithKeccak ivRng_;
+    RngWithHash rng_;
+    RngWithHash ivRng_;
     MixWithRng mixer_;
     uint8_t *iv_;
     int ivLen_;

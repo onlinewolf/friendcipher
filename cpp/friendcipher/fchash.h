@@ -8,11 +8,11 @@ namespace friendcipher{
 #define LITTLE_ENDIAN
 
 /**
- * @brief The Keccak class
+ * @brief The Hash class
  * (SHA-3) Keccak C++ implementation with update()
  * (Not thread safe!)
  */
-class Keccak{
+class Hash{
     uint8_t state_[200];
     int rateInBytes_;
     static const uint8_t kDelimitedSuffix_ = 0x06;
@@ -33,12 +33,12 @@ public:
     const int kMdBitLen;
 
     /**
-     * @brief Keccak
+     * @brief Hash
      * Message digest bit length: 224, 256, 384, 512
      * @param bitLen Message digest bit length
      * @throw invalidArgsException if mdBitLen is incorrect
      */
-    explicit Keccak(int bitLen);
+    explicit Hash(int bitLen);
     /**
      * @brief update
      * Add new data
@@ -54,16 +54,16 @@ public:
     void finish(uint8_t *out);
 
     /**
-     * @brief ~Keccak
+     * @brief ~Hash
      * Delete forUpdate_
      */
-    virtual ~Keccak();
+    virtual ~Hash();
 
     //disabled
-    Keccak(const Keccak& other)=delete;
-    Keccak(Keccak&& other)=delete;
-    Keccak& operator=(const Keccak& other)=delete;
-    Keccak& operator=(Keccak&& other)=delete;
+    Hash(const Hash& other)=delete;
+    Hash(Hash&& other)=delete;
+    Hash& operator=(const Hash& other)=delete;
+    Hash& operator=(Hash&& other)=delete;
 };
 
 

@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 URL: https://github.com/onlinewolf/friendcipher
 */
 #include <cstring>
-#include "fckeccak.h"
+#include "fchash.h"
 #include "fcexception.h"
 
 namespace friendcipher{
@@ -139,7 +139,7 @@ bool keccakBitLenCheck(int bitLen){
 }
 
 //class
-Keccak::Keccak(int bitLen):kMdBitLen(bitLen), kMdLen(bitLen/8){
+Hash::Hash(int bitLen):kMdBitLen(bitLen), kMdLen(bitLen/8){
     if(!keccakBitLenCheck(bitLen))
         throw invalidArgsException;
 
@@ -167,12 +167,12 @@ Keccak::Keccak(int bitLen):kMdBitLen(bitLen), kMdLen(bitLen/8){
     reset();
 }
 
-void Keccak::reset(){
+void Hash::reset(){
     updatePos_ = 0;
     memset(state_, 0, sizeof(state_));
 }
 
-void Keccak::update(const uint8_t *data, int len){
+void Hash::update(const uint8_t *data, int len){
     if(!data || len <= 0)
         return;
 
@@ -192,7 +192,7 @@ void Keccak::update(const uint8_t *data, int len){
     updatePos_ += reCount;
 }
 
-void Keccak::finish(uint8_t *out){
+void Hash::finish(uint8_t *out){
     if(!out)
         return;
 
@@ -210,7 +210,7 @@ void Keccak::finish(uint8_t *out){
     reset();
 }
 
-Keccak::~Keccak(){
+Hash::~Hash(){
     delete[] forUpdate_;
 }
 

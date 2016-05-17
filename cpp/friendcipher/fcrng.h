@@ -1,17 +1,17 @@
 #ifndef FCRNG_H
 #define FCRNG_H
 #include <cstdint>
-#include <fckeccak.h>
+#include <fchash.h>
 
 namespace friendcipher{
 
 /**
- * @brief The RngWithKeccak class
+ * @brief The RngWithHash class
  * Powerful Random Number Generator with Keccak
  * (Not thread safe!)
  */
-class RngWithKeccak{
-    Keccak hash_;
+class RngWithHash{
+    Hash hash_;
     uint8_t *seed_;
     uint8_t *randMd_;
     uint8_t p_;
@@ -29,12 +29,12 @@ public:
     const int kMdBitLen;
 
     /**
-     * @brief Rng
-     * Random Number Generator with Keccak
+     * @brief RngWithHash
+     * Random Number Generator with Hash
      * @param bitLen Bit size of Keccak: 224, 256, 384, 512 bit
      * @throw invalidArgsException if bitLen is invalid
      */
-    explicit RngWithKeccak(int bitLen);
+    explicit RngWithHash(int bitLen);
 
     /**
      * @brief init
@@ -78,16 +78,16 @@ public:
     uint32_t random32bit();
 
     /**
-     * @brief ~RngWithKeccak
+     * @brief ~RngWithHash
      * Delete *seed_, *randMd_
      */
-    virtual ~RngWithKeccak();
+    virtual ~RngWithHash();
 
     //disabled
-    RngWithKeccak(const RngWithKeccak& other)=delete;
-    RngWithKeccak(RngWithKeccak&& other)=delete;
-    RngWithKeccak& operator=(const RngWithKeccak& other)=delete;
-    RngWithKeccak& operator=(RngWithKeccak&& other)=delete;
+    RngWithHash(const RngWithHash& other)=delete;
+    RngWithHash(RngWithHash&& other)=delete;
+    RngWithHash& operator=(const RngWithHash& other)=delete;
+    RngWithHash& operator=(RngWithHash&& other)=delete;
 };
 
 }//namespace

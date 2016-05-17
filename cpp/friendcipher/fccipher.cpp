@@ -21,7 +21,7 @@ URL: https://github.com/onlinewolf/friendcipher
 #include <ctime>
 #include "fccipher.h"
 #include "fcexception.h"
-#include "fckeccak.h"
+#include "fchash.h"
 
 namespace friendcipher{
 
