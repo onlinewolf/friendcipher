@@ -1,0 +1,9 @@
+*.pro
+*.user
+*.cbp
+html/
+Release/
+Debug/
+obj/
+bin/
+Doxyfile

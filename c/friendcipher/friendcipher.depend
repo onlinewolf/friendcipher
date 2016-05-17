@@ -1,0 +1,16 @@
+# depslib dependency file v1.0
+1463482238 source:c:\users\wolf\friendcipher\c\friendcipher\fccipher.c
+	<string.h>
+	<time.h>
+	"fccipher.h"
+
+1463482363 c:\users\wolf\friendcipher\c\friendcipher\fccipher.h
+	<stdint.h>
+
+1463481549 source:c:\users\wolf\friendcipher\c\friendcipher\main.c
+	<stdio.h>
+	<stdlib.h>
+	<stdint.h>
+	<time.h>
+	"fccipher.h"
+
