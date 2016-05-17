@@ -20,117 +20,12 @@ URL: https://github.com/onlinewolf/friendcipher
 
 #include <string.h>
 #include <time.h>
+#include "3rd/KeccakP-1600/Optimized64/KeccakP-1600-SnP.h"
 #include "fccipher.h"
 
-//--------------------------------------------------------------
-//--------------------------------------------------------------
-//original: https://github.com/gvanas/KeccakCodePackage/blob/master/Standalone/CompactFIPS202/Keccak-readable-and-compact.c
-//licence: http://creativecommons.org/publicdomain/zero/1.0/
-
-#ifndef FC_LITTLE_ENDIAN
-static uint64_t load64(const uint8_t *x){
-    int i;
-    uint64_t u=0;
-
-    for(i=7; i>=0; --i){
-        u <<= 8;
-        u |= x[i];
-    }
-    return u;
+static void keccakF(void *state){
+    KeccakP1600_Permute_24rounds(state);
 }
-
-static void store64(uint8_t *x, uint64_t u){
-    uint32_t i;
-
-    for(i=0; i<8; ++i){
-        x[i] = u;
-        u >>= 8;
-    }
-}
-
-static void xor64(uint8_t *x, uint64_t u){
-    uint32_t i;
-
-    for(i=0; i<8; ++i){
-        x[i] ^= u;
-        u >>= 8;
-    }
-}
-#endif
-
-#define ROL64(a, offset) ((((uint64_t)a) << offset) ^ (((uint64_t)a) >> (64-offset)))
-#define CALC(x, y) ((x)+5*(y))
-
-#ifdef FC_LITTLE_ENDIAN
-    #define readLane(x, y)          (((uint64_t*)state)[CALC(x, y)])
-    #define writeLane(x, y, lane)   (((uint64_t*)state)[CALC(x, y)]) = (lane)
-    #define XORLane(x, y, lane)     (((uint64_t*)state)[CALC(x, y)]) ^= (lane)
-#else
-    #define readLane(x, y)          load64((uint8_t*)state+sizeof(uint64_t)*CALC(x, y))
-    #define writeLane(x, y, lane)   store64((uint8_t*)state+sizeof(uint64_t)*CALC(x, y), lane)
-    #define XORLane(x, y, lane)     xor64((uint8_t*)state+sizeof(uint64_t)*CALC(x, y), lane)
-#endif
-
-static int LFSR86540(uint8_t *LFSR){
-    int result = ((*LFSR) & 0x01) != 0;
-    if (((*LFSR) & 0x80) != 0)
-        (*LFSR) = ((*LFSR) << 1) ^ 0x71;
-    else
-        (*LFSR) <<= 1;
-    return result;
-}
-
-static void KeccakF1600_StatePermute(void *state){
-    uint32_t round, x, y, j, t;
-    uint8_t LFSRstate = 0x01;
-
-    for(round=0; round<24; round++){
-        {
-            uint64_t C[5], D;
-
-            for(x=0; x<5; x++)
-                C[x] = readLane(x, 0) ^ readLane(x, 1) ^ readLane(x, 2) ^ readLane(x, 3) ^ readLane(x, 4);
-            for(x=0; x<5; x++){
-                D = C[(x+4)%5] ^ ROL64(C[(x+1)%5], 1);
-                for (y=0; y<5; y++)
-                    XORLane(x, y, D);
-            }
-        }
-
-        {
-            uint64_t current, temp;
-            x = 1; y = 0;
-            current = readLane(x, y);
-            for(t=0; t<24; t++){
-                uint32_t r = ((t+1)*(t+2)/2)%64;
-                uint32_t Y = (2*x+3*y)%5; x = y; y = Y;
-                temp = readLane(x, y);
-                writeLane(x, y, ROL64(current, r));
-                current = temp;
-            }
-        }
-
-        {
-            uint64_t temp[5];
-            for(y=0; y<5; y++){
-                for(x=0; x<5; x++)
-                    temp[x] = readLane(x, y);
-                for(x=0; x<5; x++)
-                    writeLane(x, y, temp[x] ^((~temp[(x+1)%5]) & temp[(x+2)%5]));
-            }
-        }
-
-        {
-            for(j=0; j<7; j++){
-                uint32_t bitPosition = (1<<j)-1; //2^j-1
-                if (LFSR86540(&LFSRstate))
-                    XORLane(0, 0, (uint64_t)1<<bitPosition);
-            }
-        }
-    }
-}
-//--------------------------------------------------------------
-//--------------------------------------------------------------
 
 int fc_hashBitLenCheck(int bitLen){
     return (bitLen == 224 || bitLen == 256 || bitLen == 384 || bitLen == 512) ? 1 : 0;
@@ -196,7 +91,7 @@ int fc_hashUpdate(fc_hash_t *context, const uint8_t *data, int len){
             reCount = 0;
             for(x=0; x < context->rateInBytes; x++)
                 context->state[x] ^= context->forUpdate[x];
-            KeccakF1600_StatePermute(context->state);
+            keccakF(context->state);
         }
     }
 
@@ -216,7 +111,7 @@ int fc_hashFinish(fc_hash_t *context, uint8_t *out){
 
         context->state[context->updatePos] ^= FC_HASH_DELIMITED_SUFFIX;
         context->state[context->rateInBytes-1] ^= 0x80;
-        KeccakF1600_StatePermute(context->state);
+        keccakF(context->state);
     }
 
     memcpy(out, context->state, context->mdLen);

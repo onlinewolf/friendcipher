@@ -1,0 +1,2 @@
+ - Source: https://github.com/gvanas/KeccakCodePackage
+ - License: http://creativecommons.org/publicdomain/zero/1.0/
