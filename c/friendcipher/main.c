@@ -6,7 +6,7 @@
 #include "fcspeed.h"
 
 
-#define MD_BIT_LEN 384
+#define MD_BIT_LEN 512
 #define MD_LEN MD_BIT_LEN/8
 
 #define DATA_LEN 32*1024
@@ -80,7 +80,7 @@ int main(){
     printf("512 bit: "); convert(cipherSpeed(0, 512, data, dataOut, DATA_LEN, key, KEY_LEN, iv, IV_LEN)); printf("\n");
     printf("\n\n");
 
-    /*
+/*
     fc_cipher_t cipher;
     fc_cipher_init(&cipher, MD_BIT_LEN);
     fc_cipher_setIv(&cipher, iv, IV_LEN);
@@ -97,9 +97,9 @@ int main(){
         printf("%d, ", dataOut2[i]);
     }
     printf("\n\n");
-    */
+*/
 
-    /*
+
     //Hash
     fc_hash_t keccak;
     fc_hashInit(&keccak, MD_BIT_LEN);
@@ -119,7 +119,7 @@ int main(){
     }
     printf("\n\n");
 
-
+/*
     //RNG
     fc_rng_t rng;
     FC_RNG_INIT(&rng, MD_BIT_LEN);
@@ -150,7 +150,7 @@ int main(){
     printf("RRANDOM8: %u\n", random);
     FC_RNG_RANDOM32(&rng, random);
     printf("RRANDOM32: %u\n", random);
-    */
+*/
 
     free(data);
     free(dataOut);

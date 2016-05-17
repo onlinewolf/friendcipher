@@ -22,7 +22,7 @@ void convert(uint64_t x){
  * Fast test!
  */
 int main(int argc, char *argv[]){
-    const int kMdBitLen = 384;
+    const int kMdBitLen = 512;
     const int kMdLen = kMdBitLen/8;
 
     friendcipher::RngWithHash rng(kMdBitLen);
@@ -40,7 +40,7 @@ int main(int argc, char *argv[]){
         data[i] = rng.random8bit();
     }
 
-    //key
+    /*//key
     const int kKeyLen = 48;
     uint8_t *key = new uint8_t[kKeyLen];
     for(int i=0; i<kKeyLen; i++){
@@ -54,7 +54,7 @@ int main(int argc, char *argv[]){
         iv[i] = rng.random8bit();
     }
 
-    /*//for crypt
+    //for crypt
     //data
     const int kDataLen = 80;
     uint8_t *data = new uint8_t[kDataLen];
@@ -63,7 +63,7 @@ int main(int argc, char *argv[]){
     }
 
     uint8_t *dataOut = new uint8_t[kDataLen];
-    uint8_t *dataOut2 = new uint8_t[kDataLen];
+    uint8_t *dataOut2 = new uint8_t[kDataLen];*/
 
     //key
     const int kKeyLen = 16;
@@ -77,7 +77,7 @@ int main(int argc, char *argv[]){
     uint8_t *iv = new uint8_t[kIvLen];
     for(int i=0; i<kIvLen; i++){
         iv[i] = i;
-    }*/
+    }
 
 
     ///Keccak speed test
@@ -98,7 +98,7 @@ int main(int argc, char *argv[]){
     std::cout << std::endl;
     std::cout << std::endl;
 
-
+/*
     //mix speed test
     std::cout << "(mix) Data length: " << kDataLen << ", Key length: " << kKeyLen*8 << " bit, IV length: " << kIvLen*8 << " bit"<< std::endl;
     std::cout << "224 bit: "; convert(friendcipher::test::mixSpeed(true, false, 224, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
@@ -126,8 +126,8 @@ int main(int argc, char *argv[]){
     std::cout << "256 bit: "; convert(friendcipher::test::mixSpeed(false, true, 256, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
     std::cout << "384 bit: "; convert(friendcipher::test::mixSpeed(false, true, 384, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
     std::cout << "512 bit: "; convert(friendcipher::test::mixSpeed(false, true, 512, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
-    std::cout << std::endl;*/
     std::cout << std::endl;
+    std::cout << std::endl;*/
 
 
     //crypt speed test
@@ -160,8 +160,8 @@ int main(int argc, char *argv[]){
     std::cout << std::endl;
     std::cout << std::endl;
 
-
-    /*std::cout << "(crazyEncrypt) Data length: " << kDataLen << " byte, Key length: " << kKeyLen*8 << " bit, IV length: " << kIvLen*8 << " bit"<< std::endl;
+/*
+    std::cout << "(crazyEncrypt) Data length: " << kDataLen << " byte, Key length: " << kKeyLen*8 << " bit, IV length: " << kIvLen*8 << " bit"<< std::endl;
     std::cout << "224 bit: "; convert(friendcipher::test::cipherSpeed(true, true, 224, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
     std::cout << "256 bit: "; convert(friendcipher::test::cipherSpeed(true, true, 256, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
     std::cout << "384 bit: "; convert(friendcipher::test::cipherSpeed(true, true, 384, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
@@ -346,7 +346,7 @@ int main(int argc, char *argv[]){
     std::cout << std::endl;
     std::cout << std::endl;*/
 
-    /*uint8_t data1[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+    uint8_t data1[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
         21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40};
     uint8_t data2[]{41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
         61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80};
@@ -364,7 +364,7 @@ int main(int argc, char *argv[]){
     std::cout << std::endl;
 
 
-    rng.init((uint8_t*)&ti, sizeof(ti), nullptr, 0);
+   /* rng.init((uint8_t*)&ti, sizeof(ti), nullptr, 0);
     std::cout << std::hex << "r8:   " << static_cast<int>(rng.random8bit()) << std::endl;
     std::cout << std::hex << "1r32: " << static_cast<int>(rng.random32bit()) << std::endl;
     std::cout << std::hex << "2r32: " << static_cast<int>(rng.random32bit()) << std::endl;

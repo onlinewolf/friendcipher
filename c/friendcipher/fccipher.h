@@ -5,7 +5,7 @@
 #define FC_HASH_DELIMITED_SUFFIX 0x06
 #define FC_HASH_STATE_MAX_LENGTH 200
 #define FC_HASH_UPDATE_MAX_LENGTH 144
-#define FC_LITTLE_ENDIAN
+#define LITTLE_ENDIAN
 
 typedef struct{
     uint8_t state[FC_HASH_STATE_MAX_LENGTH];
