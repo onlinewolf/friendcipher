@@ -1,6 +1,8 @@
 *.pro
 *.user
 *.cbp
+*.depend
+*.layout
 html/
 Release/
 Debug/
