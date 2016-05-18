@@ -22,14 +22,14 @@ void convert(uint64_t x){
  * Fast test!
  */
 int main(int argc, char *argv[]){
-    const int kMdBitLen = 512;
+    const int kMdBitLen = 384;
     const int kMdLen = kMdBitLen/8;
 
     friendcipher::RngWithHash rng(kMdBitLen);
     time_t ti = time(NULL);
     rng.init((uint8_t*)&ti, sizeof(ti), nullptr, 0);
 
-
+/*
     //for test
     //data
     const int kDataLen = 32*1024;
@@ -40,7 +40,7 @@ int main(int argc, char *argv[]){
         data[i] = rng.random8bit();
     }
 
-    /*//key
+    //key
     const int kKeyLen = 48;
     uint8_t *key = new uint8_t[kKeyLen];
     for(int i=0; i<kKeyLen; i++){
@@ -52,7 +52,7 @@ int main(int argc, char *argv[]){
     uint8_t *iv = new uint8_t[kIvLen];
     for(int i=0; i<kIvLen; i++){
         iv[i] = rng.random8bit();
-    }
+    }*/
 
     //for crypt
     //data
@@ -63,7 +63,7 @@ int main(int argc, char *argv[]){
     }
 
     uint8_t *dataOut = new uint8_t[kDataLen];
-    uint8_t *dataOut2 = new uint8_t[kDataLen];*/
+    uint8_t *dataOut2 = new uint8_t[kDataLen];
 
     //key
     const int kKeyLen = 16;
@@ -79,7 +79,7 @@ int main(int argc, char *argv[]){
         iv[i] = i;
     }
 
-
+/*
     ///Keccak speed test
     std::cout << "(Keccak) Data length: " << kDataLen << std::endl;
     std::cout << "224 bit: "; convert(friendcipher::test::keccakSpeed(224, data, kDataLen, dataOut)); std::cout << std::endl;
@@ -96,7 +96,7 @@ int main(int argc, char *argv[]){
     std::cout << "384 bit: "; convert(friendcipher::test::rngSpeed(384, key, kKeyLen, iv, kIvLen, dataOut, kDataLen)); std::cout << std::endl;
     std::cout << "512 bit: "; convert(friendcipher::test::rngSpeed(512, key, kKeyLen, iv, kIvLen, dataOut, kDataLen)); std::cout << std::endl;
     std::cout << std::endl;
-    std::cout << std::endl;
+    std::cout << std::endl;*/
 
 /*
     //mix speed test
@@ -129,7 +129,7 @@ int main(int argc, char *argv[]){
     std::cout << std::endl;
     std::cout << std::endl;*/
 
-
+/*
     //crypt speed test
     std::cout << "(encrypt) Data length: " << kDataLen << " byte, Key length: " << kKeyLen*8 << " bit, IV length: " << kIvLen*8 << " bit"<< std::endl;
     std::cout << "224 bit: "; convert(friendcipher::test::cipherSpeed(true, false, 224, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
@@ -158,7 +158,7 @@ int main(int argc, char *argv[]){
     std::cout << "384 bit: "; convert(friendcipher::test::cipherSpeed(false, false, 384, data, dataOut, kDataLen, key, kKeyLen, nullptr, 0)); std::cout << ", (IV: 384 bit)" << std::endl;
     std::cout << "512 bit: "; convert(friendcipher::test::cipherSpeed(false, false, 512, data, dataOut, kDataLen, key, kKeyLen, nullptr, 0)); std::cout << ", (IV: 512 bit)" << std::endl;
     std::cout << std::endl;
-    std::cout << std::endl;
+    std::cout << std::endl;*/
 
 /*
     std::cout << "(crazyEncrypt) Data length: " << kDataLen << " byte, Key length: " << kKeyLen*8 << " bit, IV length: " << kIvLen*8 << " bit"<< std::endl;
@@ -303,7 +303,7 @@ int main(int argc, char *argv[]){
         std::cout << std::endl;
     }*/
 
-    /*//try crypt
+    //try crypt
     friendcipher::CryptWithRng enCrypt(kMdBitLen);
     enCrypt.setKey(key, kKeyLen);
     enCrypt.setIV(iv, kIvLen);
@@ -344,8 +344,9 @@ int main(int argc, char *argv[]){
         std::cout << std::dec << static_cast<int>(dataOut2[i]) << ", ";
     }
     std::cout << std::endl;
-    std::cout << std::endl;*/
+    std::cout << std::endl;
 
+/*
     uint8_t data1[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
         21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40};
     uint8_t data2[]{41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
@@ -361,10 +362,10 @@ int main(int argc, char *argv[]){
     for(int i=0; i<kMdLen; i++){
         std::cout << std::hex << std::setw(2) << std::setfill('0') << std::uppercase << static_cast<int>(mDigest[i]);
     }
-    std::cout << std::endl;
+    std::cout << std::endl;*/
 
 
-   /* rng.init((uint8_t*)&ti, sizeof(ti), nullptr, 0);
+    /*rng.init((uint8_t*)&ti, sizeof(ti), nullptr, 0);
     std::cout << std::hex << "r8:   " << static_cast<int>(rng.random8bit()) << std::endl;
     std::cout << std::hex << "1r32: " << static_cast<int>(rng.random32bit()) << std::endl;
     std::cout << std::hex << "2r32: " << static_cast<int>(rng.random32bit()) << std::endl;
@@ -378,13 +379,14 @@ int main(int argc, char *argv[]){
     std::cout << std::hex << "3r32: " << static_cast<int>(rng.random32bit()) << std::endl;
     std::cout << std::hex << "4r32: " << static_cast<int>(rng.random32bit()) << std::endl;
 
-    std::cout << std::endl;
+    std::cout << std::endl;*/
 
-    rng.init(data1, 40, nullptr, 0);
+    /*rng.init(iv, kIvLen, nullptr, 0);
+    rng.reSeed(key, kKeyLen);
     std::cout << std::dec << "r8:   " << static_cast<int>(rng.random8bit()) << std::endl;
-    std::cout << std::dec << "1r32: " << rng.random32bit() << std::endl;
+    std::cout << std::dec << "1r32: " << rng.random32bit() << std::endl;*/
 
-    rng.init(data1, 40, data2, 40);
+    /*rng.init(data1, 40, data2, 40);
     std::cout << std::dec << "r8:   " << static_cast<int>(rng.random8bit()) << std::endl;
     std::cout << std::dec << "1r32: " << rng.random32bit() << std::endl;
 
