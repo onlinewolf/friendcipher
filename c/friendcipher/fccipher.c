@@ -21,6 +21,7 @@ URL: https://github.com/onlinewolf/friendcipher
 #include <string.h>
 #include <time.h>
 #include "fccipher.h"
+#include "3rd/KeccakP-1600/Optimized64/KeccakP-1600-SnP.h"
 
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
@@ -159,7 +160,9 @@ typedef struct{
 
 //-----------------main function
 static void keccakF(void *state){
-    KeccakF1600_StatePermute(state);
+    //KeccakF1600_StatePermute(state);//original
+    //KeccakP1600_Permute_Nrounds(state, 24, 0x01);//Compact64
+    KeccakP1600_Permute_24rounds(state);//Optimized64
 }
 //-----------------
 

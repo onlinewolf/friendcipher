@@ -17,7 +17,7 @@ http://creativecommons.org/publicdomain/zero/1.0/
 #include <stdlib.h>
 //-------------
 #include "3rd/brg_endian.h"
-#include "3rd/KeccakP-1600/Optimized64/LCufull/KeccakP-1600-opt64-config.h"
+#include "3rd/KeccakP-1600/Optimized64/ufull/KeccakP-1600-opt64-config.h"
 //--------------
 
 typedef unsigned char UINT8;

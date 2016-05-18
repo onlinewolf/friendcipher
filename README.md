@@ -8,8 +8,8 @@ Public and new cipher plan,
 - [x] C++ source (readable) ([C++ Doxygen here](https://onlinewolf.github.io/friendcipher/cpp/doxygen/html/index.html).)
 - [x] C source (fast)
 - [ ] Code teszt
-- [ ] Optimalisation
-- [ ] Performance teszt
+- [x] Optimalisation (C source, Opt.64 Keccak)
+- [x] Performance teszt (Best: i5-5200U (notebook), 384 bit, 23 MBps)
 - [ ] Java source
 - [ ] Python source
 

@@ -7,6 +7,8 @@
 #include "fcrng.h"
 #include "fctspeed.h"
 
+#define SHOW_TEST
+
 void convert(uint64_t x){
     if(x > 1024*1024*1024)
         std::cout << x/(1024*1024*1024) << " GBps";
@@ -29,7 +31,7 @@ int main(int argc, char *argv[]){
     time_t ti = time(NULL);
     rng.init((uint8_t*)&ti, sizeof(ti), nullptr, 0);
 
-/*
+#ifdef SHOW_TEST
     //for test
     //data
     const int kDataLen = 32*1024;
@@ -52,8 +54,8 @@ int main(int argc, char *argv[]){
     uint8_t *iv = new uint8_t[kIvLen];
     for(int i=0; i<kIvLen; i++){
         iv[i] = rng.random8bit();
-    }*/
-
+    }
+ #else
     //for crypt
     //data
     const int kDataLen = 80;
@@ -78,9 +80,10 @@ int main(int argc, char *argv[]){
     for(int i=0; i<kIvLen; i++){
         iv[i] = i;
     }
+#endif
 
-/*
-    ///Keccak speed test
+#ifdef SHOW_TEST
+/*  ///Keccak speed test
     std::cout << "(Keccak) Data length: " << kDataLen << std::endl;
     std::cout << "224 bit: "; convert(friendcipher::test::keccakSpeed(224, data, kDataLen, dataOut)); std::cout << std::endl;
     std::cout << "256 bit: "; convert(friendcipher::test::keccakSpeed(256, data, kDataLen, dataOut)); std::cout << std::endl;
@@ -129,7 +132,7 @@ int main(int argc, char *argv[]){
     std::cout << std::endl;
     std::cout << std::endl;*/
 
-/*
+
     //crypt speed test
     std::cout << "(encrypt) Data length: " << kDataLen << " byte, Key length: " << kKeyLen*8 << " bit, IV length: " << kIvLen*8 << " bit"<< std::endl;
     std::cout << "224 bit: "; convert(friendcipher::test::cipherSpeed(true, false, 224, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
@@ -138,12 +141,12 @@ int main(int argc, char *argv[]){
     std::cout << "512 bit: "; convert(friendcipher::test::cipherSpeed(true, false, 512, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
     std::cout << std::endl;
 
-    std::cout << "(encrypt) Data length: " << kDataLen << ", Key length: " << kKeyLen*8 << " bit" << std::endl;
+    /*std::cout << "(encrypt) Data length: " << kDataLen << ", Key length: " << kKeyLen*8 << " bit" << std::endl;
     std::cout << "224 bit: "; convert(friendcipher::test::cipherSpeed(true, false, 224, data, dataOut, kDataLen, key, kKeyLen, nullptr, 0)); std::cout << ", (IV: 224 bit)" << std::endl;
     std::cout << "256 bit: "; convert(friendcipher::test::cipherSpeed(true, false, 256, data, dataOut, kDataLen, key, kKeyLen, nullptr, 0)); std::cout << ", (IV: 256 bit)" << std::endl;
     std::cout << "384 bit: "; convert(friendcipher::test::cipherSpeed(true, false, 384, data, dataOut, kDataLen, key, kKeyLen, nullptr, 0)); std::cout << ", (IV: 384 bit)" << std::endl;
     std::cout << "512 bit: "; convert(friendcipher::test::cipherSpeed(true, false, 512, data, dataOut, kDataLen, key, kKeyLen, nullptr, 0)); std::cout << ", (IV: 512 bit)" << std::endl;
-    std::cout << std::endl;
+    */std::cout << std::endl;
 
     std::cout << "(decrypt) Data length: " << kDataLen << " byte, Key length: " << kKeyLen*8 << " bit, IV length: " << kIvLen*8 << " bit"<< std::endl;
     std::cout << "224 bit: "; convert(friendcipher::test::cipherSpeed(false, false, 224, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
@@ -152,13 +155,13 @@ int main(int argc, char *argv[]){
     std::cout << "512 bit: "; convert(friendcipher::test::cipherSpeed(false, false, 512, data, dataOut, kDataLen, key, kKeyLen, iv, kIvLen)); std::cout << std::endl;
     std::cout << std::endl;
 
-    std::cout << "(decrypt) Data length: " << kDataLen << ", Key length: " << kKeyLen*8 << " bit" << std::endl;
+    /*std::cout << "(decrypt) Data length: " << kDataLen << ", Key length: " << kKeyLen*8 << " bit" << std::endl;
     std::cout << "224 bit: "; convert(friendcipher::test::cipherSpeed(false, false, 224, data, dataOut, kDataLen, key, kKeyLen, nullptr, 0)); std::cout << ", (IV: 224 bit)" << std::endl;
     std::cout << "256 bit: "; convert(friendcipher::test::cipherSpeed(false, false, 256, data, dataOut, kDataLen, key, kKeyLen, nullptr, 0)); std::cout << ", (IV: 256 bit)" << std::endl;
     std::cout << "384 bit: "; convert(friendcipher::test::cipherSpeed(false, false, 384, data, dataOut, kDataLen, key, kKeyLen, nullptr, 0)); std::cout << ", (IV: 384 bit)" << std::endl;
     std::cout << "512 bit: "; convert(friendcipher::test::cipherSpeed(false, false, 512, data, dataOut, kDataLen, key, kKeyLen, nullptr, 0)); std::cout << ", (IV: 512 bit)" << std::endl;
     std::cout << std::endl;
-    std::cout << std::endl;*/
+    */std::cout << std::endl;
 
 /*
     std::cout << "(crazyEncrypt) Data length: " << kDataLen << " byte, Key length: " << kKeyLen*8 << " bit, IV length: " << kIvLen*8 << " bit"<< std::endl;
@@ -188,6 +191,8 @@ int main(int argc, char *argv[]){
     std::cout << "384 bit: "; convert(friendcipher::test::cipherSpeed(false, true, 384, data, dataOut, kDataLen, key, kKeyLen, nullptr, 0)); std::cout << ", (IV: 384 bit)" << std::endl;
     std::cout << "512 bit: "; convert(friendcipher::test::cipherSpeed(false, true, 512, data, dataOut, kDataLen, key, kKeyLen, nullptr, 0)); std::cout << ", (IV: 512 bit)" << std::endl;
     std::cout << std::endl;*/
+
+#endif
 
     /*//other minimal test
     friendcipher::MixWithRng mixer(kMdBitLen);
@@ -303,6 +308,7 @@ int main(int argc, char *argv[]){
         std::cout << std::endl;
     }*/
 
+#ifndef SHOW_TEST
     //try crypt
     friendcipher::CryptWithRng enCrypt(kMdBitLen);
     enCrypt.setKey(key, kKeyLen);
@@ -345,7 +351,7 @@ int main(int argc, char *argv[]){
     }
     std::cout << std::endl;
     std::cout << std::endl;
-
+#endif
 /*
     uint8_t data1[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
         21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40};

@@ -6,10 +6,17 @@
 #include "fcspeed.h"
 
 
+#define SHOW_TEST
+
 #define MD_BIT_LEN 384
 #define MD_LEN MD_BIT_LEN/8
 
-#define DATA_LEN 32*1024
+#ifdef SHOW_TEST
+    #define DATA_LEN 128*1024
+#else
+    #define DATA_LEN 80
+#endif
+
 #define IV_LEN 16
 #define IV_BITLEN IV_LEN*8
 #define KEY_LEN 16
@@ -51,6 +58,7 @@ int main(){
         iv[i] = i;
     }
 
+#ifdef SHOW_TEST
     printf("(Encrypt) Data length: %d; key: %d bit; iv: %d bit\n", DATA_LEN, KEY_BITLEN, IV_BITLEN);
     printf("224 bit: "); convert(cipherSpeed(1, 224, data, dataOut, DATA_LEN, key, KEY_LEN, iv, IV_LEN)); printf("\n");
     printf("256 bit: "); convert(cipherSpeed(1, 256, data, dataOut, DATA_LEN, key, KEY_LEN, iv, IV_LEN)); printf("\n");
@@ -71,9 +79,7 @@ int main(){
             break;
         }
     }
-
-
-/*
+#else
     fc_cipher_t cipher;
     fc_cipher_init(&cipher, MD_BIT_LEN);
     fc_cipher_setIv(&cipher, iv, IV_LEN);
@@ -94,7 +100,7 @@ int main(){
     printf("\n\n");
 
     fc_cipher_freeInContext(&cipher);
-*/
+#endif
 
     free(data);
     free(dataOut);
