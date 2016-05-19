@@ -16,8 +16,8 @@ http://creativecommons.org/publicdomain/zero/1.0/
 #include <string.h>
 #include <stdlib.h>
 //-------------
-#include "3rd/brg_endian.h"
-#include "3rd/KeccakP-1600/Optimized64/ufull/KeccakP-1600-opt64-config.h"
+#include "../../brg_endian.h"
+#include "ufull/KeccakP-1600-opt64-config.h"
 //--------------
 
 typedef unsigned char UINT8;
@@ -40,14 +40,14 @@ typedef unsigned long long int UINT64;
 #define ROL64(a, offset) ((((UINT64)a) << offset) ^ (((UINT64)a) >> (64-offset)))
 #endif
 
-#include "3rd/KeccakP-1600/Optimized/KeccakP-1600-64.macros"
+#include "../Optimized/KeccakP-1600-64.macros"
 #ifdef KeccakP1600_fullUnrolling
 #define FullUnrolling
 #else
 #define Unrolling KeccakP1600_unrolling
 #endif
-#include "3rd/KeccakP-1600/Optimized/KeccakP-1600-unrolling.macros"
-#include "3rd/SnP-Relaned.h"
+#include "../Optimized/KeccakP-1600-unrolling.macros"
+#include "../../SnP-Relaned.h"
 
 static const UINT64 KeccakF1600RoundConstants[24] = {
     0x0000000000000001ULL,

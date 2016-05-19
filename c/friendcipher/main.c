@@ -98,8 +98,6 @@ int main(){
         printf("%d, ", dataOut2[i]);
     }
     printf("\n\n");
-
-    fc_cipher_freeInContext(&cipher);
 #endif
 
     free(data);

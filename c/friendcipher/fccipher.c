@@ -145,217 +145,146 @@ void KeccakF1600_StatePermute(void *state){
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
 
-//--------------------------------------Hash
 #define FC_HASH_DELIMITED_SUFFIX 0x06
-#define FC_HASH_STATE_MAX_LENGTH 200
 #define FC_HASH_UPDATE_MAX_LENGTH 144
 
-typedef struct{
-    uint8_t state[FC_HASH_STATE_MAX_LENGTH];
-    int rateInBytes;
-    int updatePos;
-    int mdLen;
-    int init;
-}fc_hash_t;
-
+//--------------------------------------Hash
 //-----------------main function
-static void keccakF(void *state){
-    //KeccakF1600_StatePermute(state);//original
-    //KeccakP1600_Permute_Nrounds(state, 24, 0x01);//Compact64
-    KeccakP1600_Permute_24rounds(state);//Optimized64
-}
+#define KECCAK_F(state) do{\
+    KeccakP1600_Permute_24rounds((state));\
+    }while(0)
 //-----------------
 
 int fc_cipherBitLenCheck(int bitLen){
     return (bitLen == 224 || bitLen == 256 || bitLen == 384 || bitLen == 512) ? 1 : 0;
 }
 
-static void fc_hashHardReset(fc_hash_t *context){
-    if(!context)
-        return;
+#define FC_HASH_HARD_RESET(context_ptr) do{\
+    (context_ptr)->updatePos = 0;\
+    memset((context_ptr)->state, 0, sizeof((context_ptr)->state));\
+    }while(0)
 
-    context->updatePos = 0;
-    memset(context->state, 0, sizeof(context->state));
-}
-
-static void fc_hashReset(fc_hash_t *context){
-    if(!context)
-        return;
-
-    if(context->updatePos != 0 && context->updatePos < context->rateInBytes){
-        memset(&context->state[context->updatePos], 0, sizeof(context->state)-context->updatePos);
-    }else{
-        fc_hashHardReset(context);
-    }
-}
+#define FC_HASH_RESET(context_ptr) do{\
+    memset(&((context_ptr)->state[(context_ptr)->updatePos]), 0, sizeof((context_ptr)->state)-(context_ptr)->updatePos);\
+    }while(0)
 
 
-static int fc_hashInit(fc_hash_t *context, int bitLen){
-    if(!context)
-        return 0;
+#define FC_HASH_INIT(context_ptr, bitLen) do{\
+    memset((context_ptr), 0, sizeof(fc_hash_t));\
+    switch(bitLen){\
+        case 224:\
+            (context_ptr)->rateInBytes = FC_HASH_UPDATE_MAX_LENGTH;\
+        break;\
+        case 256:\
+            (context_ptr)->rateInBytes = 136;\
+        break;\
+        case 384:\
+            (context_ptr)->rateInBytes = 104;\
+        break;\
+        case 512:\
+            (context_ptr)->rateInBytes = 72;\
+        break;\
+        default:\
+            (context_ptr)->rateInBytes = FC_HASH_UPDATE_MAX_LENGTH;\
+        break;\
+    }\
+    (context_ptr)->mdLen = (bitLen)/8;\
+    }while(0)
 
-    if(!fc_cipherBitLenCheck(bitLen)){
-        context->init = 0;
-        return 0;
-    }
+#define FC_HASH_UPDATE(context_ptr, data, len) do{\
+    int FC_HASH_UPDATE_reCount = 0;\
+    int FC_HASH_UPDATE_j;\
+    uint8_t *FC_HASH_UPDATE_temp = (data);\
+    for(FC_HASH_UPDATE_j=0; FC_HASH_UPDATE_j<(len); FC_HASH_UPDATE_j++){\
+        (context_ptr)->state[(context_ptr)->updatePos + FC_HASH_UPDATE_reCount] ^= FC_HASH_UPDATE_temp[FC_HASH_UPDATE_j];\
+        FC_HASH_UPDATE_reCount++;\
+        if((context_ptr)->updatePos + FC_HASH_UPDATE_reCount > (context_ptr)->rateInBytes-1){\
+            (context_ptr)->updatePos = 0;\
+            FC_HASH_UPDATE_reCount = 0;\
+            KECCAK_F((context_ptr)->state);\
+        }\
+    }\
+    (context_ptr)->updatePos += FC_HASH_UPDATE_reCount;\
+    }while(0)
 
-
-    memset(context, 0, sizeof(fc_hash_t));
-    switch(bitLen){
-        case 224:
-            context->rateInBytes = FC_HASH_UPDATE_MAX_LENGTH;
-        break;
-
-        case 256:
-            context->rateInBytes = 136;
-        break;
-
-        case 384:
-            context->rateInBytes = 104;
-        break;
-
-        case 512:
-            context->rateInBytes = 72;
-        break;
-
-        default:
-            context->rateInBytes = FC_HASH_UPDATE_MAX_LENGTH;
-        break;
-    }
-
-    context->mdLen = bitLen/8;
-    context->init = 1;
-    return 1;
-}
-
-static int fc_hashUpdate(fc_hash_t *context, const uint8_t *data, int len){
-    if(!context || !data || len <= 0 || !context->init)
-        return 0;
-
-    int reCount = 0;
-    int j;
-    for(j=0; j<len; j++){
-        context->state[context->updatePos + reCount] ^= data[j];
-        reCount++;
-        if(context->updatePos + reCount > context->rateInBytes-1){
-            context->updatePos = 0;
-            reCount = 0;
-            keccakF(context->state);
-        }
-    }
-
-    context->updatePos += reCount;
-    return 1;
-}
-
-static int fc_hashFinish(fc_hash_t *context, uint8_t *out){
-    if(!context || !out || !context->init)
-        return 0;
-
-    if(context->updatePos > 0){
-        context->state[context->updatePos] ^= FC_HASH_DELIMITED_SUFFIX;
-        context->state[context->rateInBytes-1] ^= 0x80;
-        keccakF(context->state);
-    }
-
-    memcpy(out, context->state, context->mdLen);
-    fc_hashHardReset(context);
-    return 1;
-}
+#define FC_HASH_FINISH(context_ptr, out) do{\
+    if((context_ptr)->updatePos > 0){\
+        (context_ptr)->state[(context_ptr)->updatePos] ^= FC_HASH_DELIMITED_SUFFIX;\
+        (context_ptr)->state[(context_ptr)->rateInBytes-1] ^= 0x80;\
+        KECCAK_F((context_ptr)->state);\
+    }\
+    memcpy((out), (context_ptr)->state, (context_ptr)->mdLen);\
+    FC_HASH_HARD_RESET((context_ptr));\
+    }while(0)
 
 
-static int fc_hashFinishAndPause(fc_hash_t *context){
-    if(!context || !context->init)
-        return 0;
+#define FC_HASH_FINISH_AND_PAUSE(context_ptr) do{\
+    if((context_ptr)->updatePos > 0){\
+        (context_ptr)->state[(context_ptr)->updatePos] ^= FC_HASH_DELIMITED_SUFFIX;\
+        (context_ptr)->state[(context_ptr)->rateInBytes-1] ^= 0x80;\
+        KECCAK_F((context_ptr)->state);\
+    }\
+    (context_ptr)->updatePos = (context_ptr)->mdLen;\
+    FC_HASH_RESET((context_ptr));\
+    }while(0)
 
-    if(context->updatePos > 0){
-        context->state[context->updatePos] ^= FC_HASH_DELIMITED_SUFFIX;
-        context->state[context->rateInBytes-1] ^= 0x80;
-        keccakF(context->state);
-    }
-
-    context->updatePos = context->mdLen;
-    fc_hashReset(context);
-    return 1;
-}
 
 //--------------------------------------RNG
-#define FC_RNG_MAX_DIGEST FC_CIPHER_MAX_DIGEST
-
-typedef struct{
-    fc_hash_t ctxHash;
-    uint8_t seed[FC_RNG_MAX_DIGEST];
-    int p;
-    int mdLen;
-    int init;
-}fc_rng_t;
 
 #define FC_RNG_INIT(ptr_context, bitLen) do{ \
     (ptr_context)->mdLen = (bitLen)/8;\
     (ptr_context)->p = 0;\
-    (ptr_context)->init = 0;\
-    fc_hashInit(&(ptr_context)->ctxHash, (bitLen));\
+    FC_HASH_INIT(&((ptr_context)->ctxHash), (bitLen));\
     }while(0)
 
 #define FC_RNG_SEED(ptr_context, ptr_seed, seedLen, ptr_salt, saltLen) do{\
-    fc_hashHardReset(&(ptr_context)->ctxHash);\
-    fc_hashUpdate(&(ptr_context)->ctxHash, (ptr_seed), (seedLen));\
-    if((ptr_salt) && (saltLen) > 0)\
-        fc_hashUpdate(&(ptr_context)->ctxHash, (ptr_salt), (saltLen));\
-    fc_hashFinish(&(ptr_context)->ctxHash, (ptr_context)->seed);\
-    fc_hashUpdate(&(ptr_context)->ctxHash, (ptr_context)->seed, (ptr_context)->mdLen);\
-    fc_hashUpdate(&(ptr_context)->ctxHash, (ptr_context)->seed, (ptr_context)->mdLen);\
-    fc_hashFinishAndPause(&(ptr_context)->ctxHash);\
+    FC_HASH_HARD_RESET(&((ptr_context)->ctxHash));\
+    FC_HASH_UPDATE(&((ptr_context)->ctxHash), (ptr_seed), (seedLen));\
+    if((ptr_salt) && (saltLen) > 0){\
+        FC_HASH_UPDATE(&((ptr_context)->ctxHash), (ptr_salt), (saltLen));\
+    }\
+    FC_HASH_FINISH(&((ptr_context)->ctxHash), (ptr_context)->seed);\
+    FC_HASH_UPDATE(&((ptr_context)->ctxHash), (ptr_context)->seed, (ptr_context)->mdLen);\
+    FC_HASH_UPDATE(&((ptr_context)->ctxHash), (ptr_context)->seed, (ptr_context)->mdLen);\
+    FC_HASH_FINISH_AND_PAUSE(&((ptr_context)->ctxHash));\
     (ptr_context)->p = 0;\
-    (ptr_context)->init = 1;\
     }while(0)
 
 #define FC_RNG_RESEED(ptr_context, ptr_seed, seedLen) do{\
-    fc_hashHardReset(&(ptr_context)->ctxHash);\
-    fc_hashUpdate(&(ptr_context)->ctxHash, (ptr_context)->seed, (ptr_context)->mdLen);\
-    fc_hashUpdate(&(ptr_context)->ctxHash, (ptr_seed), (seedLen));\
-    fc_hashFinish(&(ptr_context)->ctxHash, (ptr_context)->seed);\
-    fc_hashUpdate(&(ptr_context)->ctxHash, (ptr_context)->seed, (ptr_context)->mdLen);\
-    fc_hashUpdate(&(ptr_context)->ctxHash, (ptr_context)->seed, (ptr_context)->mdLen);\
-    fc_hashFinishAndPause(&(ptr_context)->ctxHash);\
+    FC_HASH_HARD_RESET(&((ptr_context)->ctxHash));\
+    FC_HASH_UPDATE(&((ptr_context)->ctxHash), (ptr_context)->seed, (ptr_context)->mdLen);\
+    FC_HASH_UPDATE(&((ptr_context)->ctxHash), (ptr_seed), (seedLen));\
+    FC_HASH_FINISH(&((ptr_context)->ctxHash), (ptr_context)->seed);\
+    FC_HASH_UPDATE(&((ptr_context)->ctxHash), (ptr_context)->seed, (ptr_context)->mdLen);\
+    FC_HASH_UPDATE(&((ptr_context)->ctxHash), (ptr_context)->seed, (ptr_context)->mdLen);\
+    FC_HASH_FINISH_AND_PAUSE(&((ptr_context)->ctxHash));\
     (ptr_context)->p = 0;\
-    (ptr_context)->init = 1;\
     }while(0)
 
-#define FC_RNG_RANDOM8(ptr_context, returnVal) do{\
-    if(!(ptr_context)->init){\
-        (returnVal) = 0;\
-    }else{\
-        if((ptr_context)->p >= (ptr_context)->mdLen){\
-            fc_hashUpdate(&(ptr_context)->ctxHash, (ptr_context)->seed, (ptr_context)->mdLen);\
-            fc_hashFinishAndPause(&(ptr_context)->ctxHash);\
-            (ptr_context)->p = 0;\
-        }\
-        (returnVal) = (ptr_context)->ctxHash.state[(ptr_context)->p++];\
-    }}while(0)
-
 #define FC_RNG_CHECK(ptr_context) do{\
-    if((ptr_context)->init){\
-        if((ptr_context)->p >= (ptr_context)->mdLen){\
-            fc_hashUpdate(&(ptr_context)->ctxHash, (ptr_context)->seed, (ptr_context)->mdLen);\
-            fc_hashFinishAndPause(&(ptr_context)->ctxHash);\
-            (ptr_context)->p = 0;\
-        }\
-    }}while(0)
+    if((ptr_context)->p >= (ptr_context)->mdLen){\
+        FC_HASH_UPDATE(&((ptr_context)->ctxHash), (ptr_context)->seed, (ptr_context)->mdLen);\
+        FC_HASH_FINISH_AND_PAUSE(&((ptr_context)->ctxHash));\
+        (ptr_context)->p = 0;\
+    }\
+    }while(0)
 
-#define FC_RNG_GET8(ptr_context) (((ptr_context) && (ptr_context)->init) ? (ptr_context)->ctxHash.state[(ptr_context)->p++] : 0)
+#define FC_RNG_GET8(ptr_context) ((&((ptr_context)->ctxHash))->state[(ptr_context)->p++])
+
+#define FC_RNG_RANDOM8(ptr_context, returnVal) do{\
+    FC_RNG_CHECK(ptr_context);\
+    (returnVal) = FC_RNG_GET8(ptr_context);\
+    }while(0)
 
 #define FC_RNG_RANDOM32(ptr_context, returnVal) do{\
-    if(!(ptr_context)->init){\
-        (returnVal) = 0;\
-    }else{\
-        uint32_t FC_RNG_temp;\
-        uint8_t *FC_RNG_t = (uint8_t *)&FC_RNG_temp;\
-        int FC_RNG_counter;\
-        for(FC_RNG_counter=0; FC_RNG_counter<4; FC_RNG_counter++)\
-            FC_RNG_RANDOM8(ptr_context, FC_RNG_t[FC_RNG_counter]);\
-        (returnVal) = FC_RNG_temp;\
-    }}while(0)
+    uint32_t FC_RNG_temp;\
+    uint8_t *FC_RNG_t = (uint8_t *)&FC_RNG_temp;\
+    int FC_RNG_counter;\
+    for(FC_RNG_counter=0; FC_RNG_counter<4; FC_RNG_counter++){\
+        FC_RNG_RANDOM8((ptr_context), FC_RNG_t[FC_RNG_counter]);\
+    }\
+    (returnVal) = FC_RNG_temp;\
+    }while(0)
 
 
 //--------------------------------------cipher
@@ -366,8 +295,6 @@ int fc_cipher_init(fc_cipher_t *context, int bitLen){
     if(!context)
         return 0;
 
-
-
     if(!fc_cipherBitLenCheck(bitLen)){
         context->init = 0;
         return 0;
@@ -375,18 +302,13 @@ int fc_cipher_init(fc_cipher_t *context, int bitLen){
 
     memset(context, 0, sizeof(fc_cipher_t));
 
-    context->ctxHash = malloc(sizeof(fc_hash_t));
-    context->rngCipher = malloc(sizeof(fc_rng_t));
-    context->rngIv = malloc(sizeof(fc_rng_t));
-    context->rngMix = malloc(sizeof(fc_rng_t));
-
-    fc_hashInit((fc_hash_t*)context->ctxHash, bitLen);
-    FC_RNG_INIT((fc_rng_t*)context->rngCipher, bitLen);
-    FC_RNG_INIT((fc_rng_t*)context->rngIv, bitLen);
-    FC_RNG_INIT((fc_rng_t*)context->rngMix, bitLen);
+    FC_HASH_INIT(&context->ctxHash, bitLen);
+    FC_RNG_INIT(&context->rngCipher, bitLen);
+    FC_RNG_INIT(&context->rngIv, bitLen);
+    FC_RNG_INIT(&context->rngMix, bitLen);
 
     time_t ti = time(NULL);
-    FC_RNG_RESEED((fc_rng_t*)context->rngIv, (uint8_t*)&ti, sizeof(ti));
+    FC_RNG_RESEED(&context->rngIv, (uint8_t*)&ti, sizeof(ti));
 
     context->mdLen = bitLen/8;
     context->init = 1;
@@ -408,7 +330,7 @@ int fc_cipher_genIv(fc_cipher_t *context, uint8_t *iv, int len){
 
     int i;
     for(i=0; i<len; i++)
-        FC_RNG_RANDOM8((fc_rng_t*)context->rngIv, iv[i]);
+        FC_RNG_RANDOM8(&context->rngIv, iv[i]);
 
     context->iv = iv;
     context->ivLen = len;
@@ -438,8 +360,8 @@ int fc_cipher_setKey(fc_cipher_t *context, uint8_t *key, int len){
 #define REVERSE_MIX(ptr_context, ctxRng, tempIn, dataOut, len) do{\
     uint8_t REVERSE_MIX_counter = 0;\
     for(; REVERSE_MIX_counter<(len); REVERSE_MIX_counter++){\
-        FC_RNG_CHECK((fc_rng_t*)(ptr_context)->rngCipher);\
-        (ptr_context)->xorTemp[REVERSE_MIX_counter] = FC_RNG_GET8((fc_rng_t*)(ptr_context)->rngCipher);\
+        FC_RNG_CHECK(&(ptr_context)->rngCipher);\
+        (ptr_context)->xorTemp[REVERSE_MIX_counter] = FC_RNG_GET8(&(ptr_context)->rngCipher);\
         (ptr_context)->listTemp[REVERSE_MIX_counter] = REVERSE_MIX_counter;\
     }\
     uint8_t REVERSE_MIX_mlen = (len);\
@@ -467,36 +389,36 @@ int fc_cipher_encrypt(fc_cipher_t *context, const uint8_t *dataIn, uint8_t *data
     if(!context || !dataIn || !dataOut || len<=0 || !context->init)
         return 0;
 
-    FC_RNG_SEED((fc_rng_t*)context->rngMix, context->key, context->keyLen, NULL, 0);
-    fc_hash_t* ptrTemp = (fc_hash_t*)context->ctxHash;
-    fc_hashHardReset(ptrTemp);
-    fc_hashUpdate(ptrTemp, context->iv, context->ivLen);
-    fc_hashFinishAndPause(ptrTemp);
-    FC_RNG_RESEED((fc_rng_t*)context->rngMix, ptrTemp->state, ptrTemp->mdLen);
+    FC_RNG_SEED(&context->rngMix, context->key, context->keyLen, NULL, 0);
+    fc_hash_t* ptrTemp = &context->ctxHash;
+    FC_HASH_HARD_RESET(ptrTemp);
+    FC_HASH_UPDATE(ptrTemp, context->iv, context->ivLen);
+    FC_HASH_FINISH_AND_PAUSE(ptrTemp);
+    FC_RNG_RESEED(&context->rngMix, ptrTemp->state, ptrTemp->mdLen);
 
-    FC_RNG_SEED((fc_rng_t*)context->rngCipher, context->iv, context->ivLen, context->key, context->keyLen);
+    FC_RNG_SEED(&context->rngCipher, context->iv, context->ivLen, context->key, context->keyLen);
 
     uint8_t blockLen;
-    FC_RNG_CHECK((fc_rng_t*)context->rngMix);
-    CALC_BLOCK_SIZE(FC_RNG_GET8((fc_rng_t*)context->rngMix), context->mdLen, blockLen);
+    FC_RNG_CHECK(&context->rngMix);
+    CALC_BLOCK_SIZE(FC_RNG_GET8(&context->rngMix), context->mdLen, blockLen);
     uint8_t reCount = 0;
     int i;
     for(i=0; i<len; i++){
-        FC_RNG_CHECK((fc_rng_t*)context->rngCipher);
-        context->temp[reCount] = dataIn[i] ^ FC_RNG_GET8((fc_rng_t*)context->rngCipher);
+        FC_RNG_CHECK(&context->rngCipher);
+        context->temp[reCount] = dataIn[i] ^ FC_RNG_GET8(&context->rngCipher);
         reCount++;
         if(reCount > blockLen){
-            MIX((fc_rng_t*)context->rngMix, context->temp, &dataOut[i-blockLen], reCount);
+            MIX(&context->rngMix, context->temp, &dataOut[i-blockLen], reCount);
             reCount = 0;
             if(i!=(len-1)){
-                FC_RNG_CHECK((fc_rng_t*)context->rngMix);
-                CALC_BLOCK_SIZE(FC_RNG_GET8((fc_rng_t*)context->rngMix), context->mdLen, blockLen);
+                FC_RNG_CHECK(&context->rngMix);
+                CALC_BLOCK_SIZE(FC_RNG_GET8(&context->rngMix), context->mdLen, blockLen);
             }
         }
     }
 
     if(reCount!=0){
-        MIX((fc_rng_t*)context->rngMix, context->temp, &dataOut[len-reCount], reCount);
+        MIX(&context->rngMix, context->temp, &dataOut[len-reCount], reCount);
     }
 
     return 1;
@@ -506,43 +428,36 @@ int fc_cipher_decrypt(fc_cipher_t *context, const uint8_t *dataIn, uint8_t *data
     if(!context || !dataIn || !dataOut || len<=0 || !context->init)
         return 0;
 
-    FC_RNG_SEED((fc_rng_t*)context->rngMix, context->key, context->keyLen, NULL, 0);
-    fc_hash_t* ptrTemp = (fc_hash_t*)context->ctxHash;
-    fc_hashHardReset(ptrTemp);
-    fc_hashUpdate(ptrTemp, context->iv, context->ivLen);
-    fc_hashFinishAndPause(ptrTemp);
-    FC_RNG_RESEED((fc_rng_t*)context->rngMix, ptrTemp->state, ptrTemp->mdLen);
+    FC_RNG_SEED(&context->rngMix, context->key, context->keyLen, NULL, 0);
+    fc_hash_t* ptrTemp = &context->ctxHash;
+    FC_HASH_HARD_RESET(ptrTemp);
+    FC_HASH_UPDATE(ptrTemp, context->iv, context->ivLen);
+    FC_HASH_FINISH_AND_PAUSE(ptrTemp);
+    FC_RNG_RESEED(&context->rngMix, ptrTemp->state, ptrTemp->mdLen);
 
-    FC_RNG_SEED((fc_rng_t*)context->rngCipher, context->iv, context->ivLen, context->key, context->keyLen);
+    FC_RNG_SEED(&context->rngCipher, context->iv, context->ivLen, context->key, context->keyLen);
 
     uint8_t blockLen;
-    FC_RNG_CHECK((fc_rng_t*)context->rngMix);
-    CALC_BLOCK_SIZE(FC_RNG_GET8((fc_rng_t*)context->rngMix), context->mdLen, blockLen);
+    FC_RNG_CHECK(&context->rngMix);
+    CALC_BLOCK_SIZE(FC_RNG_GET8(&context->rngMix), context->mdLen, blockLen);
     uint8_t reCount = 0;
     int i;
     for(i=0; i<len; i++){
         context->temp[reCount] = dataIn[i];
         reCount++;
         if(reCount > blockLen){
-            REVERSE_MIX(context, (fc_rng_t*)context->rngMix, context->temp, &dataOut[i-blockLen], reCount);
+            REVERSE_MIX(context, &context->rngMix, context->temp, &dataOut[i-blockLen], reCount);
             reCount = 0;
             if(i!=(len-1)){
-                FC_RNG_CHECK((fc_rng_t*)context->rngMix);
-                CALC_BLOCK_SIZE(FC_RNG_GET8((fc_rng_t*)context->rngMix), context->mdLen, blockLen);
+                FC_RNG_CHECK(&context->rngMix);
+                CALC_BLOCK_SIZE(FC_RNG_GET8(&context->rngMix), context->mdLen, blockLen);
             }
         }
     }
 
     if(reCount!=0){
-        REVERSE_MIX(context, (fc_rng_t*)context->rngMix, context->temp, &dataOut[len-reCount], reCount);
+        REVERSE_MIX(context, &context->rngMix, context->temp, &dataOut[len-reCount], reCount);
     }
 
     return 1;
-}
-
-void fc_cipher_freeInContext(fc_cipher_t *context){
-    free(context->ctxHash);
-    free(context->rngCipher);
-    free(context->rngIv);
-    free(context->rngMix);
 }

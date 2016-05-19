@@ -51,7 +51,5 @@ uint64_t cipherSpeed(int enc, int bitLen, const uint8_t *dataIn, uint8_t *dataOu
         total += stop-start;
     }
 
-    fc_cipher_freeInContext(&cipher);
-
     return llround((double)len*CLOCKS_PER_SEC*FC_SPEED_TEST_TIMES/(total == 0LL ? 1LL : total));
 }

@@ -19,8 +19,8 @@ http://creativecommons.org/publicdomain/zero/1.0/
 /** For the documentation, see SnP-documentation.h.
  */
 
-#include "3rd/brg_endian.h"
-#include "3rd/KeccakP-1600/Optimized64/u6/KeccakP-1600-opt64-config.h"
+#include "../../brg_endian.h"
+#include "ufull/KeccakP-1600-opt64-config.h"
 
 #define KeccakP1600_implementation      "generic 64-bit optimized implementation (" KeccakP1600_implementation_config ")"
 #define KeccakP1600_stateSizeInBytes    200
