@@ -12,7 +12,7 @@
 #define MD_LEN MD_BIT_LEN/8
 
 #ifdef SHOW_TEST
-#   define DATA_LEN 128*1024
+#   define DATA_LEN 256*1024
 #else
 #   define DATA_LEN 80
 #endif
@@ -38,7 +38,7 @@ int main(){
 
     //data
     uint8_t *data = (uint8_t*)malloc(DATA_LEN);
-    int i;
+    uint32_t i;
     for(i=0; i<DATA_LEN; i++){
         data[i] = i;
     }
