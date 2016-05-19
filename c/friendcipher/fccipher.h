@@ -35,7 +35,7 @@ typedef struct{
     uint32_t keyLen;
     uint8_t *iv;
     uint32_t ivLen;
-    uint32_t init;
+    uint8_t init;
 }fc_cipher_t;
 
 uint8_t fc_cipherBitLenCheck(uint16_t bitLen);

@@ -12,7 +12,7 @@
 #define MD_LEN MD_BIT_LEN/8
 
 #ifdef SHOW_TEST
-#   define DATA_LEN 256*1024
+#   define DATA_LEN 384*1024
 #else
 #   define DATA_LEN 80
 #endif
@@ -25,8 +25,8 @@
 void convert(uint64_t x){
     if(x > 1024LL*1024LL*1024LL)
         printf("%llu GBps", x/(1024LL*1024LL*1024LL));
-    else if(x > 1024LL*1024LL)
-        printf("%llu MBps", x/(1024LL*1024LL));
+    /*else if(x > 1024LL*1024LL)
+        printf("%llu MBps", x/(1024LL*1024LL));*/
     else if(x > 1024)
         printf("%llu kBps", x/(1024));
     else
