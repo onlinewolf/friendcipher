@@ -1,8 +1,8 @@
 # FriendCipher
 Public and new cipher plan,
- - Core: Random Number Generator with Hash
+ - Core: Random Number Generator with Hash (Keccak, SHA-2, etc.)
  - Mixer: Fisher–Yates shuffle
- - Future plan: new symmetric key encryption 
+ - Plan: new secure symmetric key encryption (256 bit, 384 bit, 512 bit or more) 
  - Was it created for the future? Yes.
 - [x] FriendCipher plan
 - [x] C++ source (readable) ([C++ Doxygen here](https://onlinewolf.github.io/friendcipher/cpp/doxygen/html/index.html).)
