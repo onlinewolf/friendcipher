@@ -6,10 +6,10 @@ Public and new cipher plan,
  - Was it created for the future? Yes.
 - [x] FriendCipher plan
 - [x] C++ source (readable) ([C++ Doxygen here](https://onlinewolf.github.io/friendcipher/cpp/doxygen/html/index.html).)
-- [x] C source (fast)
+- [ ] C source (fast)
 - [ ] Code teszt
-- [x] Optimisation (C source, Opt.64 Keccak)
-- [x] Performance teszt (Best: i5-5200U +AVX2 (notebook), 384 bit, 27 MBps)
+- [ ] C source optimisation (Opt.64 Keccak)
+- [ ] Performance teszt (Now: i5-5200U +AVX2 (notebook), 384 bit, 27 MBps)
 - [ ] Java source
 - [ ] Python source
 
