@@ -38,7 +38,7 @@ typedef struct{
     uint8_t init;
 }fc_cipher_t;
 
-uint8_t fc_cipherBitLenCheck(uint16_t bitLen);
+int fc_cipherBitLenCheck(uint16_t bitLen);
 
 int fc_cipher_init(fc_cipher_t *context, uint16_t bitLen);
 int fc_cipher_setIv(fc_cipher_t *context, uint8_t *iv, uint32_t len);

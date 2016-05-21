@@ -12,8 +12,8 @@
 void convert(uint64_t x){
     if(x > 1024*1024*1024)
         std::cout << x/(1024*1024*1024) << " GBps";
-    else if(x > 1024*1024)
-        std::cout << x/(1024*1024) << " MBps";
+    /*else if(x > 1024*1024)
+        std::cout << x/(1024*1024) << " MBps";*/
     else if(x > 1024)
         std::cout << x/1024 << " kBps";
     else

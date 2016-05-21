@@ -33,7 +33,7 @@ URL: https://github.com/onlinewolf/friendcipher
     }while(0)
 //----------------------------------------------
 
-uint8_t fc_cipherBitLenCheck(uint16_t bitLen){
+int fc_cipherBitLenCheck(uint16_t bitLen){
     return (bitLen == 224 || bitLen == 256 || bitLen == 384 || bitLen == 512) ? 1 : 0;
 }
 

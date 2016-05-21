@@ -12,7 +12,7 @@
 #define MD_LEN MD_BIT_LEN/8
 
 #ifdef SHOW_TEST
-#   define DATA_LEN 384*1024
+#   define DATA_LEN 256*1024
 #else
 #   define DATA_LEN 80
 #endif
