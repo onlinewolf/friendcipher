@@ -1,13 +1,13 @@
 #ifndef FCCIPHER_H
 #define FCCIPHER_H
 #include <stdint.h>
+#include "3rd/KeccakP-1600/Optimized64/KeccakP-1600-SnP.h"
 
 
 #define LITTLE_ENDIAN
-
-
 #define FC_CIPHER_MAX_DIGEST 64
-#define FC_HASH_STATE_MAX_LENGTH 200
+
+#define FC_HASH_STATE_MAX_LENGTH KeccakP1600_stateSizeInBytes
 typedef struct{
     uint8_t state[FC_HASH_STATE_MAX_LENGTH];
     uint8_t rateInBytes;

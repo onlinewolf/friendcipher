@@ -21,7 +21,6 @@ URL: https://github.com/onlinewolf/friendcipher
 #include <string.h>
 #include <time.h>
 #include "fccipher.h"
-#include "3rd/KeccakP-1600/Optimized64/KeccakP-1600-SnP.h"
 
 #define FC_HASH_DELIMITED_SUFFIX 0x06
 #define FC_HASH_UPDATE_MAX_LENGTH 144
