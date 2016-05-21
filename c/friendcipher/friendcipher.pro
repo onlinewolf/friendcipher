@@ -17,4 +17,4 @@ HEADERS += \
     3rd/KeccakP-1600/Optimized64/ufull/KeccakP-1600-opt64-config.h \
     3rd/KeccakP-1600/Optimized64/KeccakP-1600-SnP.h \
 
-QMAKE_CFLAGS += /arch:AVX2
+QMAKE_CFLAGS += /arch:AVX2 /FAsu
