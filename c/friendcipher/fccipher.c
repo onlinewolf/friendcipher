@@ -147,7 +147,7 @@ int fc_cipherBitLenCheck(uint16_t bitLen){
     }\
     }while(0)
 
-#define FC_RNG_GET8(ptr_context) ((&((ptr_context)->ctxHash))->state[(ptr_context)->p++])
+#define FC_RNG_GET8(ptr_context) ((((ptr_context)->ctxHash)).state[(ptr_context)->p++])
 
 #define FC_RNG_RANDOM8(ptr_context, returnVal) do{\
     FC_RNG_CHECK(ptr_context);\
