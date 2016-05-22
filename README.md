@@ -4,6 +4,7 @@ Public and new cipher plan,
  - Mixer: Fisher–Yates shuffle
  - Plan: new secure symmetric key encryption (256 bit, 384 bit, 512 bit or more) 
  - Was it created for the future? Yes.
+ - Up to 70 MBps if the "KeccakP1600_Permute_24rounds" function implement in processor!
 - [x] FriendCipher plan
 - [x] C++ source (readable) ([C++ Doxygen here](https://onlinewolf.github.io/friendcipher/cpp/doxygen/html/index.html).)
 - [x] C source (fast)
