@@ -10,7 +10,7 @@ Public and new cipher plan,
 - [x] C source (fast)
 - [ ] Code teszt
 - [x] C source optimisation (Opt.64 Keccak)
-- [ ] Performance teszt (Now: i5-5200U +AVX2 (notebook), 384 bit, 27 MBps)
+- [ ] C source performance teszt (Now: i5-5200U +AVX2 (notebook), 384 bit, 27 MBps)
 - [ ] Java source
 - [ ] Python source
 
